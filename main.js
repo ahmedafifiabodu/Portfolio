@@ -177,8 +177,8 @@ const revealObserver = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-document.querySelectorAll('.timeline-item').forEach(el => revealObserver.observe(el));
 document.querySelectorAll('.project-card').forEach(el => revealObserver.observe(el));
+document.querySelectorAll('.pub-card').forEach(el => revealObserver.observe(el));
 
 /* skill bar fill observer */
 const skillObserver = new IntersectionObserver((entries) => {
@@ -193,33 +193,6 @@ const skillObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.3 });
 
 document.querySelectorAll('.skill-bar-wrap').forEach(el => skillObserver.observe(el));
-
-/* ============================================
-   EXPERIENCE TABS
-   ============================================ */
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-
-    const target = btn.dataset.tab;
-    document.getElementById('tab-work').classList.toggle('hidden', target !== 'work');
-    document.getElementById('tab-edu').classList.toggle('hidden', target !== 'edu');
-
-    /* re-trigger animations for newly shown items */
-    document.querySelectorAll('#tab-' + target + ' .timeline-item').forEach((el, i) => {
-      el.classList.remove('visible');
-      setTimeout(() => el.classList.add('visible'), i * 120);
-    });
-  });
-});
-
-/* initial animation for work tab */
-setTimeout(() => {
-  document.querySelectorAll('#tab-work .timeline-item').forEach((el, i) => {
-    setTimeout(() => el.classList.add('visible'), i * 120);
-  });
-}, 400);
 
 /* ============================================
    CONTACT FORM
