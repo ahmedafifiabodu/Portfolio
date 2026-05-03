@@ -114,6 +114,18 @@ navLinks.forEach(a => {
   });
 });
 
+/* Force correct scroll for any anchor btn pointing to #games or #journey */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (!target) return;
+    e.preventDefault();
+    const navH = document.getElementById('navbar')?.offsetHeight || 70;
+    const top = target.getBoundingClientRect().top + window.scrollY - navH;
+    window.scrollTo({ top, behavior: 'smooth' });
+  });
+});
+
 /* ============================================
    TYPEWRITER EFFECT
    ============================================ */
@@ -224,13 +236,18 @@ if (window.matchMedia('(pointer: fine)').matches) {
     position: fixed; pointer-events: none; z-index: 9999;
     width: 300px; height: 300px; border-radius: 50%;
     background: radial-gradient(circle, rgba(0,255,163,0.06) 0%, transparent 70%);
-    transform: translate(-50%, -50%);
-    transition: left 0.12s ease, top 0.12s ease;
+    will-change: transform;
+    top: 0; left: 0;
   `;
   document.body.appendChild(glow);
 
-  document.addEventListener('mousemove', e => {
-    glow.style.left = e.clientX + 'px';
-    glow.style.top  = e.clientY + 'px';
-  });
+  let mx = 0, my = 0, cx = 0, cy = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
+
+  (function loop() {
+    cx += (mx - cx) * 0.18;
+    cy += (my - cy) * 0.18;
+    glow.style.transform = `translate(${cx - 150}px, ${cy - 150}px)`;
+    requestAnimationFrame(loop);
+  })();
 }

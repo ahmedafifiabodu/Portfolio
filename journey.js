@@ -7,12 +7,17 @@
   const ctx = canvas.getContext('2d');
 
   /* ── CONFIG ─────────────────────────────────────── */
-  const WORLD_W    = 3400;
+  const WORLD_W    = 6200;
   const GRAVITY    = 1700;
   const SPEED      = 230;
-  const JUMP_VEL   = -720;   /* raised: need ~152px to clear elev=120 platforms */
+  const JUMP_VEL   = -720;
   const GND_RATIO  = 0.72;
-  const PLT_H      = 14;     /* platform visual thickness */
+  const PLT_H      = 14;
+
+  /* ── STATE ───────────────────────────────────────── */
+  let gameState = 'intro';
+  let introAnim = 0;
+  let introBtns = { start: null, skip: null };
 
   /* ── RESIZE ──────────────────────────────────────── */
   let W, H;
@@ -26,45 +31,126 @@
   /* ── CAREER MILESTONES ───────────────────────────── */
   const MILESTONES = [
     {
-      wx: 230, w: 160, elev: 14, color: '#00ffa3',
+      type:'career', wx: 250, w: 160, elev: 14, color: '#00ffa3',
       title: 'IT Specialist', company: 'Elfath Group',
       period: 'Aug 2013 – Jan 2023',
       desc: 'Built websites, databases & digital environments. Ensured scalable & secure infrastructure across departments for seamless communication and data flow.',
     },
     {
-      wx: 620, w: 165, elev: 52, color: '#00d4ff',
+      type:'career', wx: 750, w: 165, elev: 52, color: '#00d4ff',
       title: 'Technical Support', company: 'Concentrix',
       period: 'Sep 2022 – Mar 2023',
       desc: 'Provided excellent customer care, resolving issues promptly with consistent follow-up. Maintained positive attitude and fostered empathy for team morale.',
     },
     {
-      wx: 1050, w: 185, elev: 90, color: '#a855f7',
+      type:'career', wx: 1350, w: 185, elev: 90, color: '#a855f7',
       title: 'Bachelor of CS', company: 'Modern Academy',
       period: 'Sep 2018 – May 2022',
       desc: 'Studied algorithms, data structures, software engineering & programming fundamentals at the Bachelor of Computer Science program.',
     },
     {
-      wx: 1490, w: 185, elev: 120, color: '#f59e0b',
+      type:'career', wx: 2000, w: 185, elev: 120, color: '#f59e0b',
       title: 'Game Programming Diploma', company: 'ITI',
       period: 'Aug 2023 – Jun 2024',
       desc: 'Intensive 9-month professional diploma focused on game development, engine internals (Unity & Unreal), and game programming best practices.',
     },
     {
-      wx: 1940, w: 190, elev: 80, color: '#00ffa3',
-      title: 'Game Developer', company: '2024 Studios',
-      period: 'Nov 2024 – Present',
-      desc: 'Designing & programming engaging gameplay mechanics. Collaborating with artists to bring concepts to life and contributing to multiplayer game development. 🎮',
-    },
-    {
-      wx: 2380, w: 195, elev: 58, color: '#ff6b9d',
+      type:'career', wx: 3600, w: 195, elev: 58, color: '#ff6b9d',
       title: 'Game Developer', company: 'Futuregames Warsaw',
       period: 'Sep 2025 – Mar 2026',
-      desc: 'Internship at Futuregames in Warsaw, Poland. Worked in the gaming industry on digital games, sharpening professional game dev skills in a studio environment. 🕹️',
+      desc: 'Internship at Futuregames in Warsaw, Poland. Digital games in a studio environment, sharpening professional game dev skills.',
+    },
+    {
+      type:'career', wx: 5750, w: 190, elev: 80, color: '#00ffa3',
+      title: 'Game Developer', company: '2024 Studios',
+      period: 'Nov 2024 – Present',
+      desc: 'Designing & programming engaging gameplay mechanics. Collaborating with artists to bring concepts to life and contributing to multiplayer game development.',
     },
   ];
 
+  /* ── GAME COLLECTABLES ───────────────────────────── */
+  /* elevBase: static height of gem base above ground; gem bobs ±7px on top */
+  const COLLECTABLES = [
+    /* — ITI era (after Game Programming Diploma @ 2000) — */
+    {
+      type:'game', wx:2300, elevBase:55, offset:0.0, collected:false, color:'#f59e0b',
+      title:'Dawn of the Last Seeds', tag:'Zanga Game Jam',
+      period:'Mid ITI · 2023',
+      itchio:'https://nourhan-taman.itch.io/dawn-of-the-last-seeds',
+      github:'https://github.com/NourhanToman/ZnaaJam2024',
+      coverImg:'https://img.itch.zone/aW1nLzE1MjUyNTcxLnBuZw==/original/13QBvi.png',
+      desc:'In a world of drought, the last three seeds are humanity\'s only hope to survive. Built during the Zanga Game Jam while at ITI.',
+    },
+    {
+      type:'game', wx:2600, elevBase:100, offset:1.1, collected:false, color:'#f59e0b',
+      title:'Righteous Crane', tag:'Egypt Game Jam',
+      period:'During ITI · 2023',
+      itchio:'https://mohamed-elkholy.itch.io/righteous-crane',
+      github:'https://github.com/ahmedafifiabodu/Dressrosa',
+      coverImg:'https://img.itch.zone/aW1nLzE1MjgxNjM1LnBuZw==/original/lO3Zf5.png',
+      desc:'Play as the land\'s righteous crane, striving to solve the people\'s problems. Created at the Egypt Game Jam during ITI.',
+    },
+    {
+      type:'game', wx:2950, elevBase:65, offset:2.3, collected:false, color:'#f59e0b',
+      title:'The Kitten & The Hidden', tag:'Graduation Project',
+      period:'End of ITI · 2024',
+      itchio:'https://nayrayehya.itch.io/the-kitten-and-the-hidden',
+      github:'https://github.com/1Rooky/The-Kitten-and-The-Hidden',
+      coverImg:'https://img.itch.zone/aW1nLzE2OTgyNTI1LnBuZw==/original/glyJIm.png',
+      desc:'A ghost wanders the world with a persistent cat companion — his beloved pet from a past life. The graduation project at the end of ITI.',
+    },
+    /* — Futuregames era (after Futuregames Warsaw @ 3600) — */
+    {
+      type:'game', wx:3950, elevBase:45, offset:0.5, collected:false, color:'#ff6b9d',
+      title:'Vampire Survival', tag:'Game Assignment',
+      period:'Futuregames · 2025',
+      itchio:'https://ahmedafifiabodu.itch.io/vampire-survival',
+      github:'https://github.com/ahmedafifiabodu/VampireSurvivors',
+      coverImg:'https://img.itch.zone/aW1nLzIzNjcxNzY0LnBuZw==/original/JUaJTr.png',
+      desc:'Survive endless waves of enemies, grow your powers, and outlast the night. A game assignment completed at Futuregames Warsaw.',
+    },
+    {
+      type:'game', wx:4250, elevBase:90, offset:1.7, collected:false, color:'#ff6b9d',
+      title:'Project Trash', tag:'GP1',
+      period:'Futuregames · 2025',
+      itchio:'https://futuregames.itch.io/projecttrash',
+      github:'https://github.com/F8Code/ProjectTrash',
+      coverImg:'https://img.itch.zone/aW1nLzI0Mjg4OTM1LnBuZw==/original/fH3JnI.png',
+      desc:'Employed to recycle — sort fast, sort correctly, don\'t get fired! Group Project 1 at Futuregames following professional studio workflow.',
+    },
+    {
+      type:'game', wx:4550, elevBase:60, offset:3.1, collected:false, color:'#ff6b9d',
+      title:'Forest of the Wicked', tag:'Game Jam',
+      period:'Futuregames · 2025',
+      itchio:'https://gothmothdev.itch.io/forest-of-the-wicked',
+      github:'https://github.com/untalpanda/ForestOfTheWicked-v1.0',
+      coverImg:'https://img.itch.zone/aW1nLzIzNjQ5MzEyLnBuZw==/original/3XCMBk.png',
+      desc:'A dark atmospheric horror-adventure — dare to venture into the wicked forest. A game jam entry built with a passionate team.',
+    },
+    {
+      type:'game', wx:4850, elevBase:115, offset:0.8, collected:false, color:'#ff6b9d',
+      title:'Parasozhyt', tag:'Game Jam',
+      period:'Futuregames · 2025',
+      itchio:'https://gamekernel.itch.io/parasozhyt',
+      github:'https://github.com/ahmedafifiabodu/FutureGameJam',
+      coverImg:'https://img.itch.zone/aW1nLzIzNzU3OTkwLmpwZw==/original/nfW7g5.jpg',
+      desc:'Fast-paced body-hopping shooter — survive by constantly switching hosts before they die. A jam entry at Futuregames.',
+    },
+    {
+      type:'game', wx:5200, elevBase:70, offset:2.0, collected:false, color:'#ff6b9d',
+      title:'Voita', tag:'GP2',
+      period:'Futuregames · 2025–26',
+      itchio:'https://futuregames.itch.io/voita',
+      github:'https://github.com/hasanjahromi/SpaceStationEvolution',
+      coverImg:'https://img.itch.zone/aW1nLzI1Njk2Mjc0LnBuZw==/original/8os3hT.png',
+      desc:'Turn-based sci-fi predator game: set traps, drag bodies, evolve new powers. Group Project 2 — the final major project at Futuregames.',
+    },
+  ];
+
+  const ALL_PLATFORMS = [...MILESTONES];
+
   /* ── STARS ───────────────────────────────────────── */
-  const STARS = Array.from({ length: 85 }, () => ({
+  const STARS = Array.from({ length: 100 }, () => ({
     wx: Math.random() * WORLD_W,
     y:  Math.random() * 250,
     r:  Math.random() * 1.4 + 0.3,
@@ -110,17 +196,66 @@
   canvas.style.outline = 'none';
   canvas.addEventListener('focus', () => { focused = true; });
   canvas.addEventListener('blur',  () => { focused = false; });
-  canvas.addEventListener('click', () => canvas.focus());
+
+  /* ── INTRO CLICK / HOVER ─────────────────────────── */
+  function hitBtn(b, mx, my) {
+    return b && mx >= b.x && mx <= b.x + b.w && my >= b.y && my <= b.y + b.h;
+  }
+  function startGame() {
+    gameState = 'playing';
+    const ctrl = document.getElementById('journey-controls');
+    if (ctrl) ctrl.style.display = '';
+    if (infoEl) { infoEl.style.display = ''; renderInfo(); }
+    canvas.focus();
+  }
+
+  function resetGame() {
+    COLLECTABLES.forEach(c => { c.collected = false; });
+    char.wx = 60; char.wy = 0; char.vx = 0; char.vy = 0;
+    char.onGround = false; char.jumping = false; char.bounce = 0;
+    char.frame = 0; char.frameTimer = 0;
+    camX = 0;
+    activeMilestone = null;
+    collectedGames  = [];
+    particles.length = 0;
+    renderInfo();
+    canvas.focus();
+  }
+  canvas.addEventListener('click', e => {
+    if (gameState === 'intro') {
+      const r = canvas.getBoundingClientRect();
+      const mx = (e.clientX - r.left) * (W / r.width);
+      const my = (e.clientY - r.top)  * (H / r.height);
+      if (hitBtn(introBtns.start, mx, my)) { startGame(); return; }
+      if (hitBtn(introBtns.skip,  mx, my)) {
+        const el = document.getElementById('games');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      canvas.focus();
+    }
+  });
+  canvas.addEventListener('mousemove', e => {
+    if (gameState !== 'intro') return;
+    const r = canvas.getBoundingClientRect();
+    const mx = (e.clientX - r.left) * (W / r.width);
+    const my = (e.clientY - r.top)  * (H / r.height);
+    canvas.style.cursor =
+      (hitBtn(introBtns.start, mx, my) || hitBtn(introBtns.skip, mx, my))
+        ? 'pointer' : 'default';
+  });
 
   /* ── MOBILE BUTTONS ──────────────────────────────── */
   let mLeft = false, mRight = false, mJump = false;
   (function buildButtons() {
     const wrap = document.getElementById('journey-controls');
     if (!wrap) return;
+    wrap.style.display = 'none';   /* hidden until game starts */
     wrap.innerHTML =
-      '<button id="jbL" class="game-btn">&#9664;</button>' +
-      '<button id="jbJ" class="game-btn game-btn-jump">&#9650; Jump</button>' +
-      '<button id="jbR" class="game-btn">&#9654;</button>';
+      '<button id="jbL"   class="game-btn">&#9664;</button>' +
+      '<button id="jbJ"   class="game-btn game-btn-jump">&#9650; Jump</button>' +
+      '<button id="jbR"   class="game-btn">&#9654;</button>' +
+      '<button id="jbRst" class="game-btn game-btn-rst" title="Restart">&#x21BA;</button>';
     function bind(id, setter) {
       const el = document.getElementById(id);
       el.addEventListener('touchstart', e => { e.preventDefault(); setter(true);  }, { passive: false });
@@ -132,6 +267,13 @@
     bind('jbL', v => mLeft  = v);
     bind('jbR', v => mRight = v);
     bind('jbJ', v => mJump  = v);
+    document.getElementById('jbRst').addEventListener('click', resetGame);
+  }());
+
+  /* hide info panel until game starts */
+  (function () {
+    const info = document.getElementById('journey-info');
+    if (info) info.style.display = 'none';
   }());
 
   /* ── HELPERS ─────────────────────────────────────── */
@@ -143,26 +285,61 @@
 
   /* ── INFO PANEL ──────────────────────────────────── */
   const infoEl = document.getElementById('journey-info');
-  let activeM = null;
-  function setInfo(m) {
-    if (m === activeM) return;
-    activeM = m;
-    if (!infoEl) return;
-    if (!m) {
-      infoEl.innerHTML = '<p class="journey-hint">🎮 Use <kbd>&#8592; &#8594;</kbd> to walk &nbsp;·&nbsp; <kbd>Space</kbd> or <kbd>&#8593;</kbd> to jump<br>Step on a glowing platform to explore my career!</p>';
-      return;
-    }
-    infoEl.innerHTML = `
-      <div class="jm-card" style="--mc:${m.color}">
-        <div class="jm-left">
-          <span class="jm-date">${m.period}</span>
-          <h3 class="jm-title">${m.title}</h3>
-          <span class="jm-company">${m.company}</span>
+  let activeMilestone = null;
+  let collectedGames  = [];
+
+  function gameCardHTML(g) {
+    return `
+      <div class="jm-card jm-game-card" style="--mc:${g.color}">
+        <img class="jm-game-img" src="${g.coverImg}" alt="${g.title}" loading="lazy">
+        <div class="jm-game-right">
+          <div class="jm-left">
+            <span class="jm-date">${g.period}</span>
+            <h3 class="jm-title">${g.title}</h3>
+            <span class="jm-company jm-tag">${g.tag}</span>
+          </div>
+          <p class="jm-desc">${g.desc}</p>
+          <div class="jm-links">
+            <a href="${g.itchio}" target="_blank" rel="noopener" class="jm-link jm-link-itch">🎮 itch.io</a>
+            <a href="${g.github}" target="_blank" rel="noopener" class="jm-link jm-link-gh">&#x2B21; GitHub</a>
+          </div>
         </div>
-        <p class="jm-desc">${m.desc}</p>
       </div>`;
   }
-  setInfo(null);
+
+  function renderInfo() {
+    if (!infoEl) return;
+    let html = '';
+
+    /* current career milestone (or hint if nothing) */
+    if (activeMilestone) {
+      html += `
+        <div class="jm-card" style="--mc:${activeMilestone.color}">
+          <div class="jm-left">
+            <span class="jm-date">${activeMilestone.period}</span>
+            <h3 class="jm-title">${activeMilestone.title}</h3>
+            <span class="jm-company">${activeMilestone.company}</span>
+          </div>
+          <p class="jm-desc">${activeMilestone.desc}</p>
+        </div>`;
+    } else if (collectedGames.length === 0) {
+      html += '<p class="journey-hint">🎮 Use <kbd>&#8592; &#8594;</kbd> to walk &nbsp;·&nbsp;' +
+        ' <kbd>Space</kbd> or <kbd>&#8593;</kbd> to jump<br>' +
+        'Step on career pillars · Collect the spinning gems to reveal games!</p>';
+    }
+
+    /* stacked collected games */
+    if (collectedGames.length > 0) {
+      html += `<div class="jm-collected-header">
+        <span class="jm-collected-label">🎮 Collected Games <em>(${collectedGames.length}/${COLLECTABLES.length})</em></span>
+      </div>
+      <div class="jm-collected-list">`;
+      for (const g of [...collectedGames].reverse()) html += gameCardHTML(g);
+      html += '</div>';
+    }
+
+    infoEl.innerHTML = html;
+  }
 
   /* ── UPDATE ──────────────────────────────────────── */
   let hudAlpha = 1, hudTimer = 0;
@@ -198,11 +375,11 @@
 
     /* platforms */
     let stepped = null;
-    for (const m of MILESTONES) {
-      const py = platSurface(m);   /* y where character feet should rest */
+    for (const m of ALL_PLATFORMS) {
+      const py = platSurface(m);
       if (char.vy >= 0
           && char.wy + char.h >= py
-          && char.wy + char.h <= py + 26      /* generous snap window */
+          && char.wy + char.h <= py + 28
           && char.wx + char.w > m.wx + 2
           && char.wx < m.wx + m.w - 2) {
         if (char.jumping) { burst(char.wx + char.w/2, py, m.color); char.bounce = 0.28; char.jumping = false; }
@@ -210,7 +387,29 @@
         stepped = m;
       }
     }
-    setInfo(stepped);
+
+    /* collectables */
+    const _t = Date.now() / 1000;
+    for (const c of COLLECTABLES) {
+      if (c.collected) continue;
+      const bob = Math.sin(_t * 1.8 + c.offset) * 7;
+      const cy = gndY() - c.elevBase + bob;
+      const dx = Math.abs((char.wx + char.w / 2) - c.wx);
+      const dy = Math.abs((char.wy + char.h / 2) - cy);
+      if (dx < 30 && dy < 36) {
+        c.collected = true;
+        burst(c.wx, cy, c.color);
+        for (let i = 0; i < 5; i++) burst(c.wx, cy, c.color); // bigger pop
+        collectedGames.push(c);
+        activeMilestone = null; // clear career card so collected list shows
+        renderInfo();
+      }
+    }
+
+    if (stepped !== activeMilestone) {
+      activeMilestone = stepped;
+      renderInfo();
+    }
 
     /* walk anim */
     if (Math.abs(char.vx) > 8 && char.onGround) {
@@ -278,25 +477,25 @@
 
   function drawPlatforms() {
     const t = Date.now() / 1000;
-    for (const m of MILESTONES) {
+    for (const m of ALL_PLATFORMS) {
       const sx = toScreen(m.wx);
       if (sx + m.w < -30 || sx > W + 30) continue;
-      const py  = platSurface(m);   /* top of platform = where feet land */
+      const py  = platSurface(m);
       const rgb = hexRgb(m.color);
 
-      /* pillar — from platform bottom down to ground */
+      /* pillar */
       if (m.elev > PLT_H) {
-        const pillarH = m.elev - PLT_H;          /* ground to platform bottom */
-        const pw = 8, px = sx + m.w/2 - 4;
+        const pillarH = m.elev - PLT_H;
+        const px = sx + m.w / 2 - 4;
         ctx.fillStyle   = `rgba(${rgb},0.10)`;
         ctx.strokeStyle = `rgba(${rgb},0.22)`; ctx.lineWidth = 1;
-        ctx.fillRect(px,   py + PLT_H, pw, pillarH);
-        ctx.strokeRect(px, py + PLT_H, pw, pillarH);
+        ctx.fillRect(px,   py + PLT_H, 8, pillarH);
+        ctx.strokeRect(px, py + PLT_H, 8, pillarH);
       }
 
-      /* platform body — top at py, height PLT_H */
+      /* platform body */
       ctx.save();
-      ctx.shadowBlur = 20; ctx.shadowColor = m.color;
+      ctx.shadowBlur  = 20; ctx.shadowColor = m.color;
       ctx.fillStyle   = `rgba(${rgb},0.12)`;
       ctx.strokeStyle = m.color; ctx.lineWidth = 2;
       ctx.fillRect(sx,   py, m.w, PLT_H);
@@ -317,75 +516,32 @@
         ctx.fillRect(sx + 8 + i * 24, py + 5, 7, 3);
       }
 
-      /* label above platform */
+      /* label above */
       ctx.save();
-      ctx.shadowBlur = 7; ctx.shadowColor = m.color;
+      ctx.shadowBlur = 6; ctx.shadowColor = m.color;
       ctx.fillStyle  = m.color;
       ctx.font = 'bold 11px "Share Tech Mono",monospace';
       ctx.textAlign = 'center';
-      ctx.fillText(m.title, sx + m.w/2, py - 18);
+      ctx.fillText(m.title, sx + m.w / 2, py - 18);
       ctx.fillStyle = 'rgba(180,210,255,0.55)';
       ctx.font = '9px "Share Tech Mono",monospace';
-      ctx.fillText(m.company, sx + m.w/2, py - 7);
+      ctx.fillText(m.company, sx + m.w / 2, py - 7);
       ctx.restore();
     }
   }
 
   function drawChar() {
-    const sx = toScreen(char.wx);
-    const sy = char.wy;
-    const f  = char.frame;
     const sy2 = 1 - char.bounce * 0.28;
     const sx2 = 1 + char.bounce * 0.18;
-
     ctx.save();
-    /* origin = centre-bottom of character (feet level) */
-    ctx.translate(sx + char.w / 2, sy + char.h);
-    ctx.scale(char.facing * sx2, sy2);
-
-    /* shadow under feet */
-    ctx.fillStyle = 'rgba(0,0,0,0.22)';
-    ctx.beginPath(); ctx.ellipse(0, 3, 11, 4, 0, 0, Math.PI * 2); ctx.fill();
-
-    /* legs — from y=0 upward 16px */
-    const legAnim = [[0,0],[5,-3],[0,0],[-5,-3]];
-    const la = char.jumping ? [0,0] : legAnim[f % 4];
-    ctx.fillStyle = '#1a2744';
-    if (char.jumping) {
-      ctx.fillRect(-9, -16, 8, 10); ctx.fillRect(1, -16, 8, 10);
-    } else {
-      ctx.fillRect(-9 + la[0], -16, 8, 16 + Math.max(0,  la[1]));
-      ctx.fillRect( 1 - la[0], -16, 8, 16 - Math.min(0, la[1]));
-    }
-
-    /* body — y=-16 to y=-32 */
-    const bg = ctx.createLinearGradient(-8, -32, 9, -16);
-    bg.addColorStop(0, '#00ffa3'); bg.addColorStop(1, '#00b8d9');
-    ctx.fillStyle = bg; ctx.fillRect(-9, -32, 18, 16);
-
-    /* arms */
-    ctx.fillStyle = '#00e090';
-    const armSwing = char.jumping ? 0 : la[0] * 0.6;
-    if (char.jumping) {
-      ctx.fillRect(-14, -33, 5, 8); ctx.fillRect(9, -33, 5, 8);
-    } else {
-      ctx.fillRect(-14, -30 + armSwing, 5, 10);
-      ctx.fillRect(  9, -30 - armSwing, 5, 10);
-    }
-
-    /* head — y=-32 to y=-45 */
-    ctx.fillStyle = '#ffd166'; ctx.fillRect(-7, -45, 14, 13);
-
-    /* hair */
-    ctx.fillStyle = '#221500'; ctx.fillRect(-7, -45, 14, 4);
-
-    /* eyes */
-    ctx.fillStyle = '#111';
-    ctx.fillRect(-3, -39, 3, 3); ctx.fillRect(3, -39, 3, 3);
-    ctx.fillStyle = '#00ffa3';
-    ctx.fillRect(-2, -38, 1, 1); ctx.fillRect(4, -38, 1, 1);
-
+    ctx.translate(toScreen(char.wx) + char.w / 2, char.wy + char.h);
+    ctx.scale(sx2, sy2);
     ctx.restore();
+    drawCharPixel(
+      toScreen(char.wx) + char.w / 2,
+      char.wy + char.h,
+      char.facing, char.frame, char.jumping, 1
+    );
   }
 
   function drawParticles() {
@@ -394,6 +550,89 @@
       ctx.globalAlpha = Math.max(0, p.alpha);
       ctx.fillStyle   = p.color;
       ctx.beginPath(); ctx.arc(toScreen(p.wx), p.wy, 3, 0, Math.PI*2); ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  function drawCollectables() {
+    const t = Date.now() / 1000;
+    for (const c of COLLECTABLES) {
+      const sx = toScreen(c.wx);
+      if (sx < -80 || sx > W + 80) continue;
+
+      const rgb       = hexRgb(c.color);
+      const pillarTopY = gndY() - c.elevBase;
+
+      if (c.collected) {
+        /* faint ✓ at pillar top */
+        ctx.save();
+        ctx.globalAlpha = 0.25;
+        ctx.fillStyle = c.color;
+        ctx.font = '8px "Share Tech Mono",monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('✓', sx, pillarTopY - 4);
+        /* dim pillar */
+        ctx.strokeStyle = `rgba(${rgb},0.1)`;
+        ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(sx, gndY()); ctx.lineTo(sx, pillarTopY); ctx.stroke();
+        ctx.restore();
+        continue;
+      }
+
+      const bob   = Math.sin(t * 1.8 + c.offset) * 7;
+      const cy    = pillarTopY + bob;  // gem centre
+      const pulse = 0.7 + 0.3 * Math.sin(t * 2.5 + c.offset);
+      const rot   = t * 0.9 + c.offset;
+      const r     = 12;
+
+      /* pillar from ground to gem base */
+      ctx.save();
+      ctx.shadowBlur  = 4; ctx.shadowColor = c.color;
+      ctx.strokeStyle = `rgba(${rgb},0.35)`;
+      ctx.lineWidth   = 2;
+      ctx.beginPath();
+      ctx.moveTo(sx, gndY());
+      ctx.lineTo(sx, pillarTopY + r);
+      ctx.stroke();
+      ctx.restore();
+
+      /* outer diamond */
+      ctx.save();
+      ctx.translate(sx, cy);
+      ctx.rotate(rot);
+      ctx.shadowBlur  = 18 * pulse;
+      ctx.shadowColor = c.color;
+      ctx.strokeStyle = c.color;
+      ctx.lineWidth   = 1.8;
+      ctx.globalAlpha = 0.75 * pulse;
+      ctx.fillStyle   = `rgba(${rgb},0.18)`;
+      ctx.beginPath();
+      ctx.moveTo(0, -r); ctx.lineTo(r * 0.65, 0);
+      ctx.lineTo(0, r);  ctx.lineTo(-r * 0.65, 0);
+      ctx.closePath();
+      ctx.fill(); ctx.stroke();
+      ctx.restore();
+
+      /* bright centre dot */
+      ctx.save();
+      ctx.translate(sx, cy);
+      ctx.globalAlpha = 0.9 * pulse;
+      ctx.shadowBlur  = 10; ctx.shadowColor = c.color;
+      ctx.fillStyle   = c.color;
+      ctx.beginPath(); ctx.arc(0, 0, 3.5, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+
+      /* label above gem */
+      ctx.save();
+      ctx.shadowBlur  = 5; ctx.shadowColor = c.color;
+      ctx.fillStyle   = c.color;
+      ctx.globalAlpha = 0.88;
+      ctx.font        = 'bold 9px "Share Tech Mono",monospace';
+      ctx.textAlign   = 'center';
+      ctx.fillText(c.title, sx, cy - r - 10);
+      ctx.fillStyle   = `rgba(${rgb},0.65)`;
+      ctx.font        = '8px "Share Tech Mono",monospace';
+      ctx.fillText(c.tag, sx, cy - r - 1);
       ctx.restore();
     }
   }
@@ -427,18 +666,162 @@
     }
   }
 
+  /* ── INTRO SCREEN ────────────────────────────────── */
+  function drawIntro() {
+    const t = introAnim;
+
+    /* background */
+    const g = ctx.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, '#040609'); g.addColorStop(1, '#0c1020');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+
+    /* subtle grid */
+    ctx.strokeStyle = 'rgba(0,255,163,0.025)'; ctx.lineWidth = 1;
+    for (let x = 0; x < W; x += 54) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+    for (let y = 0; y < H; y += 54) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+    /* parallax stars */
+    for (const s of STARS) {
+      const sx = (s.wx * 0.28) % W;
+      ctx.beginPath(); ctx.arc(sx, s.y * H / 280, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,255,255,${s.a})`; ctx.fill();
+    }
+
+    /* floating neon orbs */
+    for (let i = 0; i < 5; i++) {
+      const ox = W * 0.12 + i * W * 0.19 + Math.sin(t * 0.7 + i * 1.3) * 18;
+      const oy = H * 0.52 + Math.cos(t * 0.5 + i * 0.9) * 16;
+      const a  = 0.12 + 0.08 * Math.sin(t + i);
+      ctx.beginPath(); ctx.arc(ox, oy, 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(0,255,163,${a})`; ctx.fill();
+    }
+
+    /* title */
+    const pulse  = 0.88 + 0.12 * Math.sin(t * 1.8);
+    const tSize  = Math.max(18, Math.round(W * 0.050));
+    ctx.save();
+    ctx.shadowBlur = 28 * pulse; ctx.shadowColor = '#00ffa3';
+    ctx.fillStyle  = '#00ffa3';
+    ctx.font = `bold ${tSize}px "Share Tech Mono",monospace`;
+    ctx.textAlign = 'center';
+    ctx.fillText('MY CAREER JOURNEY', W / 2, H * 0.27);
+    ctx.restore();
+
+    /* divider */
+    ctx.save();
+    ctx.shadowBlur  = 8; ctx.shadowColor = 'rgba(0,255,163,0.4)';
+    ctx.strokeStyle = 'rgba(0,255,163,0.3)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(W/2-110, H*0.32); ctx.lineTo(W/2+110, H*0.32); ctx.stroke();
+    ctx.restore();
+
+    /* subtitle lines */
+    const sSize = Math.max(9, Math.round(W * 0.016));
+    ctx.fillStyle = 'rgba(136,146,164,0.72)';
+    ctx.font = `${sSize}px "Share Tech Mono",monospace`;
+    ctx.textAlign = 'center';
+    ctx.fillText('Walk through my story as a 2D platformer', W / 2, H * 0.39);
+    ctx.fillText('Land on career pillars · Collect the game gems!', W / 2, H * 0.455);
+
+    /* idle character */
+    const charY = H * 0.635 + Math.sin(t * 1.4) * 4;
+    drawCharPixel(W / 2, charY, 1, 0, false, 1.5);
+
+    /* buttons */
+    const btnW = Math.min(185, W * 0.27);
+    const btnH = Math.max(36, Math.round(H * 0.094));
+    const gap  = 18;
+    const bx1  = W / 2 - btnW - gap / 2;
+    const bx2  = W / 2 + gap / 2;
+    const by   = H * 0.775;
+
+    introBtns.start = { x: bx1, y: by, w: btnW, h: btnH };
+    introBtns.skip  = { x: bx2, y: by, w: btnW, h: btnH };
+
+    /* start button */
+    ctx.save();
+    ctx.shadowBlur = 18 * pulse; ctx.shadowColor = '#00ffa3';
+    ctx.fillStyle  = '#00ffa3';
+    ctx.beginPath(); ctx.roundRect(bx1, by, btnW, btnH, 5); ctx.fill();
+    ctx.restore();
+    ctx.fillStyle = '#040609';
+    ctx.font = `bold ${Math.round(btnH * 0.36)}px "Share Tech Mono",monospace`;
+    ctx.textAlign = 'center';
+    ctx.fillText('\u25B6  Start Journey', bx1 + btnW / 2, by + btnH * 0.63);
+
+    /* skip button */
+    ctx.save();
+    ctx.strokeStyle = 'rgba(136,146,164,0.35)'; ctx.lineWidth = 1.5;
+    ctx.fillStyle   = 'rgba(255,255,255,0.025)';
+    ctx.beginPath(); ctx.roundRect(bx2, by, btnW, btnH, 5); ctx.fill(); ctx.stroke();
+    ctx.restore();
+    ctx.fillStyle = 'rgba(136,146,164,0.6)';
+    ctx.font = `${Math.round(btnH * 0.32)}px "Share Tech Mono",monospace`;
+    ctx.textAlign = 'center';
+    ctx.fillText('\u2193  View Portfolio', bx2 + btnW / 2, by + btnH * 0.63);
+  }
+
+  /* ── CHARACTER (reusable pixel art) ─────────────── */
+  function drawCharPixel(cx, cy, facing, frame, jumping, scale) {
+    scale = scale || 1;
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.scale(facing * scale, scale);
+
+    ctx.fillStyle = 'rgba(0,0,0,0.22)';
+    ctx.beginPath(); ctx.ellipse(0, 3, 11, 4, 0, 0, Math.PI * 2); ctx.fill();
+
+    const legAnim = [[0,0],[5,-3],[0,0],[-5,-3]];
+    const la = jumping ? [0,0] : legAnim[frame % 4];
+    ctx.fillStyle = '#1a2744';
+    if (jumping) {
+      ctx.fillRect(-9, -16, 8, 10); ctx.fillRect(1, -16, 8, 10);
+    } else {
+      ctx.fillRect(-9 + la[0], -16, 8, 16 + Math.max(0, la[1]));
+      ctx.fillRect( 1 - la[0], -16, 8, 16 - Math.min(0, la[1]));
+    }
+
+    const bg = ctx.createLinearGradient(-8, -32, 9, -16);
+    bg.addColorStop(0, '#00ffa3'); bg.addColorStop(1, '#00b8d9');
+    ctx.fillStyle = bg; ctx.fillRect(-9, -32, 18, 16);
+
+    ctx.fillStyle = '#00e090';
+    const armSwing = jumping ? 0 : la[0] * 0.6;
+    if (jumping) {
+      ctx.fillRect(-14, -33, 5, 8); ctx.fillRect(9, -33, 5, 8);
+    } else {
+      ctx.fillRect(-14, -30 + armSwing, 5, 10);
+      ctx.fillRect(  9, -30 - armSwing, 5, 10);
+    }
+
+    ctx.fillStyle = '#ffd166'; ctx.fillRect(-7, -45, 14, 13);
+    ctx.fillStyle = '#221500'; ctx.fillRect(-7, -45, 14, 4);
+    ctx.fillStyle = '#111';
+    ctx.fillRect(-3, -39, 3, 3); ctx.fillRect(3, -39, 3, 3);
+    ctx.fillStyle = '#00ffa3';
+    ctx.fillRect(-2, -38, 1, 1); ctx.fillRect(4, -38, 1, 1);
+
+    ctx.restore();
+  }
+
   /* ── LOOP ────────────────────────────────────────── */
   let lastTs = 0;
   function loop(ts) {
     const dt = Math.min((ts - lastTs) / 1000, 0.05);
     lastTs = ts;
-    update(dt);
-    drawBg();
-    drawGround();
-    drawPlatforms();
-    drawParticles();
-    drawChar();
-    drawHUD();
+
+    if (gameState === 'intro') {
+      introAnim += dt;
+      drawIntro();
+    } else {
+      update(dt);
+      drawBg();
+      drawGround();
+      drawPlatforms();
+      drawCollectables();
+      drawParticles();
+      drawChar();
+      drawHUD();
+    }
     requestAnimationFrame(loop);
   }
   requestAnimationFrame(ts => { lastTs = ts; requestAnimationFrame(loop); });
