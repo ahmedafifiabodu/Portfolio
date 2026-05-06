@@ -23,7 +23,11 @@
   let W, H;
   function resize() {
     W = canvas.width  = canvas.parentElement.clientWidth;
-    H = canvas.height = Math.round(Math.min(430, Math.max(310, W * 0.42)));
+    if (W < 560) {
+      H = canvas.height = Math.round(Math.min(520, Math.max(360, W * 0.95)));
+    } else {
+      H = canvas.height = Math.round(Math.min(430, Math.max(310, W * 0.42)));
+    }
   }
   resize();
   window.addEventListener('resize', resize);
@@ -789,7 +793,10 @@
     const gap  = isMobileIntro ? 12 : 18;
     const bx1  = isMobileIntro ? (W / 2 - btnW / 2) : (W / 2 - btnW - gap / 2);
     const bx2  = isMobileIntro ? (W / 2 - btnW / 2) : (W / 2 + gap / 2);
-    const by   = isMobileIntro ? (H * 0.74) : (H * 0.775);
+    const bottomPad = isMobileIntro ? 16 : 18;
+    const totalBtnsH = isMobileIntro ? (btnH * 2 + gap) : btnH;
+    const byIdeal = isMobileIntro ? (H * 0.74) : (H * 0.775);
+    const by   = Math.min(byIdeal, H - bottomPad - totalBtnsH);
     const by2  = isMobileIntro ? (by + btnH + gap) : by;
 
     introBtns.start = { x: bx1, y: by, w: btnW, h: btnH };
