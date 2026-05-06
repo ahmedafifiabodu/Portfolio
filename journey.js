@@ -24,7 +24,7 @@
   function resize() {
     W = canvas.width  = canvas.parentElement.clientWidth;
     if (W < 560) {
-      H = canvas.height = Math.round(Math.min(520, Math.max(360, W * 0.95)));
+      H = canvas.height = Math.round(Math.min(640, Math.max(460, W * 1.2)));
     } else {
       H = canvas.height = Math.round(Math.min(430, Math.max(310, W * 0.42)));
     }
@@ -729,6 +729,7 @@
   /* ── INTRO SCREEN ────────────────────────────────── */
   function drawIntro() {
     const t = introAnim;
+    const isMobileIntro = W < 560;
 
     /* background */
     const g = ctx.createLinearGradient(0, 0, 0, H);
@@ -783,17 +784,16 @@
     ctx.fillText('Land on career pillars · Collect the game gems!', W / 2, H * 0.455);
 
     /* idle character */
-    const charY = H * 0.635 + Math.sin(t * 1.4) * 4;
+    const charY = H * (isMobileIntro ? 0.69 : 0.635) + Math.sin(t * 1.4) * 4;
     drawCharPixel(W / 2, charY, 1, 0, false, 1.5);
 
     /* buttons */
-    const isMobileIntro = W < 560;
     const btnW = isMobileIntro ? Math.min(230, W * 0.72) : Math.min(185, W * 0.27);
     const btnH = Math.max(36, Math.round(H * 0.094));
     const gap  = isMobileIntro ? 12 : 18;
     const bx1  = isMobileIntro ? (W / 2 - btnW / 2) : (W / 2 - btnW - gap / 2);
     const bx2  = isMobileIntro ? (W / 2 - btnW / 2) : (W / 2 + gap / 2);
-    const bottomPad = isMobileIntro ? 16 : 18;
+    const bottomPad = isMobileIntro ? 30 : 18;
     const totalBtnsH = isMobileIntro ? (btnH * 2 + gap) : btnH;
     const byIdeal = isMobileIntro ? (H * 0.74) : (H * 0.775);
     const by   = Math.min(byIdeal, H - bottomPad - totalBtnsH);
