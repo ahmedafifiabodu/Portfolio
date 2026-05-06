@@ -637,6 +637,62 @@
     }
   }
 
+  function drawEndPanel() {
+    const panelW = W < 480 ? 160 : (W < 760 ? 186 : 200);
+    const panelH = W < 480 ? 64 : (W < 760 ? 72 : 78);
+    const rightMargin = W < 480 ? 6 : 16;
+    const gapAfterLastPlatform = W < 480 ? 78 : 62;
+    const last = MILESTONES[MILESTONES.length - 1];
+    const minLeftWx = last.wx + last.w + gapAfterLastPlatform;
+    const preferredLeftWx = WORLD_W - rightMargin - panelW;
+    const panelLeftWx = Math.min(Math.max(minLeftWx, preferredLeftWx), WORLD_W - panelW - 4);
+
+    const panelCenterWx = panelLeftWx + panelW / 2;
+    const sx = toScreen(panelCenterWx);
+    const x = sx - panelW / 2;
+    const y = gndY() - panelH - (W < 480 ? 104 : 112);
+
+    if (x > W + 80 || x + panelW < -80) return;
+
+    /* support pole */
+    ctx.save();
+    ctx.strokeStyle = 'rgba(0,255,163,0.35)';
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    ctx.moveTo(sx, y + panelH);
+    ctx.lineTo(sx, gndY());
+    ctx.stroke();
+    ctx.restore();
+
+    /* panel */
+    ctx.save();
+    ctx.shadowBlur = 22;
+    ctx.shadowColor = '#00ffa3';
+    ctx.fillStyle = 'rgba(4,10,16,0.92)';
+    ctx.strokeStyle = '#00ffa3';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.roundRect(x, y, panelW, panelH, 8);
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+
+    /* panel text */
+    ctx.save();
+    ctx.textAlign = 'center';
+    ctx.shadowBlur = 8;
+    ctx.shadowColor = '#00ffa3';
+    ctx.fillStyle = '#00ffa3';
+    ctx.font = `bold ${W < 480 ? 11 : (W < 760 ? 12 : 14)}px "Share Tech Mono",monospace`;
+    ctx.fillText('TO BE CONTINUED...', sx, y + (W < 480 ? 28 : 31));
+
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = 'rgba(136,146,164,0.8)';
+    ctx.font = `${W < 480 ? 7 : 9}px "Share Tech Mono",monospace`;
+    ctx.fillText('More adventures loading', sx, y + (W < 480 ? 44 : 51));
+    ctx.restore();
+  }
+
   function drawHUD() {
     /* progress bar */
     const prog = Math.min(1, char.wx / (WORLD_W - 220));
@@ -727,15 +783,17 @@
     drawCharPixel(W / 2, charY, 1, 0, false, 1.5);
 
     /* buttons */
-    const btnW = Math.min(185, W * 0.27);
+    const isMobileIntro = W < 560;
+    const btnW = isMobileIntro ? Math.min(230, W * 0.72) : Math.min(185, W * 0.27);
     const btnH = Math.max(36, Math.round(H * 0.094));
-    const gap  = 18;
-    const bx1  = W / 2 - btnW - gap / 2;
-    const bx2  = W / 2 + gap / 2;
-    const by   = H * 0.775;
+    const gap  = isMobileIntro ? 12 : 18;
+    const bx1  = isMobileIntro ? (W / 2 - btnW / 2) : (W / 2 - btnW - gap / 2);
+    const bx2  = isMobileIntro ? (W / 2 - btnW / 2) : (W / 2 + gap / 2);
+    const by   = isMobileIntro ? (H * 0.74) : (H * 0.775);
+    const by2  = isMobileIntro ? (by + btnH + gap) : by;
 
     introBtns.start = { x: bx1, y: by, w: btnW, h: btnH };
-    introBtns.skip  = { x: bx2, y: by, w: btnW, h: btnH };
+    introBtns.skip  = { x: bx2, y: by2, w: btnW, h: btnH };
 
     /* start button */
     ctx.save();
@@ -744,7 +802,7 @@
     ctx.beginPath(); ctx.roundRect(bx1, by, btnW, btnH, 5); ctx.fill();
     ctx.restore();
     ctx.fillStyle = '#040609';
-    ctx.font = `bold ${Math.round(btnH * 0.36)}px "Share Tech Mono",monospace`;
+    ctx.font = `bold ${Math.round(btnH * (isMobileIntro ? 0.31 : 0.36))}px "Share Tech Mono",monospace`;
     ctx.textAlign = 'center';
     ctx.fillText('\u25B6  Start Journey', bx1 + btnW / 2, by + btnH * 0.63);
 
@@ -752,12 +810,12 @@
     ctx.save();
     ctx.strokeStyle = 'rgba(136,146,164,0.35)'; ctx.lineWidth = 1.5;
     ctx.fillStyle   = 'rgba(255,255,255,0.025)';
-    ctx.beginPath(); ctx.roundRect(bx2, by, btnW, btnH, 5); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.roundRect(bx2, by2, btnW, btnH, 5); ctx.fill(); ctx.stroke();
     ctx.restore();
     ctx.fillStyle = 'rgba(136,146,164,0.6)';
-    ctx.font = `${Math.round(btnH * 0.32)}px "Share Tech Mono",monospace`;
+    ctx.font = `${Math.round(btnH * (isMobileIntro ? 0.28 : 0.32))}px "Share Tech Mono",monospace`;
     ctx.textAlign = 'center';
-    ctx.fillText('\u2193  View Portfolio', bx2 + btnW / 2, by + btnH * 0.63);
+    ctx.fillText('\u2193  View Portfolio', bx2 + btnW / 2, by2 + btnH * 0.63);
   }
 
   /* ── CHARACTER (reusable pixel art) ─────────────── */
@@ -817,6 +875,7 @@
       drawBg();
       drawGround();
       drawPlatforms();
+      drawEndPanel();
       drawCollectables();
       drawParticles();
       drawChar();
