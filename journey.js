@@ -757,35 +757,37 @@
       ctx.fillStyle = `rgba(0,255,163,${a})`; ctx.fill();
     }
 
+    const titleY = H * (isMobileIntro ? 0.21 : 0.27);
+    const dividerY = H * (isMobileIntro ? 0.26 : 0.32);
+    const subY1 = H * (isMobileIntro ? 0.335 : 0.39);
+    const subY2 = H * (isMobileIntro ? 0.39 : 0.455);
+
     /* title */
     const pulse  = 0.88 + 0.12 * Math.sin(t * 1.8);
-    const tSize  = Math.max(18, Math.round(W * 0.050));
+    const tSize  = Math.max(isMobileIntro ? 16 : 18, Math.round(W * (isMobileIntro ? 0.066 : 0.050)));
     ctx.save();
     ctx.shadowBlur = 28 * pulse; ctx.shadowColor = '#00ffa3';
     ctx.fillStyle  = '#00ffa3';
     ctx.font = `bold ${tSize}px "Share Tech Mono",monospace`;
     ctx.textAlign = 'center';
-    ctx.fillText('MY CAREER JOURNEY', W / 2, H * 0.27);
+    ctx.fillText('MY CAREER JOURNEY', W / 2, titleY);
     ctx.restore();
 
     /* divider */
     ctx.save();
     ctx.shadowBlur  = 8; ctx.shadowColor = 'rgba(0,255,163,0.4)';
     ctx.strokeStyle = 'rgba(0,255,163,0.3)'; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(W/2-110, H*0.32); ctx.lineTo(W/2+110, H*0.32); ctx.stroke();
+    const dividerHalfW = isMobileIntro ? 88 : 110;
+    ctx.beginPath(); ctx.moveTo(W/2-dividerHalfW, dividerY); ctx.lineTo(W/2+dividerHalfW, dividerY); ctx.stroke();
     ctx.restore();
 
     /* subtitle lines */
-    const sSize = Math.max(9, Math.round(W * 0.016));
+    const sSize = Math.max(isMobileIntro ? 8 : 9, Math.round(W * (isMobileIntro ? 0.021 : 0.016)));
     ctx.fillStyle = 'rgba(136,146,164,0.72)';
     ctx.font = `${sSize}px "Share Tech Mono",monospace`;
     ctx.textAlign = 'center';
-    ctx.fillText('Walk through my story as a 2D platformer', W / 2, H * 0.39);
-    ctx.fillText('Land on career pillars · Collect the game gems!', W / 2, H * 0.455);
-
-    /* idle character */
-    const charY = H * (isMobileIntro ? 0.69 : 0.635) + Math.sin(t * 1.4) * 4;
-    drawCharPixel(W / 2, charY, 1, 0, false, 1.5);
+    ctx.fillText('Walk through my story as a 2D platformer', W / 2, subY1);
+    ctx.fillText('Land on career pillars · Collect the game gems!', W / 2, subY2);
 
     /* buttons */
     const btnW = isMobileIntro ? Math.min(230, W * 0.72) : Math.min(185, W * 0.27);
@@ -798,6 +800,11 @@
     const byIdeal = isMobileIntro ? (H * 0.74) : (H * 0.775);
     const by   = Math.min(byIdeal, H - bottomPad - totalBtnsH);
     const by2  = isMobileIntro ? (by + btnH + gap) : by;
+
+    /* idle character (kept clear between subtitle and buttons on mobile) */
+    const charBase = isMobileIntro ? Math.min(H * 0.59, by - 52) : H * 0.635;
+    const charY = charBase + Math.sin(t * 1.4) * 4;
+    drawCharPixel(W / 2, charY, 1, 0, false, isMobileIntro ? 1.32 : 1.5);
 
     introBtns.start = { x: bx1, y: by, w: btnW, h: btnH };
     introBtns.skip  = { x: bx2, y: by2, w: btnW, h: btnH };
