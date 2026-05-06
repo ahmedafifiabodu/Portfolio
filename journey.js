@@ -7,7 +7,7 @@
   const ctx = canvas.getContext('2d');
 
   /* ── CONFIG ─────────────────────────────────────── */
-  const WORLD_W    = 6200;
+  const WORLD_W    = 6500;
   const GRAVITY    = 1700;
   const SPEED      = 230;
   const JUMP_VEL   = -720;
@@ -640,8 +640,8 @@
   function drawEndPanel() {
     const panelW = W < 480 ? 160 : (W < 760 ? 186 : 200);
     const panelH = W < 480 ? 64 : (W < 760 ? 72 : 78);
-    const rightMargin = W < 480 ? 6 : 16;
-    const gapAfterLastPlatform = W < 480 ? 78 : 62;
+    const rightMargin = W < 480 ? 10 : 24;
+    const gapAfterLastPlatform = W < 480 ? 150 : 210;
     const last = MILESTONES[MILESTONES.length - 1];
     const minLeftWx = last.wx + last.w + gapAfterLastPlatform;
     const preferredLeftWx = WORLD_W - rightMargin - panelW;
