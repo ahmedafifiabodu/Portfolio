@@ -7,7 +7,7 @@
   const ctx = canvas.getContext('2d');
 
   /* ── CONFIG ─────────────────────────────────────── */
-  const WORLD_W    = 6500;
+  const WORLD_W    = 7800;
   const GRAVITY    = 1700;
   const SPEED      = 230;
   const JUMP_VEL   = -720;
@@ -148,6 +148,16 @@
       github:'https://github.com/hasanjahromi/SpaceStationEvolution',
       coverImg:'https://img.itch.zone/aW1nLzI1Njk2Mjc0LnBuZw==/original/8os3hT.png',
       desc:'Turn-based sci-fi predator game: set traps, drag bodies, evolve new powers. Group Project 2 — the final major project at Futuregames.',
+    },
+    /* — 2024 Studios era (after 2024 Studios @ 5750) — */
+    {
+      type:'game', wx:6200, elevBase:80, offset:1.4, collected:false, color:'#00ffa3',
+      title:'Prime Press', tag:'Mobile App',
+      period:'2024 Studios · 2025',
+      gplay:'https://play.google.com/store/apps/details?id=com.PrimePress.PrimePressEKit&hl=en',
+      appstore:'https://apps.apple.com/us/app/prime-press-e-kit/id6743487373',
+      coverImg:'https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/74/ee/3a/74ee3a67-6746-ecc4-5147-3cbbc8defa33/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/460x0w.jpg',
+      desc:'Interactive educational platform with digital coursebooks, workbooks, and classroom tools for students and teachers. Published on Google Play & App Store.',
     },
   ];
 
@@ -293,6 +303,14 @@
   let collectedGames  = [];
 
   function gameCardHTML(g) {
+    let linksHtml = '';
+    if (g.gplay || g.appstore) {
+      if (g.gplay)    linksHtml += `<a href="${g.gplay}"    target="_blank" rel="noopener" class="jm-link jm-link-itch">▶ Google Play</a>`;
+      if (g.appstore) linksHtml += `<a href="${g.appstore}" target="_blank" rel="noopener" class="jm-link jm-link-gh"> App Store</a>`;
+    } else {
+      if (g.itchio)  linksHtml += `<a href="${g.itchio}"  target="_blank" rel="noopener" class="jm-link jm-link-itch">🎮 itch.io</a>`;
+      if (g.github)  linksHtml += `<a href="${g.github}"  target="_blank" rel="noopener" class="jm-link jm-link-gh">&#x2B21; GitHub</a>`;
+    }
     return `
       <div class="jm-card jm-game-card" style="--mc:${g.color}">
         <img class="jm-game-img" src="${g.coverImg}" alt="${g.title}" loading="lazy">
@@ -303,10 +321,7 @@
             <span class="jm-company jm-tag">${g.tag}</span>
           </div>
           <p class="jm-desc">${g.desc}</p>
-          <div class="jm-links">
-            <a href="${g.itchio}" target="_blank" rel="noopener" class="jm-link jm-link-itch">🎮 itch.io</a>
-            <a href="${g.github}" target="_blank" rel="noopener" class="jm-link jm-link-gh">&#x2B21; GitHub</a>
-          </div>
+          <div class="jm-links">${linksHtml}</div>
         </div>
       </div>`;
   }

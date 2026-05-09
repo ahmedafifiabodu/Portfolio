@@ -207,24 +207,46 @@ const skillObserver = new IntersectionObserver((entries) => {
 document.querySelectorAll('.skill-bar-wrap').forEach(el => skillObserver.observe(el));
 
 /* ============================================
+   EMAILJS INIT
+   ============================================ */
+(function () {
+  emailjs.init({ publicKey: 'RLn_TcjC2tV27ThX-' });
+})();
+
+/* ============================================
    CONTACT FORM
    ============================================ */
 function handleFormSubmit(e) {
   e.preventDefault();
-  const fb = document.getElementById('form-feedback');
+  const fb  = document.getElementById('form-feedback');
   const btn = e.target.querySelector('button[type="submit"]');
+
+  const name    = document.getElementById('name').value.trim();
+  const email   = document.getElementById('email').value.trim();
+  const message = document.getElementById('message').value.trim();
 
   btn.textContent = 'Sending...';
   btn.disabled = true;
 
-  /* Simulate send — replace with real backend / EmailJS / Formspree */
-  setTimeout(() => {
-    fb.textContent = '✅ Message sent! I\'ll get back to you soon.';
+  emailjs.send('service_7mkpu6h', 'template_dns3a2u', {
+    title:   `Portfolio Contact from ${name}`,
+    name:    name,
+    email:   email,
+    message: message,
+  }).then(() => {
+    fb.style.color = '#00ffa3';
+    fb.textContent = '✅ Message sent! A confirmation was emailed to you — check your spam/junk if you don\'t see it.';
     e.target.reset();
     btn.textContent = 'Send Message 🚀';
     btn.disabled = false;
-    setTimeout(() => (fb.textContent = ''), 5000);
-  }, 1200);
+    setTimeout(() => (fb.textContent = ''), 6000);
+  }).catch((err) => {
+    console.error('EmailJS error:', err);
+    fb.style.color = '#fa5c5c';
+    fb.textContent = '❌ Something went wrong. Please try again or email me directly.';
+    btn.textContent = 'Send Message 🚀';
+    btn.disabled = false;
+  });
 }
 
 /* ============================================
