@@ -463,7 +463,7 @@
     <div class="container">
       <h2 class="section-title">Certifi<span>cates</span></h2>
       <div class="certs-grid">
-        <div class="cert-card">
+        <div class="cert-card" data-cert-image="assets/certs/diploma-game-programming.jpg">
           <div class="cert-icon">🎓</div>
           <div class="cert-body">
             <h3>Diploma in Game Programming</h3>
@@ -472,7 +472,7 @@
             <div class="cert-skills">C++&nbsp;·&nbsp;C#&nbsp;·&nbsp;Unity&nbsp;·&nbsp;Unreal&nbsp;·&nbsp;Game Programming</div>
           </div>
         </div>
-        <div class="cert-card">
+        <div class="cert-card" data-cert-image="assets/certs/nasa-space-apps-2024.jpg">
           <div class="cert-icon">🚀</div>
           <div class="cert-body">
             <h3>2024 NASA Space Apps Challenge</h3>
@@ -481,22 +481,22 @@
             <div class="cert-skills">Game Development&nbsp;·&nbsp;Project Management</div>
           </div>
         </div>
-        <div class="cert-card">
+        <div class="cert-card" data-cert-image="assets/certs/ubisoft-act1-rational-game-design.jpg">
           <div class="cert-icon">🏆</div>
           <div class="cert-body">
             <h3>ACT 1: Rational Game Design</h3>
             <h4>Ubisoft – Game Creators' Odyssey</h4>
             <span class="cert-date">May 2024</span>
-            <a href="https://rb.gy/i8grcz" target="_blank" class="cert-link">View Certificate ↗</a>
+            <span class="cert-id">Credential ID 106197-00002-08651</span>
           </div>
         </div>
-        <div class="cert-card">
+        <div class="cert-card" data-cert-image="assets/certs/ubisoft-act2-rational-game-design.jpg">
           <div class="cert-icon">🏆</div>
           <div class="cert-body">
             <h3>ACT 2: Rational Game Design</h3>
             <h4>Ubisoft – Game Creators' Odyssey</h4>
             <span class="cert-date">June 2024</span>
-            <a href="https://rb.gy/wm67z8" target="_blank" class="cert-link">View Certificate ↗</a>
+            <span class="cert-id">Credential ID 106197-00010-08672</span>
           </div>
         </div>
       </div>
@@ -573,6 +573,28 @@
       <p class="footer-copy">© 2025 Ahmed Afifi. All rights reserved.</p>
     </div>
   </footer>
+
+  <!-- Game Lightbox Modal -->
+  <div id="game-modal-overlay" class="game-modal-overlay" role="dialog" aria-modal="true" aria-label="Game details">
+    <div class="game-modal">
+      <button id="game-modal-close" class="game-modal-close" aria-label="Close">&#10005;</button>
+      <div class="modal-gallery">
+        <div class="gallery-imgs"></div>
+        <button class="gallery-arrow prev" aria-label="Previous screenshot">&#8249;</button>
+        <button class="gallery-arrow next" aria-label="Next screenshot">&#8250;</button>
+        <div class="gallery-dots"></div>
+        <span class="gallery-counter"></span>
+      </div>
+      <div class="modal-body">
+        <div class="modal-header">
+          <h2 class="modal-title"></h2>
+          <div class="modal-tags"></div>
+        </div>
+        <p class="modal-desc"></p>
+        <div class="modal-actions"></div>
+      </div>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script src="main.js"></script>
