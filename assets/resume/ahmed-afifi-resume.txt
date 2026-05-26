@@ -1,0 +1,83 @@
+AHMED AFIFI
+Game Programmer
+Nasr City, Cairo, Egypt
+Email: aafifi1988@icloud.com
+Phone: +2010-900-23274
+GitHub: https://github.com/ahmedafifiabodu
+LinkedIn: https://www.linkedin.com/in/ahmed-afifi-8153b7224/
+
+PROFESSIONAL SUMMARY
+Professional game programmer with experience in coding for regulated environments and corporate organizations.
+Skilled in designing and programming gameplay systems, troubleshooting issues, and collaborating with artists to bring game concepts to life.
+Focused on immersive experiences across Unreal and Unity, including VR/XR and narrative-driven development.
+
+CURRENT ROLE
+Game Developer at 2024 Studios
+- Design and implement engaging gameplay mechanics.
+- Troubleshoot development and gameplay issues.
+- Collaborate with multidisciplinary teams to deliver polished experiences.
+
+CORE SKILLS
+Game Engines:
+- Unity (80%)
+- Unreal Engine (55%)
+
+Programming Languages:
+- C# (90%)
+- C++ (85%)
+- Python (80%)
+- JavaScript (75%)
+- Java (65%)
+
+Soft Skills:
+- Problem Solving
+- Teamwork
+- Time Management
+- Communication
+- Adaptability
+
+Specializations:
+- Gameplay Mechanics
+- VR / XR Development
+- Narrative Design
+- AI and Combat Systems
+- Multiplayer
+- Code Architecture
+
+SELECTED PUBLISHED GAMES / APPS
+1) Prime Press (Education, iOS, Android)
+   Interactive educational platform with digital coursebooks, workbooks, multimedia learning tools, and classroom management.
+2) Voita (Sci-Fi, Strategy, Unity)
+   Turn-based sci-fi predator game focused on traps, body-dragging, and evolving powers.
+3) Project Trash (Simulation, Game Jam, Unity)
+   Fast-paced recycling simulation where players sort accurately under pressure.
+4) Parasozhyt (Shooter, Game Jam, Unreal)
+   Body-hopping shooter where survival depends on switching hosts.
+5) Vampire Survival (Survival, Top-Down, Unity)
+   Endless-wave survival game with progression and power growth.
+6) Dawn of the Last Seeds (Post-Apocalyptic, Unity)
+   Protect the last seeds in a drought-stricken world.
+7) The Kitten and The Hidden (Puzzle, Exploration, Unity)
+   Narrative puzzle-exploration with a ghost and cat companion.
+8) Forest of the Wicked (Horror, Adventure, Unity)
+   Atmospheric horror-adventure entry.
+9) Righteous Crane (Puzzle, Adventure, Unity)
+   Solve world challenges as the righteous crane.
+
+FEATURED PROJECTS
+- HackNet: Urban Anarchy (Unreal Engine, Blueprints, Open World)
+- Fruit Ninja VR (Unity, VR/XR, C#)
+- Toon Tank (Unreal Engine, C++, AI)
+- Narrative Driven Game (Unity, C#, Fungus)
+- First Person Shooter (Unity, C#, FPS, Combat)
+- The Python / Snake Game (Python, Game Logic, 2D)
+
+CERTIFICATIONS
+- Diploma in Game Programming, Information Technology Institute (ITI), Issued Jun 2024
+- 2024 NASA Space Apps Challenge, NASA, Issued Oct 2024
+- ACT 1: Rational Game Design, Ubisoft - Game Creators' Odyssey, Issued May 2024, Credential ID 106197-00002-08651
+- ACT 2: Rational Game Design, Ubisoft - Game Creators' Odyssey, Issued Jun 2024, Credential ID 106197-00010-08672
+
+LANGUAGES
+- English
+- Arabic
