@@ -89,13 +89,29 @@ if ('IntersectionObserver' in window) {
     // Skip fade entirely when user prefers reduced motion (e.g. Opera GX Battery Saver)
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
+    const ROOT_MARGIN_RATIO = 0.08; // matches '-8% 0px -8% 0px'
+
+    // For sections taller than the viewport, intersectionRatio approaches 0
+    // even when the section fills the screen. Use viewport-coverage ratio instead.
+    function getEffectiveRatio(entry) {
+      const rootH = (entry.rootBounds || { height: window.innerHeight }).height;
+      const elemH = entry.boundingClientRect.height;
+      const intersectH = entry.intersectionRect.height;
+      if (elemH > rootH) {
+        return intersectH / rootH;
+      }
+      return entry.intersectionRatio;
+    }
+
+    function applyVisibility(section, ratio) {
+      const visibility = Math.max(0.25, Math.min(1, ratio * 1.45));
+      section.style.setProperty('--section-visibility', visibility.toFixed(3));
+      section.classList.toggle('is-active', ratio >= 0.5);
+    }
+
     const sectionFadeObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        const ratio = entry.intersectionRatio;
-        const visibility = Math.max(0.25, Math.min(1, ratio * 1.45));
-
-        entry.target.style.setProperty('--section-visibility', visibility.toFixed(3));
-        entry.target.classList.toggle('is-active', ratio >= 0.5);
+        applyVisibility(entry.target, getEffectiveRatio(entry));
       });
     }, {
       threshold: Array.from({ length: 21 }, (_, i) => i / 20),
@@ -107,6 +123,34 @@ if ('IntersectionObserver' in window) {
       section.style.setProperty('--section-visibility', '0.25');
       sectionFadeObserver.observe(section);
     });
+
+    // Re-evaluate visibility when a section resizes (e.g. journey section grows
+    // as the player collects gems and more game cards are added to the DOM).
+    if ('ResizeObserver' in window) {
+      const sectionResizeObserver = new ResizeObserver(() => {
+        const vpH = window.innerHeight;
+        const margin = vpH * ROOT_MARGIN_RATIO;
+        const rootTop    = margin;
+        const rootBottom = vpH - margin;
+        const rootH      = rootBottom - rootTop;
+
+        sections.forEach((section) => {
+          const rect = section.getBoundingClientRect();
+          const intersectTop    = Math.max(rect.top,    rootTop);
+          const intersectBottom = Math.min(rect.bottom, rootBottom);
+          const intersectH      = Math.max(0, intersectBottom - intersectTop);
+          const elemH           = rect.height;
+
+          const ratio = elemH > rootH
+            ? intersectH / rootH
+            : (elemH > 0 ? intersectH / elemH : 0);
+
+          applyVisibility(section, ratio);
+        });
+      });
+
+      sections.forEach((section) => sectionResizeObserver.observe(section));
+    }
   });
 }
 
