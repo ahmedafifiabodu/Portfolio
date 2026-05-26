@@ -85,23 +85,25 @@ const sections = document.querySelectorAll('section[id]');
    SECTION SCROLL FADE IN/OUT
    ============================================ */
 if ('IntersectionObserver' in window) {
-  const sectionFadeObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      const ratio = entry.intersectionRatio;
-      const visibility = Math.max(0.25, Math.min(1, ratio * 1.45));
+  window.addEventListener('load', () => {
+    const sectionFadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const ratio = entry.intersectionRatio;
+        const visibility = Math.max(0.25, Math.min(1, ratio * 1.45));
 
-      entry.target.style.setProperty('--section-visibility', visibility.toFixed(3));
-      entry.target.classList.toggle('is-active', ratio >= 0.5);
+        entry.target.style.setProperty('--section-visibility', visibility.toFixed(3));
+        entry.target.classList.toggle('is-active', ratio >= 0.5);
+      });
+    }, {
+      threshold: Array.from({ length: 21 }, (_, i) => i / 20),
+      rootMargin: '-8% 0px -8% 0px'
     });
-  }, {
-    threshold: Array.from({ length: 21 }, (_, i) => i / 20),
-    rootMargin: '-8% 0px -8% 0px'
-  });
 
-  sections.forEach((section) => {
-    section.classList.add('section-fade');
-    section.style.setProperty('--section-visibility', '0.25');
-    sectionFadeObserver.observe(section);
+    sections.forEach((section) => {
+      section.classList.add('section-fade');
+      section.style.setProperty('--section-visibility', '0.25');
+      sectionFadeObserver.observe(section);
+    });
   });
 }
 
@@ -332,13 +334,25 @@ function applyRoundedCorners(dataUrl, size, radius) {
   });
 }
 
-async function downloadResumePdf() {
-  if (!window.jspdf || !window.jspdf.jsPDF) {
-    window.location.href = 'assets/resume/ahmed-afifi-resume.txt';
-    return;
-  }
+function ensureJsPdf() {
+  if (window.jspdf && window.jspdf.jsPDF) return Promise.resolve();
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+    s.onload = resolve;
+    s.onerror = () => reject(new Error('Failed to load PDF library'));
+    document.head.appendChild(s);
+  });
+}
 
-  const { jsPDF } = window.jspdf;
+async function downloadResumePdf() {
+  const btn = document.getElementById('download-resume-btn');
+  const originalText = btn ? btn.textContent : '';
+  if (btn) { btn.textContent = 'Generating…'; btn.disabled = true; }
+
+  try {
+    await ensureJsPdf();
+    const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ unit: 'pt', format: 'a4' });
   const pageW = doc.internal.pageSize.getWidth();
   const pageH = doc.internal.pageSize.getHeight();
@@ -641,6 +655,12 @@ async function downloadResumePdf() {
   doc.text('Generated from ahmedafifiabodu portfolio', margin, pageH - 18);
 
   doc.save('Ahmed-Afifi-Resume.pdf');
+  } catch (err) {
+    console.error('PDF generation failed:', err);
+    alert('Could not generate the PDF. Please check your connection and try again.');
+  } finally {
+    if (btn) { btn.textContent = originalText; btn.disabled = false; }
+  }
 }
 
 document.getElementById('download-resume-btn')?.addEventListener('click', downloadResumePdf);
