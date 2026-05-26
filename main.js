@@ -86,6 +86,9 @@ const sections = document.querySelectorAll('section[id]');
    ============================================ */
 if ('IntersectionObserver' in window) {
   window.addEventListener('load', () => {
+    // Skip fade entirely when user prefers reduced motion (e.g. Opera GX Battery Saver)
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     const sectionFadeObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         const ratio = entry.intersectionRatio;
@@ -338,9 +341,17 @@ function ensureJsPdf() {
   if (window.jspdf && window.jspdf.jsPDF) return Promise.resolve();
   return new Promise((resolve, reject) => {
     const s = document.createElement('script');
-    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+    // Try local copy first; CDN is fallback only
+    s.src = 'assets/libs/jspdf.umd.min.js';
     s.onload = resolve;
-    s.onerror = () => reject(new Error('Failed to load PDF library'));
+    s.onerror = () => {
+      // Local failed — try CDN as last resort
+      const s2 = document.createElement('script');
+      s2.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+      s2.onload = resolve;
+      s2.onerror = () => reject(new Error('Failed to load PDF library'));
+      document.head.appendChild(s2);
+    };
     document.head.appendChild(s);
   });
 }
