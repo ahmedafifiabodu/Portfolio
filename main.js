@@ -262,7 +262,6 @@ const revealObserver = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-document.querySelectorAll('.project-card').forEach(el => revealObserver.observe(el));
 document.querySelectorAll('.pub-card').forEach(el => revealObserver.observe(el));
 
 /* skill bar fill observer */
@@ -674,6 +673,20 @@ async function downloadResumePdf() {
     'detail:Puzzle/adventure title where the crane solves the land’s problems.'
   ]);
 
+  section('Published Tools', [
+    'itemlink:Configurable Autosave - Unity Asset Store|https://assetstore.unity.com/packages/tools/utilities/configurable-autosave-313115',
+    'detail:Free Unity 6 editor extension that autosaves work on user-defined rules. Built with UI Toolkit; supports Built-in, URP and HDRP.'
+  ]);
+
+  section('In Development - 2024 Studios', [
+    'itemlink:Tales of Khayaal|https://www.talesofkhayaal.com',
+    'detail:Narrative action-adventure. Gameplay systems work: ability/attribute framework, combat with a custom in-editor attack authoring tool, traversal, crowds, and a quest system.',
+    'item:Project Clash',
+    'detail:Multiplayer VR card battler - lane-based unit deployment and tower combat with networked matches, voice chat, and spectator support.',
+    'item:Puzzle Escape Room',
+    'detail:Co-op multiplayer puzzle horror set in a derelict hospital; code terminals, key-locked doors, and networked interaction built on Unity 6 and Netcode for GameObjects.'
+  ]);
+
   section('Featured Projects', [
     'itemlink:HackNet: Urban Anarchy (Unreal/Blueprints)|https://github.com/ahmedafifiabodu/HackNet-Urban-Anarchy',
     'detail:Open-world cyberpunk project with system-driven gameplay design.',
@@ -738,6 +751,11 @@ const GAMES_DATA = {
   },
   '02': {
     screenshots: [
+      'https://assetstorev1-prd-cdn.unity3d.com/key-image/e41cc31e-81fd-4746-b854-8de5867b79ba.jpg'
+    ]
+  },
+  '03': {
+    screenshots: [
       'https://img.itch.zone/aW1nLzI1Njk2NTA2LmpwZw==/original/KtMHYj.jpg',
       'https://img.itch.zone/aW1hZ2UvNDI4NDUxOC8yNTY2MzczMS5wbmc=/original/X6K9Zg.png',
       'https://img.itch.zone/aW1hZ2UvNDI4NDUxOC8yNTY2MzczMi5wbmc=/original/RgCQOb.png',
@@ -745,7 +763,7 @@ const GAMES_DATA = {
       'https://img.itch.zone/aW1hZ2UvNDI4NDUxOC8yNTY2MzczMy5wbmc=/original/BPAw7n.png'
     ]
   },
-  '03': {
+  '04': {
     screenshots: [
       'https://img.itch.zone/aW1nLzI0Mjg4OTM1LnBuZw==/original/fH3JnI.png',
       'https://img.itch.zone/aW1hZ2UvNDA3NDc3MS8yNDI4ODk2Ny5wbmc=/original/3Nxzso.png',
@@ -754,7 +772,7 @@ const GAMES_DATA = {
       'https://img.itch.zone/aW1hZ2UvNDA3NDc3MS8yNDI4ODk5MC5wbmc=/original/%2FYorlO.png'
     ]
   },
-  '04': {
+  '05': {
     screenshots: [
       'https://img.itch.zone/aW1nLzIzNzU3OTkwLmpwZw==/original/nfW7g5.jpg',
       'https://img.itch.zone/aW1hZ2UvMzk3NzQ2Ny8yMzc1Nzk5NS5wbmc=/original/6lzvZj.png',
@@ -762,7 +780,7 @@ const GAMES_DATA = {
       'https://img.itch.zone/aW1hZ2UvMzk3NzQ2Ny8yMzc1Nzk5NC5wbmc=/original/f4jVaE.png'
     ]
   },
-  '05': {
+  '06': {
     screenshots: [
       'https://img.itch.zone/aW1nLzIzNjcxNzY0LnBuZw==/original/JUaJTr.png',
       'https://img.itch.zone/aW1hZ2UvMzk2OTQyOC8yMzY3MTgxMC5wbmc=/original/LmzrEr.png',
@@ -771,47 +789,42 @@ const GAMES_DATA = {
       'https://img.itch.zone/aW1hZ2UvMzk2OTQyOC8yMzY3MTgxOC5wbmc=/original/s%2FqIx6.png'
     ]
   },
-  '06': {
+  '07': {
     screenshots: [
       'https://img.itch.zone/aW1nLzE1MjUyNTcxLnBuZw==/original/13QBvi.png'
     ]
   },
-  '07': {
+  '08': {
     screenshots: [
       'https://img.itch.zone/aW1nLzE2OTgyNTI1LnBuZw==/original/glyJIm.png'
     ]
   },
-  '08': {
+  '09': {
     screenshots: [
       'https://img.itch.zone/aW1nLzIzNjQ5MzEyLnBuZw==/original/3XCMBk.png',
       'https://img.itch.zone/aW1nLzIzNjQ4NDk0LnBuZw==/original/%2BtuFWR.png'
     ]
   },
-  '09': {
+  '10': {
     screenshots: [
       'https://img.itch.zone/aW1nLzE1MjgxNjM1LnBuZw==/original/lO3Zf5.png'
     ]
-  }
-};
-
-const PROJECTS_DATA = {
-  'HackNet: Urban Anarchy': {
-    palette: ['#3b1f66', '#0c4a6e']
   },
-  'Fruit Ninja VR': {
-    palette: ['#0f766e', '#1e3a8a']
+  /* In-development work — placeholder key art until captures land. */
+  '11': {
+    screenshots: [
+      'assets/covers/tales-of-khayaal.png'
+    ]
   },
-  'Toon Tank': {
-    palette: ['#1f2937', '#7c2d12']
+  '12': {
+    screenshots: [
+      'assets/covers/project-clash.png'
+    ]
   },
-  'Narrative Driven Game': {
-    palette: ['#1e1b4b', '#1f2937']
-  },
-  'First Person Shooter': {
-    palette: ['#3f1d1d', '#111827']
-  },
-  'The Python (Snake Game)': {
-    palette: ['#0f3d2f', '#1f2937']
+  '13': {
+    screenshots: [
+      'assets/covers/puzzle-escape-room.png'
+    ]
   }
 };
 
@@ -1027,31 +1040,6 @@ function createCertificatePosterDataUrl(title, issuer, date, icon) {
     });
   }
 
-  function openFeaturedProjectModal(card) {
-    const title = card.querySelector('h3').textContent.trim();
-    const data = PROJECTS_DATA[title];
-    if (!data) return;
-
-    const tags = Array.from(card.querySelectorAll('.project-tags span')).map(t => t.textContent.trim());
-    const posterUrl = createProjectPosterDataUrl(title, tags, data.palette);
-
-    const codeLink = card.querySelector('.project-links a');
-    const actions = codeLink ? [{
-      href: codeLink.href,
-      label: '⌥ Code',
-      className: 'pub-btn gh'
-    }] : [];
-
-    openModalContent({
-      title,
-      description: card.querySelector('p').textContent.trim(),
-      tags,
-      actions,
-      screenshots: [posterUrl],
-      fallbackImage: posterUrl
-    });
-  }
-
   function openCertificateModal(card) {
     const title = card.querySelector('h3')?.textContent.trim() || 'Certificate';
     const issuer = card.querySelector('h4')?.textContent.trim() || 'Issuer';
@@ -1076,34 +1064,6 @@ function createCertificatePosterDataUrl(title, issuer, date, icon) {
       actions,
       screenshots: [certImage || fallbackPoster],
       fallbackImage: fallbackPoster
-    });
-  }
-
-  function initProjectCovers() {
-    document.querySelectorAll('.project-card').forEach(card => {
-      const title = card.querySelector('h3')?.textContent.trim();
-      if (!title || card.querySelector('.project-cover')) return;
-
-      const tags = Array.from(card.querySelectorAll('.project-tags span')).map(t => t.textContent.trim());
-      const palette = PROJECTS_DATA[title]?.palette || ['#1f2937', '#111827'];
-
-      const cover = document.createElement('div');
-      cover.className = 'project-cover';
-      cover.style.setProperty('--cover-a', palette[0]);
-      cover.style.setProperty('--cover-b', palette[1]);
-
-      const badge = document.createElement('span');
-      badge.className = 'project-cover-badge';
-      badge.textContent = 'Preview';
-
-      const t = document.createElement('span');
-      t.className = 'project-cover-title';
-      t.textContent = title;
-
-      cover.appendChild(badge);
-      cover.appendChild(t);
-
-      card.prepend(cover);
     });
   }
 
@@ -1148,22 +1108,46 @@ function createCertificatePosterDataUrl(title, issuer, date, icon) {
     modalGallery.classList.remove('fs-ui-hidden');
   });
 
+  /* Touch devices never see the :hover overlay, so mark every clickable card with a
+     badge that is always on screen. */
+  const touchOnly = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+
+  function addTapHint(el, label) {
+    if (el.querySelector('.tap-hint')) return;
+    const hint = document.createElement('span');
+    hint.className = 'tap-hint';
+    hint.setAttribute('aria-hidden', 'true');
+    hint.textContent = touchOnly ? `👆 Tap to ${label}` : `🔍 Click to ${label}`;
+    el.appendChild(hint);
+  }
+
   document.querySelectorAll('.pub-cover').forEach(cover => {
-    cover.addEventListener('click', () => openPublishedGameModal(cover.closest('.pub-card')));
-  });
-
-  initProjectCovers();
-
-  document.querySelectorAll('.project-card').forEach(card => {
-    card.addEventListener('click', e => {
-      if (e.target.closest('a')) return;
-      openFeaturedProjectModal(card);
+    const card = cover.closest('.pub-card');
+    /* Drawn placeholder key art is still an .svg; anything else is a real capture. */
+    const isArt = (cover.querySelector('img')?.getAttribute('src') || '').endsWith('.svg');
+    cover.classList.toggle('cover-art', isArt);
+    addTapHint(cover, isArt ? 'view art' : 'view shots');
+    cover.setAttribute('role', 'button');
+    cover.setAttribute('tabindex', '0');
+    cover.addEventListener('click', () => openPublishedGameModal(card));
+    cover.addEventListener('keydown', e => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      e.preventDefault();
+      openPublishedGameModal(card);
     });
   });
 
   document.querySelectorAll('.cert-card').forEach(card => {
+    addTapHint(card, 'view cert');
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
     card.addEventListener('click', e => {
       if (e.target.closest('a')) return;
+      openCertificateModal(card);
+    });
+    card.addEventListener('keydown', e => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      e.preventDefault();
       openCertificateModal(card);
     });
   });

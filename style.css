@@ -718,155 +718,6 @@ section.section-fade.is-active {
 .tl-card p { font-size: 0.9rem; color: var(--text-muted); }
 
 /* ============================================
-   PROJECTS SECTION
-   ============================================ */
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.5rem;
-}
-
-.project-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-  padding: 1.8rem;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.project-card.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.project-card:hover {
-  border-color: var(--neon);
-  transform: translateY(-6px);
-  box-shadow: 0 10px 40px rgba(0, 255, 163, 0.1);
-}
-
-.project-cover {
-  margin: -1.8rem -1.8rem 0;
-  min-height: 140px;
-  padding: 0.9rem 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  background:
-    radial-gradient(circle at 12% 18%, rgba(0, 255, 163, 0.18), transparent 34%),
-    radial-gradient(circle at 86% 78%, rgba(0, 212, 255, 0.2), transparent 40%),
-    linear-gradient(130deg, var(--cover-a, #1f2937), var(--cover-b, #111827));
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-}
-
-.project-cover::after {
-  content: '';
-  position: absolute;
-  right: -16px;
-  top: -18px;
-  width: 84px;
-  height: 84px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  opacity: 0.35;
-}
-
-.project-cover-badge {
-  align-self: flex-start;
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  padding: 0.2rem 0.55rem;
-  border-radius: 999px;
-  border: 1px solid rgba(0, 255, 163, 0.35);
-  background: rgba(0, 0, 0, 0.32);
-  color: var(--neon);
-}
-
-.project-cover-title {
-  font-family: var(--font-head);
-  font-size: 1.05rem;
-  line-height: 1.25;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.9);
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
-  max-width: 88%;
-}
-
-.project-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.project-engine {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  padding: 0.25rem 0.7rem;
-  border-radius: 3px;
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-
-.project-engine.unity  { background: rgba(0,212,255,0.1); color: var(--neon2); border: 1px solid rgba(0,212,255,0.3); }
-.project-engine.unreal { background: rgba(168,85,247,0.1); color: var(--neon3); border: 1px solid rgba(168,85,247,0.3); }
-.project-engine.python { background: rgba(0,255,163,0.1); color: var(--neon); border: 1px solid rgba(0,255,163,0.3); }
-
-.project-links a {
-  display: flex;
-  align-items: center;
-  color: var(--text-muted);
-  position: relative;
-  z-index: 2;
-  transition: color 0.2s;
-}
-
-.project-links a svg { width: 20px; height: 20px; }
-.project-links a:hover { color: var(--neon); }
-
-.project-card h3 {
-  font-size: 1.15rem;
-  font-weight: 600;
-  color: var(--text);
-}
-
-.project-card p {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  flex: 1;
-}
-
-.project-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-
-.project-tags span {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  padding: 0.2rem 0.6rem;
-  border-radius: 3px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.1);
-  color: var(--text-muted);
-}
-
-.projects-cta {
-  text-align: center;
-  margin-top: 3rem;
-}
-
-/* ============================================
    CERTIFICATES SECTION
    ============================================ */
 .certs-grid {
@@ -1109,7 +960,6 @@ section.section-fade.is-active {
 
 @media (max-width: 540px) {
   .section { padding: 5rem 0; }
-  .projects-grid { grid-template-columns: 1fr; }
   .certs-grid { grid-template-columns: 1fr; }
   .hero-buttons { flex-direction: column; align-items: center; }
   .pub-grid { grid-template-columns: 1fr; }
@@ -1228,10 +1078,15 @@ section.section-fade.is-active {
 
 .pub-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
   padding: 0.8rem 1.1rem;
   border-top: 1px solid var(--border);
 }
+
+/* Cards with several links need each button to keep its label rather than
+   share one row and clip. */
+.pub-actions .pub-btn { flex: 1 1 auto; min-width: 6.5rem; }
 
 .pub-btn {
   flex: 1;
@@ -1267,6 +1122,74 @@ section.section-fade.is-active {
 .pub-btn.appstore {
   background: #0071e3;
   color: #fff;
+}
+
+.pub-btn.unity {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.35);
+  color: #e6edf3;
+}
+
+.pub-btn.site {
+  background: rgba(0,212,255,0.1);
+  border: 1px solid rgba(0,212,255,0.4);
+  color: var(--neon2);
+}
+
+.pub-btn.campaign {
+  background: rgba(245,158,11,0.1);
+  border: 1px solid rgba(245,158,11,0.4);
+  color: #f59e0b;
+}
+
+.pub-btn.gameplay {
+  background: rgba(168,85,247,0.12);
+  border: 1px solid rgba(168,85,247,0.4);
+  color: var(--neon3);
+}
+
+.pub-status {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  border: 1px dashed rgba(136,146,164,0.35);
+  border-radius: 6px;
+  padding: 0.45rem 0.5rem;
+  text-align: center;
+  letter-spacing: 0.4px;
+}
+
+/* In-development cards get a corner flag and a dashed edge so they read as
+   distinct from the shipped titles above them. */
+.pub-card.wip {
+  border-style: dashed;
+}
+
+.pub-flag {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #04060a;
+  background: linear-gradient(135deg, #f59e0b, #ff6b9d);
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  font-weight: 700;
+  z-index: 2;
+}
+
+.pub-flag.flag-tool {
+  background: linear-gradient(135deg, #00ffa3, #00d4ff);
+}
+
+.pub-btn.steam {
+  background: linear-gradient(135deg, #1b2838, #2a475e);
+  border: 1px solid rgba(102, 192, 244, 0.45);
+  color: #66c0f4;
 }
 
 /* ============================================
@@ -1511,6 +1434,11 @@ section.section-fade.is-active {
   background: rgba(136, 146, 164, 0.1);
   border: 1px solid rgba(136, 146, 164, 0.35);
   color: var(--text-muted);
+}
+.jm-link-steam {
+  background: rgba(102, 192, 244, 0.12);
+  border: 1px solid rgba(102, 192, 244, 0.5);
+  color: #66c0f4;
 }
 
 /* ============================================
@@ -1866,6 +1794,49 @@ section.section-fade.is-active {
 }
 
 .pub-cover:hover::after { opacity: 1; }
+
+.pub-cover.cover-art::after { content: '🔍 View Key Art'; }
+
+/* Persistent affordance. The hover overlay above never fires on touch, so every
+   clickable cover/card also carries a always-visible badge. */
+.tap-hint {
+  position: absolute;
+  right: 0.6rem;
+  bottom: 0.6rem;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.5px;
+  color: var(--neon);
+  background: rgba(0, 0, 0, 0.72);
+  border: 1px solid rgba(0, 255, 163, 0.4);
+  border-radius: 999px;
+  padding: 0.22rem 0.6rem;
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+  animation: tapHintPulse 2.8s ease-in-out infinite;
+}
+
+@keyframes tapHintPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 163, 0.35); }
+  50%      { box-shadow: 0 0 0 6px rgba(0, 255, 163, 0); }
+}
+
+.pub-cover:hover .tap-hint { opacity: 0; transition: opacity 0.2s; }
+
+.cert-card { position: relative; }
+
+.cert-card .tap-hint {
+  right: 0.75rem;
+  bottom: 0.75rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tap-hint { animation: none; }
+}
 
 /* ============================================
    RESPONSIVE ADDITIONS
