@@ -687,21 +687,6 @@ async function downloadResumePdf() {
     'detail:Co-op multiplayer puzzle horror set in a derelict hospital; code terminals, key-locked doors, and networked interaction built on Unity 6 and Netcode for GameObjects.'
   ]);
 
-  section('Featured Projects', [
-    'itemlink:HackNet: Urban Anarchy (Unreal/Blueprints)|https://github.com/ahmedafifiabodu/HackNet-Urban-Anarchy',
-    'detail:Open-world cyberpunk project with system-driven gameplay design.',
-    'itemlink:Fruit Ninja VR (Unity/XR)|https://github.com/ahmedafifiabodu/Fruit-Ninja-VR-Unity-Game',
-    'detail:VR gameplay prototype using immersive interaction mechanics.',
-    'itemlink:Toon Tank (Unreal C++)|https://github.com/ahmedafifiabodu/Toon-Tank',
-    'detail:Playable tank combat project with AI enemy behavior and core architecture.',
-    'itemlink:Narrative Driven Game (Unity/Fungus)|https://github.com/ahmedafifiabodu/Narrative-Unity-Game',
-    'detail:Branching narrative game with player-choice adaptation.',
-    'itemlink:First Person Shooter (Unity C#)|https://github.com/ahmedafifiabodu/FPS-Shooter',
-    'detail:FPS project with weapon logic, healing systems, and combat loops.',
-    'itemlink:The Python (Snake Game)|https://github.com/ahmedafifiabodu/The-Green-Python',
-    'detail:Python-based game logic project with responsive 2D systems.'
-  ]);
-
   section('Certifications', [
     'listitem:Diploma in Game Programming - ITI (Issued Jun 2024)',
     'listitem:2024 NASA Space Apps Challenge - NASA (Issued Oct 2024)',
