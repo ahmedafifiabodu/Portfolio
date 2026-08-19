@@ -465,7 +465,7 @@ async function downloadResumePdf() {
   let y = margin;
 
   doc.setFillColor(C.header[0], C.header[1], C.header[2]);
-  doc.roundedRect(margin, y, contentW, 138, 14, 14, 'F');
+  doc.roundedRect(margin, y, contentW, 152, 14, 14, 'F');
 
   setColor([255, 255, 255]);
   doc.setFont('helvetica', 'bold');
@@ -483,14 +483,20 @@ async function downloadResumePdf() {
   doc.text('Nasr City, Cairo, Egypt', margin + 22, y + 84);
   doc.text('Email: aafifi1988@icloud.com  |  Phone: +2010-900-23274', margin + 22, y + 100);
   setColor(C.accent);
-  doc.text('GitHub:', margin + 22, y + 116);
-  drawLink('github.com/ahmedafifiabodu', 'https://github.com/ahmedafifiabodu', margin + 68, y + 116, 220, {
+  doc.text('Website:', margin + 22, y + 116);
+  drawLink('elasticated.dev', 'https://elasticated.dev', margin + 74, y + 116, 220, {
     color: [220, 228, 238],
     size: 10
   });
   setColor(C.accent);
-  doc.text('LinkedIn:', margin + 22, y + 130);
-  drawLink('linkedin.com/in/ahmedafifiabdou', 'https://www.linkedin.com/in/ahmedafifiabdou/', margin + 76, y + 130, 250, {
+  doc.text('GitHub:', margin + 22, y + 130);
+  drawLink('github.com/ahmedafifiabodu', 'https://github.com/ahmedafifiabodu', margin + 68, y + 130, 220, {
+    color: [220, 228, 238],
+    size: 10
+  });
+  setColor(C.accent);
+  doc.text('LinkedIn:', margin + 22, y + 144);
+  drawLink('linkedin.com/in/ahmedafifiabdou', 'https://www.linkedin.com/in/ahmedafifiabdou/', margin + 76, y + 144, 250, {
     color: [220, 228, 238],
     size: 10
   });
@@ -519,7 +525,7 @@ async function downloadResumePdf() {
     doc.text('AA', photoX + 22, photoY + 50);
   }
 
-  y += 162;
+  y += 176;
 
   function section(title, lines) {
     const minHeight = 32 + lines.length * 15;
