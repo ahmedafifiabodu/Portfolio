@@ -550,44 +550,80 @@ section.section-fade.is-active {
 
 .cat-icon { font-size: 1.2rem; }
 
-.skill-bar-wrap { display: flex; flex-direction: column; gap: 1rem; }
-
-.skill-bar {
-  position: relative;
+/* Proficiency is shown as a named tier plus a segmented meter. A raw "80%"
+   implies a precision that does not exist for a skill, and invites the reader
+   to ask what the missing 20% is. */
+.skill-levels {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
 }
 
-.skill-bar::before {
-  content: attr(data-label);
-  display: block;
+.skill-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.4rem 0.75rem;
+}
+
+.skill-name {
   font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  margin-bottom: 0.4rem;
+  font-size: 0.92rem;
+  color: var(--text);
+  letter-spacing: 0.3px;
 }
 
-.skill-bar::after {
-  content: attr(data-percent) '%';
-  position: absolute;
-  right: 0; top: 0;
+.skill-tier {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
   font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: var(--neon);
+  font-size: 0.64rem;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  white-space: nowrap;
 }
 
-.skill-bar-inner {
+.skill-tier.t-primary    { color: var(--neon);  background: rgba(0, 255, 163, 0.1); }
+.skill-tier.t-advanced   { color: var(--neon2); background: rgba(0, 212, 255, 0.1); }
+.skill-tier.t-proficient { color: var(--neon3); background: rgba(168, 85, 247, 0.12); }
+.skill-tier.t-working    { color: var(--text-muted); background: rgba(136, 146, 164, 0.1); }
+
+.skill-pips {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  display: flex;
+  gap: 5px;
+}
+
+.skill-pip {
   height: 6px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 3px;
-  overflow: hidden;
+  flex: 1;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.07);
+  transition: background 0.45s ease, box-shadow 0.45s ease;
+  transition-delay: var(--pip-delay, 0ms);
 }
 
-.skill-bar-fill {
-  height: 100%;
+.skill-pip.lit {
   background: linear-gradient(90deg, var(--neon), var(--neon2));
-  border-radius: 3px;
-  width: 0;
-  transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 0 10px rgba(0, 255, 163, 0.5);
+  box-shadow: 0 0 10px rgba(0, 255, 163, 0.45);
+}
+
+.skill-note {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  font-size: 0.76rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+  opacity: 0.85;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skill-pip { transition: none; transition-delay: 0ms; }
 }
 
 .skill-pills {
@@ -1706,6 +1742,65 @@ section.section-fade.is-active {
 
 .modal-gallery:fullscreen.fs-ui-hidden .gallery-fs-exit,
 .modal-gallery:-webkit-full-screen.fs-ui-hidden .gallery-fs-exit {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* CSS-only zoom — the real Fullscreen API is blocked in some embedded/policy-
+   restricted contexts (iframes, some corporate browsers), so the zoom itself
+   never depends on it. This class alone delivers the full-viewport view.
+   .game-modal has its own transform (its open/close animation), and ANY
+   transform — even an identity matrix — makes an element the containing block
+   for position:fixed descendants. So the transform must be dropped, and
+   `transition: none` is load-bearing: letting it animate to `none` leaves a
+   matrix(1,0,0,1,0,0) in place for 300ms, which would anchor the "fixed"
+   gallery to the modal box instead of the viewport. */
+.game-modal-overlay.active .game-modal.gallery-zoomed {
+  transform: none;
+  transition: none;
+}
+
+.modal-gallery.zoomed {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  aspect-ratio: auto;
+  border-radius: 0;
+  background: #000;
+  z-index: 10000;
+}
+
+/* FLIP animates this box from its old rect, so it has to scale from its corner. */
+.modal-gallery { transform-origin: 0 0; }
+
+.modal-gallery.zoomed .modal-gallery-img { cursor: zoom-out; }
+
+.modal-gallery.zoomed .gallery-fs-exit {
+  display: grid;
+  place-items: center;
+}
+
+.modal-gallery.zoomed .gallery-arrow {
+  width: 54px;
+  height: 54px;
+  font-size: 2.2rem;
+}
+
+.modal-gallery.zoomed .gallery-counter {
+  font-size: 0.9rem;
+  padding: 0.3rem 0.7rem;
+}
+
+.modal-gallery.zoomed.fs-ui-hidden .gallery-arrow,
+.modal-gallery.zoomed.fs-ui-hidden .gallery-dots,
+.modal-gallery.zoomed.fs-ui-hidden .gallery-counter,
+.modal-gallery.zoomed.fs-ui-hidden .gallery-fs-exit {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal-gallery.zoomed.fs-ui-hidden .gallery-fs-exit {
   opacity: 1;
   pointer-events: auto;
 }

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Clan System icon">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a1420"/>
+      <stop offset="100%" stop-color="#0d2436"/>
+    </linearGradient>
+    <linearGradient id="shield" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7ee3ff"/>
+      <stop offset="100%" stop-color="#0891b2"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.42" r="0.6">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity=".35"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+  <circle cx="256" cy="230" r="200" fill="url(#glow)"/>
+
+  <!-- hex grid backdrop -->
+  <g stroke="#38bdf8" stroke-opacity=".12" fill="none" stroke-width="2">
+    <path d="M96 128l40-24 40 24v48l-40 24-40-24z"/>
+    <path d="M336 128l40-24 40 24v48l-40 24-40-24z"/>
+    <path d="M216 96l40-24 40 24v48l-40 24-40-24z"/>
+  </g>
+
+  <!-- central shield -->
+  <path d="M256 96l128 48v96c0 96-56 168-128 200-72-32-128-104-128-200v-96z"
+        fill="url(#shield)" stroke="#e0fbff" stroke-opacity=".55" stroke-width="4"/>
+  <path d="M256 96l128 48v96c0 96-56 168-128 200-72-32-128-104-128-200v-96z"
+        fill="none" stroke="#022c3a" stroke-opacity=".5" stroke-width="10" transform="translate(0,4)" opacity=".25"/>
+
+  <!-- three linked figures (clan roster motif) -->
+  <g fill="#022c3a">
+    <circle cx="256" cy="222" r="30"/>
+    <path d="M198 320c0-40 26-64 58-64s58 24 58 64v18h-116z"/>
+    <circle cx="182" cy="248" r="22"/>
+    <path d="M136 328c0-32 20-50 46-50s46 18 46 50v10h-92z" opacity=".85"/>
+    <circle cx="330" cy="248" r="22"/>
+    <path d="M284 328c0-32 20-50 46-50s46 18 46 50v10h-92z" opacity=".85"/>
+  </g>
+
+  <!-- connecting link ring -->
+  <circle cx="256" cy="222" r="30" fill="none" stroke="#e0fbff" stroke-width="4" opacity=".6"/>
+
+  <text x="256" y="466" text-anchor="middle" font-family="Share Tech Mono, Consolas, monospace"
+        font-size="34" font-weight="700" fill="#e0fbff" opacity=".85" letter-spacing="4">CLAN</text>
+</svg>

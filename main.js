@@ -237,14 +237,21 @@ type();
 /* ============================================
    SKILL BAR BUILDER & INTERSECTION OBSERVER
    ============================================ */
-document.querySelectorAll('.skill-bar').forEach(bar => {
-  const inner = document.createElement('div');
-  inner.className = 'skill-bar-inner';
-  const fill = document.createElement('div');
-  fill.className = 'skill-bar-fill';
-  fill.dataset.target = bar.dataset.percent;
-  inner.appendChild(fill);
-  bar.appendChild(inner);
+const SKILL_PIP_TOTAL = 5;
+
+document.querySelectorAll('.skill-row').forEach(row => {
+  const pips = row.querySelector('.skill-pips');
+  if (!pips) return;
+  const level = Math.max(0, Math.min(SKILL_PIP_TOTAL, Number(row.dataset.level) || 0));
+  for (let i = 0; i < SKILL_PIP_TOTAL; i++) {
+    const pip = document.createElement('span');
+    pip.className = 'skill-pip';
+    if (i < level) {
+      pip.dataset.fill = 'true';
+      pip.style.setProperty('--pip-delay', `${i * 90}ms`);
+    }
+    pips.appendChild(pip);
+  }
 });
 
 /* ============================================
@@ -264,19 +271,18 @@ const revealObserver = new IntersectionObserver((entries) => {
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 document.querySelectorAll('.pub-card').forEach(el => revealObserver.observe(el));
 
-/* skill bar fill observer */
+/* light each skill meter once it scrolls into view */
 const skillObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.querySelectorAll('.skill-bar-fill').forEach(fill => {
-        fill.style.width = fill.dataset.target + '%';
-      });
-      skillObserver.unobserve(entry.target);
-    }
+    if (!entry.isIntersecting) return;
+    entry.target.querySelectorAll('.skill-pip[data-fill]').forEach(pip => {
+      pip.classList.add('lit');
+    });
+    skillObserver.unobserve(entry.target);
   });
 }, { threshold: 0.3 });
 
-document.querySelectorAll('.skill-bar-wrap').forEach(el => skillObserver.observe(el));
+document.querySelectorAll('.skill-levels').forEach(el => skillObserver.observe(el));
 
 /* ============================================
    EMAILJS INIT
@@ -681,16 +687,20 @@ async function downloadResumePdf() {
 
   section('Published Tools', [
     'itemlink:Configurable Autosave - Unity Asset Store|https://assetstore.unity.com/packages/tools/utilities/configurable-autosave-313115',
-    'detail:Free Unity 6 editor extension that autosaves work on user-defined rules. Built with UI Toolkit; supports Built-in, URP and HDRP.'
+    'detail:Free Unity 6 editor extension that autosaves work on user-defined rules. Built with UI Toolkit; supports Built-in, URP and HDRP.',
+    'itemlink:Clan System - Open Source (MIT)|https://github.com/ahmedafifiabodu/Clan-System',
+    'detail:Server-authoritative clan, chat and voice system for Unity 6 on Unity Gaming Services. Cloud Code owns every mutation; UPM package with Play Mode tests against the live backend.'
   ]);
 
-  section('In Development - 2024 Studios', [
-    'itemlink:Tales of Khayaal|https://www.talesofkhayaal.com',
+  section('In Development', [
+    'itemlink:Tales of Khayaal - 2024 Studios|https://www.talesofkhayaal.com',
     'detail:Narrative action-adventure. Gameplay systems work: ability/attribute framework, combat with a custom in-editor attack authoring tool, traversal, crowds, and a quest system.',
-    'item:Project Clash',
+    'item:Project Clash - 2024 Studios',
     'detail:Multiplayer VR card battler - lane-based unit deployment and tower combat with networked matches, voice chat, and spectator support.',
-    'item:Puzzle Escape Room',
-    'detail:Co-op multiplayer puzzle horror set in a derelict hospital; code terminals, key-locked doors, and networked interaction built on Unity 6 and Netcode for GameObjects.'
+    'item:Puzzle Escape Room - 2024 Studios',
+    'detail:Co-op multiplayer puzzle horror set in a derelict hospital; code terminals, key-locked doors, and networked interaction built on Unity 6 and Netcode for GameObjects.',
+    'item:Rabeh (رابح)',
+    'detail:MENA reward-gaming mobile platform. Daily quest chains unlock real brand-funded vouchers; fully server-authoritative economy on Unity Gaming Services Cloud Code.'
   ]);
 
   section('Certifications', [
@@ -742,10 +752,21 @@ const GAMES_DATA = {
   },
   '02': {
     screenshots: [
-      'https://assetstorev1-prd-cdn.unity3d.com/key-image/e41cc31e-81fd-4746-b854-8de5867b79ba.jpg'
+      'assets/covers/clan-system.png',
+      'assets/covers/clan-chat-voice.png',
+      'assets/covers/clan-chat-emoji.png',
+      'assets/covers/clan-notifications.png',
+      'assets/covers/clan-leaderboard-players.png',
+      'assets/covers/clan-leaderboard-clans.png',
+      'assets/covers/clan-friends-tab.png'
     ]
   },
   '03': {
+    screenshots: [
+      'https://assetstorev1-prd-cdn.unity3d.com/key-image/e41cc31e-81fd-4746-b854-8de5867b79ba.jpg'
+    ]
+  },
+  '04': {
     screenshots: [
       'https://img.itch.zone/aW1nLzI1Njk2NTA2LmpwZw==/original/KtMHYj.jpg',
       'https://img.itch.zone/aW1hZ2UvNDI4NDUxOC8yNTY2MzczMS5wbmc=/original/X6K9Zg.png',
@@ -754,7 +775,7 @@ const GAMES_DATA = {
       'https://img.itch.zone/aW1hZ2UvNDI4NDUxOC8yNTY2MzczMy5wbmc=/original/BPAw7n.png'
     ]
   },
-  '04': {
+  '05': {
     screenshots: [
       'https://img.itch.zone/aW1nLzI0Mjg4OTM1LnBuZw==/original/fH3JnI.png',
       'https://img.itch.zone/aW1hZ2UvNDA3NDc3MS8yNDI4ODk2Ny5wbmc=/original/3Nxzso.png',
@@ -763,7 +784,7 @@ const GAMES_DATA = {
       'https://img.itch.zone/aW1hZ2UvNDA3NDc3MS8yNDI4ODk5MC5wbmc=/original/%2FYorlO.png'
     ]
   },
-  '05': {
+  '06': {
     screenshots: [
       'https://img.itch.zone/aW1nLzIzNzU3OTkwLmpwZw==/original/nfW7g5.jpg',
       'https://img.itch.zone/aW1hZ2UvMzk3NzQ2Ny8yMzc1Nzk5NS5wbmc=/original/6lzvZj.png',
@@ -771,7 +792,7 @@ const GAMES_DATA = {
       'https://img.itch.zone/aW1hZ2UvMzk3NzQ2Ny8yMzc1Nzk5NC5wbmc=/original/f4jVaE.png'
     ]
   },
-  '06': {
+  '07': {
     screenshots: [
       'https://img.itch.zone/aW1nLzIzNjcxNzY0LnBuZw==/original/JUaJTr.png',
       'https://img.itch.zone/aW1hZ2UvMzk2OTQyOC8yMzY3MTgxMC5wbmc=/original/LmzrEr.png',
@@ -780,41 +801,48 @@ const GAMES_DATA = {
       'https://img.itch.zone/aW1hZ2UvMzk2OTQyOC8yMzY3MTgxOC5wbmc=/original/s%2FqIx6.png'
     ]
   },
-  '07': {
+  '08': {
     screenshots: [
       'https://img.itch.zone/aW1nLzE1MjUyNTcxLnBuZw==/original/13QBvi.png'
     ]
   },
-  '08': {
+  '09': {
     screenshots: [
       'https://img.itch.zone/aW1nLzE2OTgyNTI1LnBuZw==/original/glyJIm.png'
     ]
   },
-  '09': {
+  '10': {
     screenshots: [
       'https://img.itch.zone/aW1nLzIzNjQ5MzEyLnBuZw==/original/3XCMBk.png',
       'https://img.itch.zone/aW1nLzIzNjQ4NDk0LnBuZw==/original/%2BtuFWR.png'
     ]
   },
-  '10': {
+  '11': {
     screenshots: [
       'https://img.itch.zone/aW1nLzE1MjgxNjM1LnBuZw==/original/lO3Zf5.png'
     ]
   },
-  /* In-development work — placeholder key art until captures land. */
-  '11': {
+  /* In-development work. */
+  '12': {
     screenshots: [
       'assets/covers/tales-of-khayaal.png'
     ]
   },
-  '12': {
+  '13': {
     screenshots: [
       'assets/covers/project-clash.png'
     ]
   },
-  '13': {
+  '14': {
     screenshots: [
       'assets/covers/puzzle-escape-room.png'
+    ]
+  },
+  '15': {
+    screenshots: [
+      'assets/covers/rabeh.png',
+      'assets/covers/rabeh-home.png',
+      'assets/covers/rabeh-games.png'
     ]
   }
 };
@@ -910,13 +938,16 @@ function createCertificatePosterDataUrl(title, issuer, date, icon) {
     fsUiTimer = null;
   }
 
-  function isGalleryFullscreen() {
-    return document.fullscreenElement === modalGallery;
+  /* Zoom is a CSS class, not the Fullscreen API — that API silently fails
+     ("Permissions check failed") inside iframes and some policy-restricted
+     browsers with no way to detect it in advance, so it can't be the only path. */
+  function isGalleryZoomed() {
+    return modalGallery.classList.contains('zoomed');
   }
 
   function scheduleFullscreenUiFade() {
     clearFullscreenUiTimer();
-    if (!isGalleryFullscreen()) return;
+    if (!isGalleryZoomed()) return;
     fsUiTimer = setTimeout(() => {
       modalGallery.classList.add('fs-ui-hidden');
     }, 1000);
@@ -927,15 +958,91 @@ function createCertificatePosterDataUrl(title, issuer, date, icon) {
     scheduleFullscreenUiFade();
   }
 
-  function toggleActiveScreenshotFullscreen() {
-    if (document.fullscreenElement === modalGallery) {
-      document.exitFullscreen().catch(() => {});
+  /* The modal owns the transform that would otherwise trap the fixed-position
+     gallery, so it has to be told about the zoom too. */
+  const modalBox = modalGallery.closest('.game-modal');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  const ZOOM_MS = 280;
+  const ZOOM_EASE = 'cubic-bezier(0.4, 0, 0.2, 1)';
+  let zoomAnim = null;
+
+  const galleryRect = () => modalGallery.getBoundingClientRect();
+  const addZoomClasses = () => {
+    modalBox?.classList.add('gallery-zoomed');
+    modalGallery.classList.add('zoomed');
+  };
+  const dropZoomClasses = () => {
+    modalGallery.classList.remove('zoomed');
+    modalBox?.classList.remove('gallery-zoomed');
+  };
+
+  /* Transform that visually maps `from` onto `to` (transform-origin is 0 0). */
+  function mapRect(from, to) {
+    return `translate(${to.left - from.left}px, ${to.top - from.top}px)` +
+           ` scale(${to.width / from.width}, ${to.height / from.height})`;
+  }
+
+  /* FLIP: the class swap is instant (a transitioning transform would re-trap the
+     fixed gallery), then the easing plays as a transform. `fill: forwards` plus a
+     deferred onFinish lets the exit stay position:fixed for the whole animation —
+     a scaled-up in-flow element would inflate the modal's scrollable overflow and
+     flash scrollbars. */
+  function playZoom(frames, onFinish) {
+    zoomAnim?.cancel();
+    zoomAnim = null;
+
+    if (reducedMotion.matches || frames.some(t => t === null)) {
+      onFinish?.();
       return;
     }
 
-    if (!document.fullscreenElement) {
-      modalGallery.requestFullscreen?.().catch(() => {});
+    const anim = modalGallery.animate(
+      frames.map(transform => ({ transform })),
+      { duration: ZOOM_MS, easing: ZOOM_EASE, fill: 'forwards' }
+    );
+    zoomAnim = anim;
+    anim.finished.then(() => {
+      if (zoomAnim !== anim) return;
+      zoomAnim = null;
+      anim.cancel();          // drop the forwards-fill before restoring layout
+      onFinish?.();
+    }).catch(() => {});
+  }
+
+  function exitGalleryZoom(animate = true) {
+    clearFullscreenUiTimer();
+    modalGallery.classList.remove('fs-ui-hidden');
+    if (!isGalleryZoomed()) {
+      zoomAnim?.cancel();
+      zoomAnim = null;
+      modalBox?.classList.remove('gallery-zoomed');
+      return;
     }
+    if (!animate) {
+      zoomAnim?.cancel();
+      zoomAnim = null;
+      dropZoomClasses();
+      return;
+    }
+
+    const full = galleryRect();
+    dropZoomClasses();
+    const small = galleryRect();
+    addZoomClasses();         // stay fixed while animating; measured without painting
+    playZoom(['none', mapRect(full, small)], dropZoomClasses);
+  }
+
+  function toggleActiveScreenshotFullscreen() {
+    if (isGalleryZoomed()) {
+      exitGalleryZoom();
+      return;
+    }
+    const small = galleryRect();
+    addZoomClasses();
+    const full = galleryRect();
+    playZoom([mapRect(full, small), 'none'], null);
+    showFullscreenUi();
   }
 
   function goTo(idx) {
@@ -959,6 +1066,7 @@ function createCertificatePosterDataUrl(title, issuer, date, icon) {
     const shots = screenshots || [];
     if (!shots.length) return;
 
+    exitGalleryZoom(false);
     totalScreenshots = shots.length;
     currentIndex = 0;
 
@@ -1059,11 +1167,7 @@ function createCertificatePosterDataUrl(title, issuer, date, icon) {
   }
 
   function closeModal() {
-    clearFullscreenUiTimer();
-    modalGallery.classList.remove('fs-ui-hidden');
-    if (document.fullscreenElement) {
-      document.exitFullscreen().catch(() => {});
-    }
+    exitGalleryZoom(false);
     overlay.classList.remove('active');
     document.body.style.overflow = '';
   }
@@ -1071,8 +1175,8 @@ function createCertificatePosterDataUrl(title, issuer, date, icon) {
   prevBtn.addEventListener('click', () => goTo(currentIndex - 1));
   nextBtn.addEventListener('click', () => goTo(currentIndex + 1));
   fsExitBtn?.addEventListener('click', () => {
-    if (!document.fullscreenElement) return;
-    document.exitFullscreen().catch(() => {});
+    if (!isGalleryZoomed()) return;
+    exitGalleryZoom();
   });
 
   galleryImgs.addEventListener('click', e => {
@@ -1081,23 +1185,14 @@ function createCertificatePosterDataUrl(title, issuer, date, icon) {
   });
 
   modalGallery.addEventListener('mousemove', () => {
-    if (!isGalleryFullscreen()) return;
+    if (!isGalleryZoomed()) return;
     showFullscreenUi();
   }, { passive: true });
 
   modalGallery.addEventListener('touchstart', () => {
-    if (!isGalleryFullscreen()) return;
+    if (!isGalleryZoomed()) return;
     showFullscreenUi();
   }, { passive: true });
-
-  document.addEventListener('fullscreenchange', () => {
-    if (isGalleryFullscreen()) {
-      showFullscreenUi();
-      return;
-    }
-    clearFullscreenUiTimer();
-    modalGallery.classList.remove('fs-ui-hidden');
-  });
 
   /* Touch devices never see the :hover overlay, so mark every clickable card with a
      badge that is always on screen. */
@@ -1148,8 +1243,8 @@ function createCertificatePosterDataUrl(title, issuer, date, icon) {
   document.addEventListener('keydown', e => {
     if (!overlay.classList.contains('active')) return;
     if (e.key === 'Escape') {
-      if (document.fullscreenElement) {
-        document.exitFullscreen().catch(() => {});
+      if (isGalleryZoomed()) {
+        exitGalleryZoom();
         return;
       }
       closeModal();

@@ -27,7 +27,7 @@
         <strong class="hud-zone-name" id="hud-zone-name">Spawn Point</strong>
       </div>
       <div class="hud-actions">
-        <span class="hud-stat" id="hud-gems" title="Projects collected">◆ <b>0</b>/13</span>
+        <span class="hud-stat" id="hud-gems" title="Projects collected">◆ <b>0</b>/15</span>
         <span class="hud-stat" id="hud-trophies" title="Certificates inspected">🏆 <b>0</b>/4</span>
         <button type="button" class="hud-btn" id="hud-restart" title="Restart from spawn">↺</button>
         <button type="button" class="hud-btn hud-btn-exit" data-mode-switch="classic">📄 View as page</button>
@@ -183,19 +183,49 @@
       <div class="skills-grid">
         <div class="skill-category">
           <h3><span class="cat-icon">🎮</span> Game Engines</h3>
-          <div class="skill-bar-wrap">
-            <div class="skill-bar" data-label="Unity" data-percent="80"></div>
-            <div class="skill-bar" data-label="Unreal Engine" data-percent="55"></div>
+          <div class="skill-levels">
+            <div class="skill-row" data-level="5">
+              <span class="skill-name">Unity</span>
+              <span class="skill-tier t-primary">Primary</span>
+              <span class="skill-pips" aria-hidden="true"></span>
+              <span class="skill-note">Ships nearly all of my work — C# gameplay, tools &amp; UGS backends</span>
+            </div>
+            <div class="skill-row" data-level="2">
+              <span class="skill-name">Unreal Engine</span>
+              <span class="skill-tier t-working">Working</span>
+              <span class="skill-pips" aria-hidden="true"></span>
+              <span class="skill-note">C++ and Blueprints — jam titles and coursework</span>
+            </div>
           </div>
         </div>
         <div class="skill-category">
           <h3><span class="cat-icon">💻</span> Programming Languages</h3>
-          <div class="skill-bar-wrap">
-            <div class="skill-bar" data-label="C#" data-percent="90"></div>
-            <div class="skill-bar" data-label="C++" data-percent="85"></div>
-            <div class="skill-bar" data-label="Python" data-percent="80"></div>
-            <div class="skill-bar" data-label="JavaScript" data-percent="75"></div>
-            <div class="skill-bar" data-label="Java" data-percent="65"></div>
+          <div class="skill-levels">
+            <div class="skill-row" data-level="5">
+              <span class="skill-name">C#</span>
+              <span class="skill-tier t-primary">Primary</span>
+              <span class="skill-pips" aria-hidden="true"></span>
+            </div>
+            <div class="skill-row" data-level="4">
+              <span class="skill-name">C++</span>
+              <span class="skill-tier t-advanced">Advanced</span>
+              <span class="skill-pips" aria-hidden="true"></span>
+            </div>
+            <div class="skill-row" data-level="3">
+              <span class="skill-name">Python</span>
+              <span class="skill-tier t-proficient">Proficient</span>
+              <span class="skill-pips" aria-hidden="true"></span>
+            </div>
+            <div class="skill-row" data-level="3">
+              <span class="skill-name">JavaScript</span>
+              <span class="skill-tier t-proficient">Proficient</span>
+              <span class="skill-pips" aria-hidden="true"></span>
+            </div>
+            <div class="skill-row" data-level="2">
+              <span class="skill-name">Java</span>
+              <span class="skill-tier t-working">Working</span>
+              <span class="skill-pips" aria-hidden="true"></span>
+            </div>
           </div>
         </div>
         <div class="skill-category">
@@ -274,8 +304,24 @@
 
         <div class="pub-card">
           <div class="pub-cover">
-            <img src="https://assetstorev1-prd-cdn.unity3d.com/key-image/e41cc31e-81fd-4746-b854-8de5867b79ba.jpg" alt="Configurable Autosave cover" loading="lazy">
+            <img src="assets/covers/clan-system-icon.svg" alt="Clan System icon" loading="lazy">
             <span class="pub-number">02</span>
+            <span class="pub-flag flag-tool">Open Source</span>
+          </div>
+          <div class="pub-body">
+            <h3>Clan System</h3>
+            <p class="pub-desc">Server-authoritative clan, chat and voice system for Unity 6 on Unity Gaming Services. Cloud Code owns every mutation — roles, invites, moderation, leaderboards and Vivox voice — shipped as a UPM package with Play Mode tests run against the live backend.</p>
+            <div class="pub-tags"><span>Unity 6</span><span>UGS</span><span>Multiplayer</span><span>UPM Package</span><span>MIT</span></div>
+          </div>
+          <div class="pub-actions">
+            <a href="https://github.com/ahmedafifiabodu/Clan-System" target="_blank" class="pub-btn gh">⌥ Code</a>
+          </div>
+        </div>
+
+        <div class="pub-card">
+          <div class="pub-cover">
+            <img src="https://assetstorev1-prd-cdn.unity3d.com/key-image/e41cc31e-81fd-4746-b854-8de5867b79ba.jpg" alt="Configurable Autosave cover" loading="lazy">
+            <span class="pub-number">03</span>
             <span class="pub-flag flag-tool">Asset Store</span>
           </div>
           <div class="pub-body">
@@ -292,7 +338,7 @@
         <div class="pub-card">
           <div class="pub-cover">
             <img src="https://img.itch.zone/aW1nLzI1Njk2Mjc0LnBuZw==/original/8os3hT.png" alt="Voita cover" loading="lazy">
-            <span class="pub-number">03</span>
+            <span class="pub-number">04</span>
           </div>
           <div class="pub-body">
             <h3>Voita</h3>
@@ -308,7 +354,7 @@
         <div class="pub-card">
           <div class="pub-cover">
             <img src="https://img.itch.zone/aW1nLzI0Mjg4OTM1LnBuZw==/original/fH3JnI.png" alt="Project Trash cover" loading="lazy">
-            <span class="pub-number">04</span>
+            <span class="pub-number">05</span>
           </div>
           <div class="pub-body">
             <h3>Project Trash</h3>
@@ -325,7 +371,7 @@
         <div class="pub-card">
           <div class="pub-cover">
             <img src="https://img.itch.zone/aW1nLzIzNzU3OTkwLmpwZw==/original/nfW7g5.jpg" alt="Parasozhyt cover" loading="lazy">
-            <span class="pub-number">05</span>
+            <span class="pub-number">06</span>
           </div>
           <div class="pub-body">
             <h3>Parasozhyt</h3>
@@ -341,7 +387,7 @@
         <div class="pub-card">
           <div class="pub-cover">
             <img src="https://img.itch.zone/aW1nLzIzNjcxNzY0LnBuZw==/original/JUaJTr.png" alt="Vampire Survival cover" loading="lazy">
-            <span class="pub-number">06</span>
+            <span class="pub-number">07</span>
           </div>
           <div class="pub-body">
             <h3>Vampire Survival</h3>
@@ -357,7 +403,7 @@
         <div class="pub-card">
           <div class="pub-cover">
             <img src="https://img.itch.zone/aW1nLzE1MjUyNTcxLnBuZw==/original/13QBvi.png" alt="Dawn of the Last Seeds cover" loading="lazy">
-            <span class="pub-number">07</span>
+            <span class="pub-number">08</span>
           </div>
           <div class="pub-body">
             <h3>Dawn of the Last Seeds</h3>
@@ -373,7 +419,7 @@
         <div class="pub-card">
           <div class="pub-cover">
             <img src="https://img.itch.zone/aW1nLzE2OTgyNTI1LnBuZw==/original/glyJIm.png" alt="The Kitten and The Hidden cover" loading="lazy">
-            <span class="pub-number">08</span>
+            <span class="pub-number">09</span>
           </div>
           <div class="pub-body">
             <h3>The Kitten and The Hidden</h3>
@@ -389,7 +435,7 @@
         <div class="pub-card">
           <div class="pub-cover">
             <img src="https://img.itch.zone/aW1nLzIzNjQ5MzEyLnBuZw==/original/3XCMBk.png" alt="Forest of the Wicked cover" loading="lazy">
-            <span class="pub-number">09</span>
+            <span class="pub-number">10</span>
           </div>
           <div class="pub-body">
             <h3>Forest of the Wicked</h3>
@@ -405,7 +451,7 @@
         <div class="pub-card">
           <div class="pub-cover">
             <img src="https://img.itch.zone/aW1nLzE1MjgxNjM1LnBuZw==/original/lO3Zf5.png" alt="Righteous Crane cover" loading="lazy">
-            <span class="pub-number">10</span>
+            <span class="pub-number">11</span>
           </div>
           <div class="pub-body">
             <h3>Righteous Crane</h3>
@@ -426,13 +472,13 @@
   <section id="studio" class="section">
     <div class="container">
       <h2 class="section-title">In <span>Development</span></h2>
-      <p class="section-sub">Unreleased work at 2024 Studios</p>
+      <p class="section-sub">Unreleased & internal work</p>
       <div class="pub-grid">
 
         <div class="pub-card wip">
           <div class="pub-cover">
             <img src="assets/covers/tales-of-khayaal.png" alt="Tales of Khayaal key art" loading="lazy">
-            <span class="pub-number">11</span>
+            <span class="pub-number">12</span>
             <span class="pub-flag">In Development</span>
           </div>
           <div class="pub-body">
@@ -451,7 +497,7 @@
         <div class="pub-card wip">
           <div class="pub-cover">
             <img src="assets/covers/project-clash.png" alt="Project Clash key art" loading="lazy">
-            <span class="pub-number">12</span>
+            <span class="pub-number">13</span>
             <span class="pub-flag">In Development</span>
           </div>
           <div class="pub-body">
@@ -467,7 +513,7 @@
         <div class="pub-card wip">
           <div class="pub-cover">
             <img src="assets/covers/puzzle-escape-room.png" alt="Puzzle Escape Room key art" loading="lazy">
-            <span class="pub-number">13</span>
+            <span class="pub-number">14</span>
             <span class="pub-flag">In Development</span>
           </div>
           <div class="pub-body">
@@ -477,6 +523,22 @@
           </div>
           <div class="pub-actions">
             <span class="pub-status">Internal project — not public</span>
+          </div>
+        </div>
+
+        <div class="pub-card wip">
+          <div class="pub-cover">
+            <img src="assets/covers/rabeh.png" alt="Rabeh key art" loading="lazy">
+            <span class="pub-number">15</span>
+            <span class="pub-flag">In Development</span>
+          </div>
+          <div class="pub-body">
+            <h3>Rabeh — رابح</h3>
+            <p class="pub-desc">MENA's first reward-gaming mobile platform. Players work through a daily chain of casual-game quests and unlock real, brand-funded vouchers (Talabat, Carrefour, Amazon, noon…). The economy is fully server-authoritative — the client only ever reports raw gameplay events; Cloud Code evaluates quest progress and mints every coupon.</p>
+            <div class="pub-tags"><span>Unity 6</span><span>Mobile</span><span>UGS</span><span>Cloud Code</span><span>Arabic-Ready</span></div>
+          </div>
+          <div class="pub-actions">
+            <span class="pub-status">Private repository — not public</span>
           </div>
         </div>
 

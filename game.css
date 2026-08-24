@@ -318,24 +318,30 @@ body.mode-game #bg-canvas { display: none; }
   color: var(--text-muted);
 }
 
-.jm-meter-bar {
+.jm-tier {
+  font-size: 0.62rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--mc, var(--neon));
+}
+
+.jm-pips {
   grid-column: 1 / -1;
+  display: flex;
+  gap: 4px;
+}
+
+.jm-pip {
+  flex: 1;
   height: 5px;
-  border-radius: 3px;
+  border-radius: 2px;
   background: rgba(255, 255, 255, 0.07);
-  overflow: hidden;
 }
 
-.jm-meter-fill {
-  height: 100%;
-  border-radius: 3px;
+.jm-pip.lit {
   background: var(--mc, var(--neon));
-  box-shadow: 0 0 10px var(--mc, var(--neon));
-  width: 0;
-  animation: meterFill 0.8s ease forwards;
+  box-shadow: 0 0 8px var(--mc, var(--neon));
 }
-
-@keyframes meterFill { to { width: var(--pct, 0%); } }
 
 button.jm-link {
   cursor: pointer;
@@ -551,6 +557,5 @@ body.mode-game.touch .hud-controls { display: flex; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pi-gem, .hud-toast, .jm-meter-fill { animation: none !important; }
-  .jm-meter-fill { width: var(--pct, 0%); }
+  .pi-gem, .hud-toast { animation: none !important; }
 }

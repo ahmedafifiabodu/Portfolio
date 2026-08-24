@@ -11,7 +11,7 @@
   const Mode = window.PortfolioMode;
 
   /* ── CONFIG ─────────────────────────────────────── */
-  const WORLD_W   = 10900;
+  const WORLD_W   = 11500;
   const GRAVITY   = 1800;
   const SPEED     = 300;
   const SPRINT    = 1.7;
@@ -25,9 +25,9 @@
     { name: 'The Dojo — ITI', sub: '2023 – 2024',     from: 2150, to: 3600,  accent: '#f59e0b', sky: ['#100a04', '#2c1c0a'], decor: 'dunes' },
     { name: 'Training Grounds',   sub: 'Skills & tooling',      from: 3600, to: 4750,  accent: '#a855f7', sky: ['#0b0616', '#1f1139'], decor: 'grid'  },
     { name: 'Warsaw — Futuregames', sub: '2025 – 2026', from: 4750, to: 6650, accent: '#ff6b9d', sky: ['#060a12', '#1a2544'], decor: 'pines' },
-    { name: 'The Studio — 2024 Studios', sub: '2024 – Present', from: 6650, to: 8600, accent: '#00ffa3', sky: ['#04100c', '#0c2b23'], decor: 'neon' },
-    { name: 'Trophy Hall',        sub: 'Certifications',        from: 8600, to: 10000,  accent: '#ffd166', sky: ['#0d0a04', '#261e0a'], decor: 'vault' },
-    { name: 'The Beacon',         sub: 'Get in touch',          from: 10000, to: WORLD_W, accent: '#00d4ff', sky: ['#02040a', '#091629'], decor: 'space' },
+    { name: 'The Studio — 2024 Studios', sub: '2024 – Present', from: 6650, to: 9200, accent: '#00ffa3', sky: ['#04100c', '#0c2b23'], decor: 'neon' },
+    { name: 'Trophy Hall',        sub: 'Certifications',        from: 9200, to: 10600,  accent: '#ffd166', sky: ['#0d0a04', '#261e0a'], decor: 'vault' },
+    { name: 'The Beacon',         sub: 'Get in touch',          from: 10600, to: WORLD_W, accent: '#00d4ff', sky: ['#02040a', '#091629'], decor: 'space' },
   ];
 
   /* ── CAREER PILLARS ─────────────────────────────── */
@@ -182,6 +182,22 @@
       note: 'Internal project — not public',
       desc: 'Co-op multiplayer puzzle horror. A team works through a derelict hospital cracking code terminals, hunting keys and surviving what walks the corridors, trying to find the way out together.',
     },
+    {
+      type: 'game', wx: 8650, elevBase: 70, offset: 1.2, collected: false, color: '#38bdf8',
+      title: 'Clan System', tag: 'Open Source · MIT', period: 'Released Aug 2026',
+      coverImg: 'assets/covers/clan-system.png',
+      links: [
+        { label: '⬡ GitHub', href: 'https://github.com/ahmedafifiabodu/Clan-System', cls: 'jm-link-gh' },
+      ],
+      desc: 'Server-authoritative clan, chat and voice system for Unity 6 on Unity Gaming Services. Cloud Code owns every mutation — roles, invites, moderation, leaderboards and Vivox voice — shipped as a UPM package with Play Mode tests run against the live backend.',
+    },
+    {
+      type: 'game', wx: 8950, elevBase: 110, offset: 3.4, collected: false, color: '#f472b6', wip: true,
+      title: 'Rabeh — رابح', tag: 'In Development', period: '2026',
+      coverImg: 'assets/covers/rabeh.png',
+      note: 'Private repository — not public',
+      desc: "MENA's first reward-gaming mobile platform. Play casual games, work through a daily quest chain, redeem real brand-funded vouchers. The economy is fully server-authoritative — the client only reports raw gameplay events; Cloud Code evaluates progress and mints every coupon.",
+    },
   ];
 
   /* ── SKILL TOTEMS ───────────────────────────────── */
@@ -189,14 +205,20 @@
     {
       type: 'totem', wx: 3800, h: 150, color: '#00d4ff', charge: 0, active: false,
       title: 'Game Engines', icon: '🎮',
-      bars: [{ label: 'Unity', pct: 80 }, { label: 'Unreal Engine', pct: 55 }],
+      bars: [
+        { label: 'Unity', tier: 'Primary', level: 5 },
+        { label: 'Unreal Engine', tier: 'Working', level: 2 },
+      ],
     },
     {
       type: 'totem', wx: 4100, h: 190, color: '#00ffa3', charge: 0, active: false,
       title: 'Programming Languages', icon: '💻',
       bars: [
-        { label: 'C#', pct: 90 }, { label: 'C++', pct: 85 }, { label: 'Python', pct: 80 },
-        { label: 'JavaScript', pct: 75 }, { label: 'Java', pct: 65 },
+        { label: 'C#', tier: 'Primary', level: 5 },
+        { label: 'C++', tier: 'Advanced', level: 4 },
+        { label: 'Python', tier: 'Proficient', level: 3 },
+        { label: 'JavaScript', tier: 'Proficient', level: 3 },
+        { label: 'Java', tier: 'Working', level: 2 },
       ],
     },
     {
@@ -214,32 +236,32 @@
   /* ── TROPHIES (certificates) ────────────────────── */
   const TROPHIES = [
     {
-      type: 'cert', wx: 8850, found: false, color: '#ffd166', icon: '🎓',
+      type: 'cert', wx: 9450, found: false, color: '#ffd166', icon: '🎓',
       title: 'Diploma in Game Programming', issuer: 'Information Technology Institute (ITI)',
       period: 'Issued Jun 2024', skills: 'C++ · C# · Unity · Unreal · Game Programming',
       img: 'assets/certs/diploma-game-programming.jpg',
     },
     {
-      type: 'cert', wx: 9150, found: false, color: '#00d4ff', icon: '🚀',
+      type: 'cert', wx: 9750, found: false, color: '#00d4ff', icon: '🚀',
       title: '2024 NASA Space Apps Challenge', issuer: 'NASA',
       period: 'Issued Oct 2024', skills: 'Game Development · Project Management',
       img: 'assets/certs/nasa-space-apps-2024.jpg',
     },
     {
-      type: 'cert', wx: 9450, found: false, color: '#a855f7', icon: '🏆',
+      type: 'cert', wx: 10050, found: false, color: '#a855f7', icon: '🏆',
       title: 'ACT 1: Rational Game Design', issuer: 'Ubisoft – Game Creators’ Odyssey',
       period: 'May 2024', skills: 'Credential ID 106197-00002-08651',
       img: 'assets/certs/ubisoft-act1-rational-game-design.jpg',
     },
     {
-      type: 'cert', wx: 9750, found: false, color: '#a855f7', icon: '🏆',
+      type: 'cert', wx: 10350, found: false, color: '#a855f7', icon: '🏆',
       title: 'ACT 2: Rational Game Design', issuer: 'Ubisoft – Game Creators’ Odyssey',
       period: 'June 2024', skills: 'Credential ID 106197-00010-08672',
       img: 'assets/certs/ubisoft-act2-rational-game-design.jpg',
     },
   ];
 
-  const BEACON = { wx: 10400, color: '#00d4ff', reached: false };
+  const BEACON = { wx: 11000, color: '#00d4ff', reached: false };
 
   const ALL_PLATFORMS = [...MILESTONES];
 
@@ -433,10 +455,14 @@
   }
 
   function totemCard(t) {
-    const bars = (t.bars || []).map(b => `
-      <div class="jm-meter-row"><span>${escapeHtml(b.label)}</span><span>${b.pct}%</span>
-        <div class="jm-meter-bar"><div class="jm-meter-fill" style="--pct:${b.pct}%"></div></div>
-      </div>`).join('');
+    const bars = (t.bars || []).map(b => {
+      const pips = Array.from({ length: 5 }, (_, i) =>
+        `<i class="jm-pip${i < b.level ? ' lit' : ''}"></i>`).join('');
+      return `
+      <div class="jm-meter-row"><span>${escapeHtml(b.label)}</span><span class="jm-tier">${escapeHtml(b.tier)}</span>
+        <div class="jm-pips">${pips}</div>
+      </div>`;
+    }).join('');
     const pills = (t.pills || []).length
       ? `<div class="jm-pills">${t.pills.map(p => `<span>${escapeHtml(p)}</span>`).join('')}</div>`
       : '';
@@ -1474,7 +1500,7 @@
     ctx.textAlign = 'center';
     ctx.fillStyle = 'rgba(136,146,164,0.75)';
     ctx.font = `${narrow ? 10 : 12}px "Share Tech Mono",monospace`;
-    ctx.fillText('Eight zones · 2013 to today · 13 projects to collect', W / 2, y(136));
+    ctx.fillText('Eight zones · 2013 to today · 15 projects to collect', W / 2, y(136));
     ctx.fillText('← → move  ·  Space jump  ·  Shift sprint  ·  Esc exits', W / 2, y(160));
 
     drawCharPixel(W / 2, y(280) + Math.sin(t * 1.4) * 5, 1, 0, false, narrow ? 1.6 : 2.1);
