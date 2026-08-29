@@ -689,7 +689,9 @@ async function downloadResumePdf() {
     'itemlink:Configurable Autosave - Unity Asset Store|https://assetstore.unity.com/packages/tools/utilities/configurable-autosave-313115',
     'detail:Free Unity 6 editor extension that autosaves work on user-defined rules. Built with UI Toolkit; supports Built-in, URP and HDRP.',
     'itemlink:Clan System - Open Source (MIT)|https://github.com/ahmedafifiabodu/Clan-System',
-    'detail:Server-authoritative clan, chat and voice system for Unity 6 on Unity Gaming Services. Cloud Code owns every mutation; UPM package with Play Mode tests against the live backend.'
+    'detail:Server-authoritative clan, chat and voice system for Unity 6 on Unity Gaming Services. Cloud Code owns every mutation; UPM package with Play Mode tests against the live backend.',
+    'itemlink:NEON COIL - Open Source (MIT)|https://github.com/ahmedafifiabodu/SnakeGame',
+    'detail:Arcade snake in C++20 on SFML 3 - procedurally generated levels, five snake types with real abilities, and up to 4-player networked multiplayer with client-side prediction.'
   ]);
 
   section('In Development', [
@@ -699,7 +701,7 @@ async function downloadResumePdf() {
     'detail:Multiplayer VR card battler - lane-based unit deployment and tower combat with networked matches, voice chat, and spectator support.',
     'item:Puzzle Escape Room - 2024 Studios',
     'detail:Co-op multiplayer puzzle horror set in a derelict hospital; code terminals, key-locked doors, and networked interaction built on Unity 6 and Netcode for GameObjects.',
-    'item:Rabeh (رابح)',
+    'item:Rabeh',
     'detail:MENA reward-gaming mobile platform. Daily quest chains unlock real brand-funded vouchers; fully server-authoritative economy on Unity Gaming Services Cloud Code.'
   ]);
 
@@ -750,7 +752,19 @@ const GAMES_DATA = {
       'https://image-eo.winudf.com/v2/image1/Y29tLlByaW1lUHJlc3MuUHJpbWVQcmVzc0VLaXRfc2NyZWVuXzdfMTc1NzgzMjM5Ml8wNDk/screen-7.webp?fakeurl=1&type=.webp'
     ]
   },
+  /* NEON COIL - personal project. */
   '02': {
+    screenshots: [
+      'assets/covers/neon-coil-cover.png',
+      'https://raw.githubusercontent.com/ahmedafifiabodu/SnakeGame/master/docs/shot_play.png',
+      'https://raw.githubusercontent.com/ahmedafifiabodu/SnakeGame/master/docs/shot_netplay.png',
+      'https://raw.githubusercontent.com/ahmedafifiabodu/SnakeGame/master/docs/shot_lobby.png',
+      'https://raw.githubusercontent.com/ahmedafifiabodu/SnakeGame/master/docs/shot_options.png',
+      'https://raw.githubusercontent.com/ahmedafifiabodu/SnakeGame/master/docs/shot_menu.png'
+    ]
+  },
+  /* Clan System - personal project. */
+  '03': {
     screenshots: [
       'assets/covers/clan-system.png',
       'assets/covers/clan-chat-voice.png',
@@ -761,21 +775,22 @@ const GAMES_DATA = {
       'assets/covers/clan-friends-tab.png'
     ]
   },
-  '03': {
+  /* Configurable Autosave - personal project. */
+  '04': {
     screenshots: [
       'https://assetstorev1-prd-cdn.unity3d.com/key-image/e41cc31e-81fd-4746-b854-8de5867b79ba.jpg'
     ]
   },
-  '04': {
+  '05': {
     screenshots: [
-      'https://img.itch.zone/aW1nLzI1Njk2NTA2LmpwZw==/original/KtMHYj.jpg',
+      'https://img.itch.zone/aW1nLzI1Njk2Mjc0LnBuZw==/original/8os3hT.png',
       'https://img.itch.zone/aW1hZ2UvNDI4NDUxOC8yNTY2MzczMS5wbmc=/original/X6K9Zg.png',
       'https://img.itch.zone/aW1hZ2UvNDI4NDUxOC8yNTY2MzczMi5wbmc=/original/RgCQOb.png',
       'https://img.itch.zone/aW1hZ2UvNDI4NDUxOC8yNTY2MzczMC5wbmc=/original/ijt6g3.png',
       'https://img.itch.zone/aW1hZ2UvNDI4NDUxOC8yNTY2MzczMy5wbmc=/original/BPAw7n.png'
     ]
   },
-  '05': {
+  '06': {
     screenshots: [
       'https://img.itch.zone/aW1nLzI0Mjg4OTM1LnBuZw==/original/fH3JnI.png',
       'https://img.itch.zone/aW1hZ2UvNDA3NDc3MS8yNDI4ODk2Ny5wbmc=/original/3Nxzso.png',
@@ -784,7 +799,7 @@ const GAMES_DATA = {
       'https://img.itch.zone/aW1hZ2UvNDA3NDc3MS8yNDI4ODk5MC5wbmc=/original/%2FYorlO.png'
     ]
   },
-  '06': {
+  '07': {
     screenshots: [
       'https://img.itch.zone/aW1nLzIzNzU3OTkwLmpwZw==/original/nfW7g5.jpg',
       'https://img.itch.zone/aW1hZ2UvMzk3NzQ2Ny8yMzc1Nzk5NS5wbmc=/original/6lzvZj.png',
@@ -792,7 +807,7 @@ const GAMES_DATA = {
       'https://img.itch.zone/aW1hZ2UvMzk3NzQ2Ny8yMzc1Nzk5NC5wbmc=/original/f4jVaE.png'
     ]
   },
-  '07': {
+  '08': {
     screenshots: [
       'https://img.itch.zone/aW1nLzIzNjcxNzY0LnBuZw==/original/JUaJTr.png',
       'https://img.itch.zone/aW1hZ2UvMzk2OTQyOC8yMzY3MTgxMC5wbmc=/original/LmzrEr.png',
@@ -801,44 +816,45 @@ const GAMES_DATA = {
       'https://img.itch.zone/aW1hZ2UvMzk2OTQyOC8yMzY3MTgxOC5wbmc=/original/s%2FqIx6.png'
     ]
   },
-  '08': {
+  '09': {
     screenshots: [
       'https://img.itch.zone/aW1nLzE1MjUyNTcxLnBuZw==/original/13QBvi.png'
     ]
   },
-  '09': {
+  '10': {
     screenshots: [
       'https://img.itch.zone/aW1nLzE2OTgyNTI1LnBuZw==/original/glyJIm.png'
     ]
   },
-  '10': {
+  '11': {
     screenshots: [
       'https://img.itch.zone/aW1nLzIzNjQ5MzEyLnBuZw==/original/3XCMBk.png',
       'https://img.itch.zone/aW1nLzIzNjQ4NDk0LnBuZw==/original/%2BtuFWR.png'
     ]
   },
-  '11': {
+  '12': {
     screenshots: [
       'https://img.itch.zone/aW1nLzE1MjgxNjM1LnBuZw==/original/lO3Zf5.png'
     ]
   },
   /* In-development work. */
-  '12': {
+  '13': {
     screenshots: [
       'assets/covers/tales-of-khayaal.png'
     ]
   },
-  '13': {
+  '14': {
     screenshots: [
       'assets/covers/project-clash.png'
     ]
   },
-  '14': {
+  '15': {
     screenshots: [
       'assets/covers/puzzle-escape-room.png'
     ]
   },
-  '15': {
+  /* Rabeh - Rabih - freelance project. */
+  '16': {
     screenshots: [
       'assets/covers/rabeh.png',
       'assets/covers/rabeh-home.png',
@@ -846,7 +862,6 @@ const GAMES_DATA = {
     ]
   }
 };
-
 function xmlEscape(text) {
   return String(text)
     .replace(/&/g, '&amp;')

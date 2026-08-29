@@ -146,7 +146,7 @@
       desc: 'Interactive educational platform with digital coursebooks, workbooks, and classroom tools for students and teachers. Published on Google Play & App Store.',
     },
     {
-      type: 'game', wx: 7450, elevBase: 58, offset: 2.4, collected: false, color: '#e6edf3',
+      type: 'game', wx: 7450, elevBase: 58, offset: 2.4, collected: false, color: '#e6edf3', role: 'Personal',
       title: 'Configurable Autosave', tag: 'Unity Asset Store', period: 'Released Jul 2026',
       coverImg: 'https://assetstorev1-prd-cdn.unity3d.com/key-image/e41cc31e-81fd-4746-b854-8de5867b79ba.jpg',
       links: [
@@ -183,7 +183,7 @@
       desc: 'Co-op multiplayer puzzle horror. A team works through a derelict hospital cracking code terminals, hunting keys and surviving what walks the corridors, trying to find the way out together.',
     },
     {
-      type: 'game', wx: 8650, elevBase: 70, offset: 1.2, collected: false, color: '#38bdf8',
+      type: 'game', wx: 8650, elevBase: 70, offset: 1.2, collected: false, color: '#38bdf8', role: 'Personal',
       title: 'Clan System', tag: 'Open Source · MIT', period: 'Released Aug 2026',
       coverImg: 'assets/covers/clan-system.png',
       links: [
@@ -192,7 +192,17 @@
       desc: 'Server-authoritative clan, chat and voice system for Unity 6 on Unity Gaming Services. Cloud Code owns every mutation — roles, invites, moderation, leaderboards and Vivox voice — shipped as a UPM package with Play Mode tests run against the live backend.',
     },
     {
-      type: 'game', wx: 8950, elevBase: 110, offset: 3.4, collected: false, color: '#f472b6', wip: true,
+      type: 'game', wx: 8800, elevBase: 82, offset: 2.1, collected: false, color: '#00ffa3', role: 'Personal',
+      title: 'NEON COIL', tag: 'Open Source · MIT', period: 'Released Aug 2026',
+      coverImg: 'assets/covers/neon-coil-cover.png',
+      links: [
+        { label: '⌥ Code', href: 'https://github.com/ahmedafifiabodu/SnakeGame', cls: 'jm-link-gh' },
+        { label: '⬇ v0.3.0', href: 'https://github.com/ahmedafifiabodu/SnakeGame/releases/tag/v0.3.0', cls: 'jm-link-gh' },
+      ],
+      desc: 'Arcade snake in C++20 on SFML 3 — procedurally generated levels, five snake types with real abilities, and up to 4-player networked multiplayer with client-side prediction so turns never feel late.',
+    },
+    {
+      type: 'game', wx: 8950, elevBase: 110, offset: 3.4, collected: false, color: '#f472b6', wip: true, role: 'Freelance',
       title: 'Rabeh — رابح', tag: 'In Development', period: '2026',
       coverImg: 'assets/covers/rabeh.png',
       note: 'Private repository — not public',
@@ -446,7 +456,7 @@
           <div class="jm-left">
             <span class="jm-date">${escapeHtml(g.period)}</span>
             <h3 class="jm-title">${escapeHtml(g.title)}</h3>
-            <span class="jm-company jm-tag">${escapeHtml(g.tag)}</span>
+            <span class="jm-company jm-tag">${escapeHtml(g.tag)}</span>${g.role ? `<span class="jm-role jm-role-${g.role === 'Freelance' ? 'freelance' : 'personal'}">${escapeHtml(g.role)}</span>` : ''}
           </div>
           <p class="jm-desc">${escapeHtml(g.desc)}</p>
           <div class="jm-links">${links}</div>
@@ -1500,7 +1510,7 @@
     ctx.textAlign = 'center';
     ctx.fillStyle = 'rgba(136,146,164,0.75)';
     ctx.font = `${narrow ? 10 : 12}px "Share Tech Mono",monospace`;
-    ctx.fillText('Eight zones · 2013 to today · 15 projects to collect', W / 2, y(136));
+    ctx.fillText(`Eight zones · 2013 to today · ${COLLECTABLES.length} projects to collect`, W / 2, y(136));
     ctx.fillText('← → move  ·  Space jump  ·  Shift sprint  ·  Esc exits', W / 2, y(160));
 
     drawCharPixel(W / 2, y(280) + Math.sin(t * 1.4) * 5, 1, 0, false, narrow ? 1.6 : 2.1);

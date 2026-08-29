@@ -378,7 +378,7 @@ button.jm-link {
 .hud-toast-stack {
   position: absolute;
   left: 50%;
-  bottom: 6.5rem;
+  top: 5.4rem;
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
@@ -411,8 +411,8 @@ button.jm-link {
 }
 .hud-toast-title { font-size: 0.85rem; color: var(--text); font-weight: 600; }
 
-@keyframes toastIn  { from { opacity: 0; transform: translateY(14px); } }
-@keyframes toastOut { to   { opacity: 0; transform: translateY(-10px); } }
+@keyframes toastIn  { from { opacity: 0; transform: translateY(-14px); } }
+@keyframes toastOut { to   { opacity: 0; transform: translateY(10px); } }
 
 /* ── TOUCH CONTROLS ──────────────────────────── */
 .hud-controls {
@@ -541,7 +541,6 @@ body.mode-game.touch .hud-controls { display: flex; }
     max-height: 46vh;
   }
   .hud-drawer-body { max-height: 40vh; }
-  .hud-toast-stack { bottom: auto; top: 5.4rem; }
 }
 
 @media (max-width: 640px) {
