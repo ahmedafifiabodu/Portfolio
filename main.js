@@ -402,6 +402,17 @@ async function downloadCvPdf(pageUrl, filename) {
     const sheet = cvDoc.querySelector('.sheet');
     if (!sheet) throw new Error('CV content not found');
 
+    // Collect the bottom edge of every block that must not be split, in
+    // CSS px relative to the top of the sheet. Pages get cut at one of
+    // these instead of at a fixed height, so a break never lands through
+    // a line of text.
+    const sheetTop = sheet.getBoundingClientRect().top;
+    const breakCandidates = [...sheet.querySelectorAll(
+      'p, li, h1, h2, h3, dt, dd, figure, .job, .job-head, .job-sub, .chips, .two'
+    )]
+      .map((el) => el.getBoundingClientRect().bottom - sheetTop)
+      .filter((y) => y > 0);
+
     const canvas = await window.html2canvas(sheet, {
       scale: 2,
       useCORS: true,
@@ -417,20 +428,40 @@ async function downloadCvPdf(pageUrl, filename) {
     const pxPerMm = canvas.width / pageW;
     const pageHeightPx = Math.floor(pageH * pxPerMm);
 
+    // CSS px -> canvas px, so the DOM-derived break points line up with
+    // the rasterized image regardless of the capture scale.
+    const cssToCanvas = canvas.height / sheet.scrollHeight;
+    const breaksPx = [...new Set(breakCandidates.map((y) => Math.round(y * cssToCanvas)))]
+      .sort((a, b) => a - b);
+
     let renderedPx = 0;
     let firstPage = true;
     while (renderedPx < canvas.height) {
-      const sliceHeightPx = Math.min(pageHeightPx, canvas.height - renderedPx);
+      const maxCut = renderedPx + pageHeightPx;
+      let cut = maxCut;
+      if (maxCut < canvas.height) {
+        // Deepest safe break that still fills a reasonable amount of the
+        // page; if nothing qualifies, fall back to a hard cut.
+        const minCut = renderedPx + pageHeightPx * 0.5;
+        const safe = breaksPx.filter((y) => y > minCut && y <= maxCut);
+        if (safe.length) cut = safe[safe.length - 1];
+      } else {
+        cut = canvas.height;
+      }
+
+      const sliceHeightPx = cut - renderedPx;
       const sliceCanvas = document.createElement('canvas');
       sliceCanvas.width = canvas.width;
       sliceCanvas.height = sliceHeightPx;
       const sctx = sliceCanvas.getContext('2d');
+      sctx.fillStyle = '#ffffff';
+      sctx.fillRect(0, 0, sliceCanvas.width, sliceCanvas.height);
       sctx.drawImage(canvas, 0, renderedPx, canvas.width, sliceHeightPx, 0, 0, canvas.width, sliceHeightPx);
 
       if (!firstPage) doc.addPage();
       firstPage = false;
       doc.addImage(sliceCanvas.toDataURL('image/jpeg', 0.95), 'JPEG', 0, 0, pageW, sliceHeightPx / pxPerMm);
-      renderedPx += sliceHeightPx;
+      renderedPx = cut;
     }
 
     doc.save(filename);
