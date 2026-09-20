@@ -407,11 +407,28 @@ async function downloadCvPdf(pageUrl, filename) {
     // these instead of at a fixed height, so a break never lands through
     // a line of text.
     const sheetTop = sheet.getBoundingClientRect().top;
+    const edgeOf = (el) => ({
+      top: el.getBoundingClientRect().top - sheetTop,
+      bottom: el.getBoundingClientRect().bottom - sheetTop,
+    });
+
+    // A heading must stay with what it introduces, so the span from a
+    // heading's top through the end of the block after it is off limits —
+    // otherwise a section title gets stranded alone at the foot of a page.
+    const keepWithNext = [...sheet.querySelectorAll('h1, h2, h3')].map((heading) => {
+      const follower = heading.nextElementSibling;
+      return {
+        start: edgeOf(heading).top - 4,
+        end: edgeOf(follower || heading).bottom,
+      };
+    });
+
     const breakCandidates = [...sheet.querySelectorAll(
-      'p, li, h1, h2, h3, dt, dd, figure, .job, .job-head, .job-sub, .chips, .two'
+      'p, li, dt, dd, figure, .job, .job-head, .job-sub, .chips, .two'
     )]
-      .map((el) => el.getBoundingClientRect().bottom - sheetTop)
-      .filter((y) => y > 0);
+      .map((el) => edgeOf(el).bottom)
+      .filter((y) => y > 0)
+      .filter((y) => !keepWithNext.some((zone) => y > zone.start && y < zone.end));
 
     const canvas = await window.html2canvas(sheet, {
       scale: 2,
