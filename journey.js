@@ -176,11 +176,14 @@
       desc: 'Multiplayer VR card battler in the spirit of Clash Royale. Draw from your deck, deploy units down the lanes and break the opposing towers — room-scale in VR, with networked matches, voice chat and a spectator view.',
     },
     {
-      type: 'game', wx: 8350, elevBase: 100, offset: 2.7, collected: false, color: '#00d4ff', wip: true,
-      title: 'Puzzle Escape Room', tag: 'In Development', period: '2024 Studios · 2026',
-      coverImg: 'assets/covers/puzzle-escape-room.png',
-      note: 'Internal project — not public',
-      desc: 'Co-op multiplayer puzzle horror. A team works through a derelict hospital cracking code terminals, hunting keys and surviving what walks the corridors, trying to find the way out together.',
+      type: 'game', wx: 8350, elevBase: 100, offset: 2.7, collected: false, color: '#00d4ff',
+      title: 'Backdoor Dilemma', tag: 'Released · iOS', period: '2024 Studios · 2026',
+      coverImg: 'https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/a8/26/4f/a8264fb9-9928-f340-acf5-953ed5755670/Screenshot_20260802-183916.jpg/1286x594bb.webp',
+      note: 'Google Play — coming soon',
+      links: [
+        { label: ' App Store', href: 'https://apps.apple.com/eg/app/backdoor-dilemma/id6762157014', cls: 'jm-link-store' },
+      ],
+      desc: 'Horror-themed escape room. Find your way out of an abandoned place by hunting clues and solving puzzles, room by room, evading what stalks the corridors. Play solo or co-op with a friend.',
     },
     {
       type: 'game', wx: 8650, elevBase: 70, offset: 1.2, collected: false, color: '#38bdf8', role: 'Personal',

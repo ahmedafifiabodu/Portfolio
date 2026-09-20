@@ -430,6 +430,12 @@ async function downloadCvPdf(pageUrl, filename) {
       .filter((y) => y > 0)
       .filter((y) => !keepWithNext.some((zone) => y > zone.start && y < zone.end));
 
+    // Elements marked .page-break-before start a page of their own, matching
+    // the break-before: page they already get in the browser's print output.
+    const forcedBreaks = [...sheet.querySelectorAll('.page-break-before')]
+      .map((el) => edgeOf(el).top - 4)
+      .filter((y) => y > 0);
+
     const canvas = await window.html2canvas(sheet, {
       scale: 2,
       useCORS: true,
@@ -450,13 +456,21 @@ async function downloadCvPdf(pageUrl, filename) {
     const cssToCanvas = canvas.height / sheet.scrollHeight;
     const breaksPx = [...new Set(breakCandidates.map((y) => Math.round(y * cssToCanvas)))]
       .sort((a, b) => a - b);
+    const forcedPx = [...new Set(forcedBreaks.map((y) => Math.round(y * cssToCanvas)))]
+      .sort((a, b) => a - b);
 
     let renderedPx = 0;
     let firstPage = true;
     while (renderedPx < canvas.height) {
       const maxCut = renderedPx + pageHeightPx;
       let cut = maxCut;
-      if (maxCut < canvas.height) {
+
+      // A forced break inside this page wins outright — the rest of the
+      // page is left blank so the marked section starts on a fresh one.
+      const forced = forcedPx.find((y) => y > renderedPx + 1 && y <= maxCut);
+      if (forced) {
+        cut = forced;
+      } else if (maxCut < canvas.height) {
         // Deepest safe break that still fills a reasonable amount of the
         // page; if nothing qualifies, fall back to a hard cut.
         const minCut = renderedPx + pageHeightPx * 0.5;
@@ -613,19 +627,23 @@ const GAMES_DATA = {
     ]
   },
   /* In-development work. */
+  /* Backdoor Dilemma - 2024 Studios. Screenshots come from the App Store listing. */
   '13': {
     screenshots: [
-      'assets/covers/tales-of-khayaal.png'
+      'https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/a8/26/4f/a8264fb9-9928-f340-acf5-953ed5755670/Screenshot_20260802-183916.jpg/1286x594bb.webp',
+      'https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/07/a0/86/07a08694-b859-5bfe-5d9f-24bc7f4e18ef/Screenshot_20260802-184026.jpg/1286x594bb.webp',
+      'https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/cc/13/80/cc13801d-a1ac-5974-30fc-d7d349029d75/Screenshot_20260802-184333.jpg/1286x594bb.webp',
+      'https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/4b/48/b9/4b48b980-1c21-484b-b9f1-52ed6bde1463/Screenshot_20260802-184435.jpg/1286x594bb.webp'
     ]
   },
   '14': {
     screenshots: [
-      'assets/covers/project-clash.png'
+      'assets/covers/tales-of-khayaal.png'
     ]
   },
   '15': {
     screenshots: [
-      'assets/covers/puzzle-escape-room.png'
+      'assets/covers/project-clash.png'
     ]
   },
   /* Rabeh - Rabih - freelance project. */

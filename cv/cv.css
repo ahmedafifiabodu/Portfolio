@@ -71,3 +71,7 @@
     .job, li { break-inside: avoid; }
     .no-print { display: none !important; }
   }
+
+/* Forces a new page, both in the browser's own print output and in the
+   generated PDF (main.js reads this class to place a hard break). */
+.page-break-before { break-before: page; page-break-before: always; }
