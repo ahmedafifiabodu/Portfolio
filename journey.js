@@ -36,7 +36,7 @@
       type: 'career', wx: 620, w: 170, elev: 22, color: '#00ffa3',
       title: 'IT Specialist', company: 'Elfath Group',
       period: 'Aug 2013 – Jan 2023',
-      desc: 'Built websites, databases & digital environments. Ensured scalable & secure infrastructure across departments for seamless communication and data flow.',
+      desc: 'Sole admin of the company IT: built the Active Directory domain, DNS, DHCP and Group Policy baseline, ran Exchange for company mail, WSUS patching and WDS imaging on Hyper-V, locked down file shares with NTFS least privilege, and held the perimeter on a MikroTik firewall with Bitdefender GravityZone on every endpoint. 2 servers, 20–30 workstations, nine years.',
     },
     {
       type: 'career', wx: 1120, w: 175, elev: 64, color: '#00d4ff',
@@ -240,6 +240,11 @@
       type: 'totem', wx: 4620, h: 140, color: '#ff6b9d', charge: 0, active: false,
       title: 'Soft Skills', icon: '🧠',
       pills: ['Problem Solving', 'Teamwork', 'Time Management', 'Communication', 'Adaptability'],
+    },
+    {
+      type: 'totem', wx: 3520, h: 175, color: '#f59e0b', charge: 0, active: false,
+      title: 'IT & Infrastructure', icon: '🖥️',
+      pills: ['Active Directory', 'Group Policy', 'DNS & DHCP', 'Exchange Server', 'WSUS', 'WDS', 'Hyper-V', 'NTFS Security', 'MikroTik Firewall', 'Bitdefender GravityZone'],
     },
   ];
 

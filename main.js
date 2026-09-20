@@ -328,415 +328,6 @@ function handleFormSubmit(e) {
 }
 
 /* ============================================
-   RESUME PDF DOWNLOAD
-   ============================================ */
-async function loadImageAsDataUrl(url) {
-  const response = await fetch(url, { mode: 'cors' });
-  if (!response.ok) throw new Error('Image request failed');
-  const blob = await response.blob();
-
-  return await new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onloadend = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(blob);
-  });
-}
-
-async function loadFirstAvailableImage(urls) {
-  for (const url of urls) {
-    try {
-      return await loadImageAsDataUrl(url);
-    } catch (err) {
-      // try next URL
-    }
-  }
-  throw new Error('No profile image source available');
-}
-
-function applyRoundedCorners(dataUrl, size, radius) {
-  return new Promise((resolve) => {
-    const canvas = document.createElement('canvas');
-    canvas.width = size;
-    canvas.height = size;
-    const ctx = canvas.getContext('2d');
-    ctx.beginPath();
-    if (ctx.roundRect) {
-      ctx.roundRect(0, 0, size, size, radius);
-    } else {
-      ctx.moveTo(radius, 0);
-      ctx.lineTo(size - radius, 0);
-      ctx.quadraticCurveTo(size, 0, size, radius);
-      ctx.lineTo(size, size - radius);
-      ctx.quadraticCurveTo(size, size, size - radius, size);
-      ctx.lineTo(radius, size);
-      ctx.quadraticCurveTo(0, size, 0, size - radius);
-      ctx.lineTo(0, radius);
-      ctx.quadraticCurveTo(0, 0, radius, 0);
-      ctx.closePath();
-    }
-    ctx.clip();
-    const img = new Image();
-    img.onload = () => {
-      ctx.drawImage(img, 0, 0, size, size);
-      resolve(canvas.toDataURL('image/png'));
-    };
-    img.onerror = () => resolve(dataUrl);
-    img.src = dataUrl;
-  });
-}
-
-function ensureJsPdf() {
-  if (window.jspdf && window.jspdf.jsPDF) return Promise.resolve();
-  return new Promise((resolve, reject) => {
-    const s = document.createElement('script');
-    // Try local copy first; CDN is fallback only
-    s.src = 'assets/libs/jspdf.umd.min.js';
-    s.onload = resolve;
-    s.onerror = () => {
-      // Local failed — try CDN as last resort
-      const s2 = document.createElement('script');
-      s2.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
-      s2.onload = resolve;
-      s2.onerror = () => reject(new Error('Failed to load PDF library'));
-      document.head.appendChild(s2);
-    };
-    document.head.appendChild(s);
-  });
-}
-
-async function downloadResumePdf() {
-  const btn = document.getElementById('download-resume-btn');
-  const originalText = btn ? btn.textContent : '';
-  if (btn) { btn.textContent = 'Generating…'; btn.disabled = true; }
-
-  try {
-    await ensureJsPdf();
-    const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({ unit: 'pt', format: 'a4' });
-  const pageW = doc.internal.pageSize.getWidth();
-  const pageH = doc.internal.pageSize.getHeight();
-  const margin = 36;
-  const contentW = pageW - margin * 2;
-
-  const C = {
-    bg: [255, 255, 255],
-    header: [12, 18, 34],
-    accent: [0, 178, 136],
-    text: [30, 35, 45],
-    muted: [92, 102, 118],
-    chip: [236, 244, 246]
-  };
-
-  function setColor(rgb) {
-    doc.setTextColor(rgb[0], rgb[1], rgb[2]);
-  }
-
-  function drawWrapped(text, x, y, maxWidth, opts = {}) {
-    const size = opts.size || 10;
-    const style = opts.style || 'normal';
-    const color = opts.color || C.text;
-    const lineGap = opts.lineGap || 14;
-
-    doc.setFont('helvetica', style);
-    doc.setFontSize(size);
-    setColor(color);
-    const lines = doc.splitTextToSize(text, maxWidth);
-    doc.text(lines, x, y);
-    return y + lines.length * lineGap;
-  }
-
-  function drawLink(label, url, x, y, maxWidth, opts = {}) {
-    const color = opts.color || [28, 96, 184];
-    const style = opts.style || 'normal';
-    const size = opts.size || 10;
-
-    doc.setFont('helvetica', 'normal');
-    doc.setFont('helvetica', style);
-    doc.setFontSize(size);
-    setColor(color);
-    const lines = doc.splitTextToSize(label, maxWidth);
-    doc.text(lines, x, y);
-
-    let lineY = y;
-    lines.forEach((line) => {
-      const width = doc.getTextWidth(line);
-      doc.link(x, lineY - 9, width, 12, { url });
-      lineY += 14;
-    });
-
-    return y + lines.length * 14;
-  }
-
-  let y = margin;
-
-  doc.setFillColor(C.header[0], C.header[1], C.header[2]);
-  doc.roundedRect(margin, y, contentW, 152, 14, 14, 'F');
-
-  setColor([255, 255, 255]);
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(30);
-  doc.text('Ahmed Afifi', margin + 22, y + 40);
-
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(14);
-  setColor(C.accent);
-  doc.text('Game Programmer', margin + 22, y + 63);
-
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(10);
-  setColor([220, 228, 238]);
-  doc.text('Nasr City, Cairo, Egypt', margin + 22, y + 84);
-  doc.text('Email: aafifi1988@icloud.com  |  Phone: +2010-900-23274', margin + 22, y + 100);
-  setColor(C.accent);
-  doc.text('Website:', margin + 22, y + 116);
-  drawLink('elasticated.dev', 'https://elasticated.dev', margin + 74, y + 116, 220, {
-    color: [220, 228, 238],
-    size: 10
-  });
-  setColor(C.accent);
-  doc.text('GitHub:', margin + 22, y + 130);
-  drawLink('github.com/ahmedafifiabodu', 'https://github.com/ahmedafifiabodu', margin + 68, y + 130, 220, {
-    color: [220, 228, 238],
-    size: 10
-  });
-  setColor(C.accent);
-  doc.text('LinkedIn:', margin + 22, y + 144);
-  drawLink('linkedin.com/in/ahmedafifiabdou', 'https://www.linkedin.com/in/ahmedafifiabdou/', margin + 76, y + 144, 250, {
-    color: [220, 228, 238],
-    size: 10
-  });
-
-  const photoSize = 84;
-  const photoX = margin + contentW - photoSize - 20;
-  const photoY = y + 26;
-  doc.setDrawColor(C.accent[0], C.accent[1], C.accent[2]);
-  doc.setLineWidth(2);
-  doc.roundedRect(photoX - 3, photoY - 3, photoSize + 6, photoSize + 6, 12, 12, 'S');
-
-  try {
-    const photoDataUrl = await loadFirstAvailableImage([
-      'https://avatars.githubusercontent.com/ahmedafifiabodu?s=400',
-      'https://github.com/ahmedafifiabodu.png?size=400',
-      'https://unavatar.io/github/ahmedafifiabodu'
-    ]);
-    const clippedPhoto = await applyRoundedCorners(photoDataUrl, 252, 30);
-    doc.addImage(clippedPhoto, 'PNG', photoX, photoY, photoSize, photoSize);
-  } catch (err) {
-    doc.setFillColor(32, 40, 58);
-    doc.roundedRect(photoX, photoY, photoSize, photoSize, 10, 10, 'F');
-    setColor([255, 255, 255]);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(24);
-    doc.text('AA', photoX + 22, photoY + 50);
-  }
-
-  y += 176;
-
-  function section(title, lines) {
-    const minHeight = 32 + lines.length * 15;
-    if (y + minHeight > pageH - margin) {
-      doc.addPage();
-      y = margin;
-    }
-
-    doc.setFillColor(C.chip[0], C.chip[1], C.chip[2]);
-    doc.roundedRect(margin, y, contentW, 22, 6, 6, 'F');
-    doc.setFillColor(C.accent[0], C.accent[1], C.accent[2]);
-    doc.rect(margin, y, 4, 22, 'F');
-
-    setColor(C.header);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(13);
-    doc.text(title, margin + 12, y + 15);
-    y += 34;
-
-    let lastContext = 'normal';
-    lines.forEach((line) => {
-      const itemLine = line.startsWith('item:');
-      const itemLinkLine = line.startsWith('itemlink:');
-      const listItemLine = line.startsWith('listitem:');
-      const metaLine = line.startsWith('meta:');
-      const detailLine = line.startsWith('detail:');
-      const linkLine = line.startsWith('link:');
-
-      if (linkLine) {
-        const payload = line.slice(5);
-        const sep = payload.indexOf('|');
-        const label = sep >= 0 ? payload.slice(0, sep).trim() : payload.trim();
-        const url = sep >= 0 ? payload.slice(sep + 1).trim() : payload.trim();
-        const linkX = lastContext === 'normal' ? margin : margin + 22;
-        const linkW = lastContext === 'normal' ? contentW : contentW - 22;
-        y = drawLink('Link: ' + label, url, linkX, y, linkW);
-        lastContext = 'link';
-      } else if (itemLinkLine) {
-        const payload = line.slice(9);
-        const sep = payload.indexOf('|');
-        const label = sep >= 0 ? payload.slice(0, sep).trim() : payload.trim();
-        const url = sep >= 0 ? payload.slice(sep + 1).trim() : payload.trim();
-        setColor(C.accent);
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(10.5);
-        doc.text('•', margin + 12, y);
-        y = drawLink(label, url, margin + 24, y, contentW - 24, {
-          color: C.header,
-          style: 'bold',
-          size: 11
-        });
-        lastContext = 'item';
-      } else if (itemLine) {
-        const text = line.slice(5).trim();
-        setColor(C.accent);
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(10.5);
-        doc.text('•', margin + 12, y);
-        y = drawWrapped(text, margin + 24, y, contentW - 24, {
-          size: 11,
-          style: 'bold',
-          color: C.header,
-          lineGap: 14
-        });
-        lastContext = 'item';
-      } else if (listItemLine) {
-        const text = line.slice(9).trim();
-        setColor(C.accent);
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(10);
-        doc.text('•', margin + 12, y);
-        y = drawWrapped(text, margin + 24, y, contentW - 24, {
-          size: 10,
-          style: 'normal',
-          color: C.text,
-          lineGap: 13
-        });
-        lastContext = 'item';
-      } else if (metaLine) {
-        y = drawWrapped(line.slice(5).trim(), margin + 18, y, contentW - 18, {
-          size: 9,
-          style: 'italic',
-          color: C.muted,
-          lineGap: 12
-        });
-        lastContext = 'meta';
-      } else if (detailLine) {
-        const text = line.slice(7).trim();
-        y = drawWrapped(text, margin + 30, y, contentW - 30, { size: 9.2, color: C.text, lineGap: 12 });
-        lastContext = 'detail';
-      } else {
-        y = drawWrapped(line, margin, y, contentW, { size: 10, color: C.text, lineGap: 14 });
-        lastContext = 'normal';
-      }
-      y += lastContext === 'item' ? 2 : (lastContext === 'meta' ? 1 : 3);
-    });
-
-    y += 14;
-  }
-
-  section('Summary', [
-    'detail:Professional game programmer with experience in regulated and corporate environments.',
-    'detail:Builds gameplay systems, solves production issues, and collaborates with artists to deliver immersive interactive experiences.'
-  ]);
-
-  section('Experience', [
-    'item:Game Developer - 2024 Studios (Full-time)',
-    'meta:Nov 2024 - Present | Egypt | Hybrid',
-    'detail:Responsible for creating immersive and engaging gaming experiences that captivate players.',
-    'detail:Designing and programming gameplay mechanics and supporting production delivery.',
-    'detail:Tech stack focus: Unity, gameplay systems, and collaborative game development workflows.',
-    'item:Game Developer - Futuregames Warsaw (Internship)',
-    'meta:Sep 2025 - Mar 2026 | Poland | Hybrid',
-    'detail:Developed gameplay systems and interactive features using Unity and C# while improving performance and debugging workflows.',
-    'item:Game Developer - Information Technology Institute (ITI) (Internship)',
-    'meta:Oct 2023 - Jun 2024 | Egypt | Hybrid',
-    'detail:Contributed to game programming projects across C++, C#, Unity, and production-style teamwork.',
-    'item:Customer Service Representative - Concentrix (Full-time)',
-    'meta:Sep 2022 - Mar 2023 | Cairo, Egypt | On-site',
-    'detail:Delivered customer support and issue resolution while maintaining strong communication and satisfaction standards.',
-    'item:IT Specialist - Elfath Group (Self-employed)',
-    'meta:Aug 2013 - Jan 2023 | Cairo, Egypt',
-    'detail:Built and maintained digital systems supporting business operations, communication, and team efficiency.'
-  ]);
-
-  section('Education', [
-    'item:Modern Academy Maadi',
-    'meta:Bachelor of Science - BS, Computer Science | 2018 - 2022',
-    'item:Cambridge Egypt',
-    'meta:Sep 2010 - Jul 2018'
-  ]);
-
-  section('Published Games/Apps', [
-    'itemlink:Prime Press|https://play.google.com/store/apps/details?id=com.PrimePress.PrimePressEKit&hl=en',
-    'detail:Interactive educational platform with digital coursebooks, multimedia learning resources, and classroom management tools.',
-    'itemlink:Voita|https://futuregames.itch.io/voita',
-    'detail:Turn-based sci-fi predator game where players set traps, drag bodies, and evolve powers.',
-    'itemlink:Project Trash|https://futuregames.itch.io/projecttrash',
-    'detail:Fast-paced recycling simulation focused on sorting accuracy under pressure.',
-    'itemlink:Parasozhyt|https://gamekernel.itch.io/parasozhyt',
-    'detail:Body-hopping shooter where survival requires quick host switching and tactical play.',
-    'itemlink:Vampire Survival|https://ahmedafifiabodu.itch.io/vampire-survival',
-    'detail:Top-down survival game built around wave escalation and power growth.',
-    'itemlink:Dawn of the Last Seeds|https://nourhan-taman.itch.io/dawn-of-the-last-seeds',
-    'detail:Post-apocalyptic puzzle title focused on preserving the last seeds of humanity.',
-    'itemlink:The Kitten and The Hidden|https://nayrayehya.itch.io/the-kitten-and-the-hidden',
-    'detail:Story-driven puzzle exploration about a ghost and a persistent cat companion.',
-    'itemlink:Forest of the Wicked|https://gothmothdev.itch.io/forest-of-the-wicked',
-    'detail:Dark atmospheric horror-adventure game jam entry.',
-    'itemlink:Righteous Crane|https://mohamed-elkholy.itch.io/righteous-crane',
-    'detail:Puzzle/adventure title where the crane solves the land’s problems.'
-  ]);
-
-  section('Published Tools', [
-    'itemlink:Configurable Autosave - Unity Asset Store|https://assetstore.unity.com/packages/tools/utilities/configurable-autosave-313115',
-    'detail:Free Unity 6 editor extension that autosaves work on user-defined rules. Built with UI Toolkit; supports Built-in, URP and HDRP.',
-    'itemlink:Clan System - Open Source (MIT)|https://github.com/ahmedafifiabodu/Clan-System',
-    'detail:Server-authoritative clan, chat and voice system for Unity 6 on Unity Gaming Services. Cloud Code owns every mutation; UPM package with Play Mode tests against the live backend.',
-    'itemlink:NEON COIL - Open Source (MIT)|https://github.com/ahmedafifiabodu/SnakeGame',
-    'detail:Arcade snake in C++20 on SFML 3 - procedurally generated levels, five snake types with real abilities, and up to 4-player networked multiplayer with client-side prediction.'
-  ]);
-
-  section('In Development', [
-    'itemlink:Tales of Khayaal - 2024 Studios|https://www.talesofkhayaal.com',
-    'detail:Narrative action-adventure. Gameplay systems work: ability/attribute framework, combat with a custom in-editor attack authoring tool, traversal, crowds, and a quest system.',
-    'item:Project Clash - 2024 Studios',
-    'detail:Multiplayer VR card battler - lane-based unit deployment and tower combat with networked matches, voice chat, and spectator support.',
-    'item:Puzzle Escape Room - 2024 Studios',
-    'detail:Co-op multiplayer puzzle horror set in a derelict hospital; code terminals, key-locked doors, and networked interaction built on Unity 6 and Netcode for GameObjects.',
-    'item:Rabeh',
-    'detail:MENA reward-gaming mobile platform. Daily quest chains unlock real brand-funded vouchers; fully server-authoritative economy on Unity Gaming Services Cloud Code.'
-  ]);
-
-  section('Certifications', [
-    'listitem:Diploma in Game Programming - ITI (Issued Jun 2024)',
-    'listitem:2024 NASA Space Apps Challenge - NASA (Issued Oct 2024)',
-    'listitem:ACT 1: Rational Game Design - Ubisoft (Credential ID 106197-00002-08651)',
-    'listitem:ACT 2: Rational Game Design - Ubisoft (Credential ID 106197-00010-08672)'
-  ]);
-
-  section('Skills', [
-    'listitem:Engines: Unity, Unreal Engine',
-    'listitem:Programming Languages: C#, C++, Python, JavaScript, Java',
-    'listitem:Specializations: Gameplay Mechanics, VR/XR, Narrative Design, AI and Combat Systems, Multiplayer, Code Architecture',
-    'listitem:Soft Skills: Problem Solving, Teamwork, Time Management, Communication, Adaptability',
-    'listitem:Languages: English, Arabic'
-  ]);
-
-  setColor(C.muted);
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(8);
-  doc.text('Generated from ahmedafifiabodu portfolio', margin, pageH - 18);
-
-  doc.save('Ahmed-Afifi-Resume.pdf');
-  } catch (err) {
-    console.error('PDF generation failed:', err);
-    alert('Could not generate the PDF. Please check your connection and try again.');
-  } finally {
-    if (btn) { btn.textContent = originalText; btn.disabled = false; }
-  }
-}
-
-document.getElementById('download-resume-btn')?.addEventListener('click', downloadResumePdf);
-
-/* ============================================
    GAME LIGHTBOX MODAL
    ============================================ */
 const GAMES_DATA = {
@@ -795,7 +386,7 @@ const GAMES_DATA = {
       'https://img.itch.zone/aW1nLzI0Mjg4OTM1LnBuZw==/original/fH3JnI.png',
       'https://img.itch.zone/aW1hZ2UvNDA3NDc3MS8yNDI4ODk2Ny5wbmc=/original/3Nxzso.png',
       'https://img.itch.zone/aW1hZ2UvNDA3NDc3MS8yNDI4ODk3MS5wbmc=/original/4iakFT.png',
-      'https://img.itch.zone/aW1hZ2UvNDA3NDc3MS8yNDI4ODk0OC5wbmc=/original/3w4Td2.png',
+      'https://img.itch.zone/aW1hZ2UvNDA3NDc3MS8yNDI4ODk4OC5wbmc=/original/3w4Td2.png',
       'https://img.itch.zone/aW1hZ2UvNDA3NDc3MS8yNDI4ODk5MC5wbmc=/original/%2FYorlO.png'
     ]
   },
@@ -859,6 +450,19 @@ const GAMES_DATA = {
       'assets/covers/rabeh.png',
       'assets/covers/rabeh-home.png',
       'assets/covers/rabeh-games.png'
+    ]
+  },
+  /* Temple Garden - Sana Games Studio. */
+  '17': {
+    screenshots: [
+      'https://sanagamesstudio.com/temple_garden_game_poster.png',
+      'assets/videos/temple-garden-gameplay.mp4',
+      'https://sanagamesstudio.com/temple_garden_game_image_1.png',
+      'https://sanagamesstudio.com/temple_garden_game_image_2.png',
+      'https://sanagamesstudio.com/temple_garden_game_image_3.png',
+      'https://sanagamesstudio.com/temple_garden_game_image_4.png',
+      'https://sanagamesstudio.com/temple_garden_game_image_5.png',
+      'https://sanagamesstudio.com/temple_garden_game_image_6.png'
     ]
   }
 };
@@ -1070,6 +674,7 @@ function createCertificatePosterDataUrl(title, issuer, date, icon) {
   function updateGallery() {
     galleryImgs.querySelectorAll('.modal-gallery-img').forEach((img, i) => {
       img.classList.toggle('active', i === currentIndex);
+      if (img.tagName === 'VIDEO' && i !== currentIndex) img.pause();
     });
     dotsArea.querySelectorAll('.gallery-dot').forEach((dot, i) => {
       dot.classList.toggle('active', i === currentIndex);
@@ -1113,14 +718,25 @@ function createCertificatePosterDataUrl(title, issuer, date, icon) {
     galleryImgs.innerHTML = '';
     dotsArea.innerHTML = '';
     shots.forEach((src, i) => {
-      const img = document.createElement('img');
-      img.src     = src;
-      img.alt     = `Screenshot ${i + 1}`;
-      img.className = 'modal-gallery-img' + (i === 0 ? ' active' : '');
-      img.loading = 'lazy';
-      img.addEventListener('error', () => {
-        img.src = fallbackImage || createProjectPosterDataUrl(title, tags, ['#1f2937', '#111827']);
-      }, { once: true });
+      const isVideo = /\.(mp4|webm|mov)$/i.test(src);
+      let img;
+      if (isVideo) {
+        img = document.createElement('video');
+        img.src = src;
+        img.controls = true;
+        img.playsInline = true;
+        img.preload = 'metadata';
+        img.className = 'modal-gallery-img' + (i === 0 ? ' active' : '');
+      } else {
+        img = document.createElement('img');
+        img.src     = src;
+        img.alt     = `Screenshot ${i + 1}`;
+        img.className = 'modal-gallery-img' + (i === 0 ? ' active' : '');
+        img.loading = 'lazy';
+        img.addEventListener('error', () => {
+          img.src = fallbackImage || createProjectPosterDataUrl(title, tags, ['#1f2937', '#111827']);
+        }, { once: true });
+      }
       galleryImgs.appendChild(img);
 
       const dot = document.createElement('div');
@@ -1196,6 +812,7 @@ function createCertificatePosterDataUrl(title, issuer, date, icon) {
 
   galleryImgs.addEventListener('click', e => {
     if (!e.target.classList.contains('modal-gallery-img')) return;
+    if (e.target.tagName === 'VIDEO') return;
     toggleActiveScreenshotFullscreen();
   });
 

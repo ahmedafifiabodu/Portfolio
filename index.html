@@ -71,6 +71,7 @@
       <li><a href="#hero">Home</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#skills">Skills</a></li>
+      <li><a href="#it">IT</a></li>
       <li><a href="#journey">Journey</a></li>
       <li><a href="#games">Games</a></li>
       <li><a href="#studio">In Dev</a></li>
@@ -97,9 +98,10 @@
       </p>
       <div class="hero-buttons">
         <a href="#journey" class="btn btn-primary">View My Work</a>
-        <a href="#journey" class="btn btn-outline">View Portfolio</a>
-        <button type="button" id="download-resume-btn" class="btn btn-outline">Download Resume PDF</button>
+        <a href="cv/game-cv.html" class="btn btn-outline" target="_blank" rel="noopener">Game CV</a>
+        <a href="cv/it-cv.html" class="btn btn-outline btn-it" target="_blank" rel="noopener">IT CV</a>
       </div>
+      <p class="hero-cv-note">Two tracks, two CVs — game programming and IT infrastructure.</p>
       <div class="hero-socials">
         <a href="https://github.com/ahmedafifiabodu" target="_blank" aria-label="GitHub">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.1 3.31 9.42 7.9 10.95.58.1.79-.25.79-.56v-2.05c-3.2.7-3.88-1.54-3.88-1.54-.52-1.34-1.28-1.7-1.28-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.2 1.77 1.2 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.56-.29-5.25-1.28-5.25-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.18 1.18a11.07 11.07 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.77.11 3.06.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.41-5.27 5.69.42.36.79 1.07.79 2.16v3.2c0 .31.21.67.8.56C20.2 21.42 23.5 17.1 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
@@ -239,6 +241,23 @@
           </div>
         </div>
         <div class="skill-category">
+          <h3><span class="cat-icon">🖥️</span> IT &amp; Infrastructure</h3>
+          <div class="skill-pills">
+            <span class="pill">Active Directory</span>
+            <span class="pill">Group Policy</span>
+            <span class="pill">DNS &amp; DHCP</span>
+            <span class="pill">Exchange Server</span>
+            <span class="pill">WSUS</span>
+            <span class="pill">WDS</span>
+            <span class="pill">Hyper-V</span>
+            <span class="pill">NTFS Security</span>
+            <span class="pill">MikroTik Firewall</span>
+            <span class="pill">Bitdefender GravityZone</span>
+            <span class="pill">PowerShell</span>
+          </div>
+          <p class="skill-cat-note"><a href="#it">See the full infrastructure track →</a></p>
+        </div>
+        <div class="skill-category">
           <h3><span class="cat-icon">🛠️</span> Specializations</h3>
           <div class="skill-pills">
             <span class="pill">Gameplay Mechanics</span>
@@ -250,6 +269,217 @@
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- IT & Infrastructure Section -->
+  <section id="it" class="section it-section">
+    <div class="container">
+      <h2 class="section-title">IT &amp; <span>Infrastructure</span></h2>
+      <p class="section-sub">
+        Before the games, and alongside them — nine years running a corporate Windows Server
+        environment end to end. Sole administrator, 2 servers, 20–30 workstations.
+      </p>
+
+      <div class="it-headline">
+        <div class="it-head-meta">
+          <span class="it-role">IT Specialist</span>
+          <span class="it-org">Elfath Group</span>
+          <span class="it-period">Aug 2013 – Jan 2023</span>
+        </div>
+        <p class="it-head-desc">
+          I designed the domain, built the servers, wrote the policies, held the perimeter, and
+          supported every user on top of it. No team to escalate to — if it broke, it was mine.
+        </p>
+      </div>
+
+      <!-- Architecture diagram -->
+      <figure class="it-diagram">
+        <svg viewBox="0 0 920 470" role="img" aria-labelledby="it-diagram-title it-diagram-desc">
+          <title id="it-diagram-title">Elfath Group network architecture</title>
+          <desc id="it-diagram-desc">
+            Internet reaches a MikroTik firewall acting as gateway, which feeds the LAN switch.
+            The switch connects a Hyper-V host running the domain controller with Active Directory,
+            DNS, DHCP, WSUS, WDS and file services; a second server running Exchange; and 20 to 30
+            domain-joined workstations. Bitdefender GravityZone covers all servers and workstations.
+          </desc>
+
+          <defs>
+            <marker id="it-arrow" viewBox="0 0 10 10" refX="9" refY="5"
+                    markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0 L10 5 L0 10 z" fill="#3f5068"></path>
+            </marker>
+            <linearGradient id="it-srv" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#132033"></stop>
+              <stop offset="1" stop-color="#0d1622"></stop>
+            </linearGradient>
+          </defs>
+
+          <!-- links -->
+          <g class="d-link" stroke="#3f5068" stroke-width="1.6" fill="none" marker-end="url(#it-arrow)">
+            <path d="M92 64 L212 64"></path>
+            <path d="M300 88 L300 128"></path>
+            <path d="M300 176 L300 214"></path>
+            <path d="M232 238 L142 238"></path>
+            <path d="M368 238 L470 238"></path>
+            <path d="M300 300 L300 344"></path>
+          </g>
+
+          <!-- internet -->
+          <g class="d-node d-ext">
+            <rect x="12" y="42" width="80" height="44" rx="8"></rect>
+            <text x="52" y="70">Internet</text>
+          </g>
+
+          <!-- firewall -->
+          <g class="d-node d-fw">
+            <rect x="212" y="42" width="176" height="46" rx="8"></rect>
+            <text x="300" y="63" class="d-title">MikroTik Firewall</text>
+            <text x="300" y="79" class="d-sub">gateway · access control · filtering</text>
+          </g>
+
+          <!-- switch -->
+          <g class="d-node d-sw">
+            <rect x="212" y="128" width="176" height="48" rx="8"></rect>
+            <text x="300" y="149" class="d-title">LAN Switch</text>
+            <text x="300" y="165" class="d-sub">DHCP-addressed segment</text>
+          </g>
+
+          <!-- host server (hyper-v) -->
+          <g class="d-node d-host">
+            <rect x="232" y="214" width="136" height="86" rx="8" fill="url(#it-srv)"></rect>
+            <text x="300" y="236" class="d-title">Server 1</text>
+            <text x="300" y="252" class="d-sub">Hyper-V host</text>
+            <text x="300" y="274" class="d-chiptext">AD DS · DNS · DHCP</text>
+            <text x="300" y="290" class="d-chiptext">GPO · WSUS · WDS · Files</text>
+          </g>
+
+          <!-- exchange -->
+          <g class="d-node d-mail">
+            <rect x="470" y="214" width="150" height="86" rx="8" fill="url(#it-srv)"></rect>
+            <text x="545" y="236" class="d-title">Server 2</text>
+            <text x="545" y="252" class="d-sub">Exchange Server</text>
+            <text x="545" y="274" class="d-chiptext">mailboxes · mail flow</text>
+            <text x="545" y="290" class="d-chiptext">transport rules · OWA</text>
+          </g>
+
+          <!-- file shares callout -->
+          <g class="d-node d-files">
+            <rect x="12" y="214" width="130" height="48" rx="8"></rect>
+            <text x="77" y="235" class="d-title">Dept. Shares</text>
+            <text x="77" y="251" class="d-sub">group-based NTFS ACLs</text>
+          </g>
+
+          <!-- workstations -->
+          <g class="d-node d-clients">
+            <rect x="160" y="344" width="280" height="62" rx="8"></rect>
+            <text x="300" y="368" class="d-title">20–30 Workstations</text>
+            <text x="300" y="386" class="d-sub">domain-joined · GPO-managed · WDS-imaged</text>
+          </g>
+
+          <!-- endpoint security band -->
+          <g class="d-node d-av">
+            <rect x="470" y="330" width="150" height="76" rx="8"></rect>
+            <text x="545" y="356" class="d-title">GravityZone</text>
+            <text x="545" y="374" class="d-sub">central policy</text>
+            <text x="545" y="390" class="d-sub">detection · quarantine</text>
+          </g>
+          <path class="d-cover" d="M470 368 L448 368 L448 375 L440 375" stroke="#a855f7"
+                stroke-width="1.4" stroke-dasharray="4 4" fill="none"></path>
+          <path class="d-cover" d="M470 350 L448 350 L448 262 L368 262" stroke="#a855f7"
+                stroke-width="1.4" stroke-dasharray="4 4" fill="none"></path>
+
+          <!-- legend -->
+          <g class="d-legend">
+            <text x="660" y="60" class="d-legend-h">Scale</text>
+            <text x="660" y="82">2 servers</text>
+            <text x="660" y="102">20–30 workstations</text>
+            <text x="660" y="122">1 administrator — me</text>
+            <text x="660" y="158" class="d-legend-h">Span</text>
+            <text x="660" y="180">Aug 2013 – Jan 2023</text>
+          </g>
+        </svg>
+        <figcaption>Network and server layout I owned at Elfath Group, redrawn from the production setup.</figcaption>
+      </figure>
+
+      <!-- stack grid -->
+      <div class="it-grid">
+
+        <article class="it-card">
+          <h3><span class="it-icon">🗂️</span> Active Directory</h3>
+          <p>Built the domain from scratch — forest and domain setup, an OU tree mapped to the
+             company's departments, security groups, and delegated rights. Replaced scattered local
+             accounts with one managed identity per person.</p>
+        </article>
+
+        <article class="it-card">
+          <h3><span class="it-icon">🌐</span> DNS &amp; DHCP</h3>
+          <p>AD-integrated zones with forwarders and scavenging, plus DHCP scopes, reservations and
+             options. Ended the static-IP collisions and the per-machine network fiddling.</p>
+        </article>
+
+        <article class="it-card">
+          <h3><span class="it-icon">📜</span> Group Policy</h3>
+          <p>The policy baseline: password and lockout rules, desktop and security lockdown, mapped
+             drives and printers, software deployment, targeted per OU with security and WMI filtering.</p>
+        </article>
+
+        <article class="it-card">
+          <h3><span class="it-icon">✉️</span> Exchange Server</h3>
+          <p>Company mail brought in-house — mailbox databases, mail flow and connectors, distribution
+             lists, shared mailboxes, transport rules, and OWA access.</p>
+        </article>
+
+        <article class="it-card">
+          <h3><span class="it-icon">🔐</span> Folder Security</h3>
+          <p>A least-privilege share model on NTFS: department-scoped shares, ACLs granted to groups
+             rather than individuals, and auditing so access to sensitive directories was traceable.</p>
+        </article>
+
+        <article class="it-card">
+          <h3><span class="it-icon">🩹</span> WSUS</h3>
+          <p>Centralised patching with computer groups and staged approvals, so updates were piloted
+             and tracked rather than left to each machine to sort out alone.</p>
+        </article>
+
+        <article class="it-card">
+          <h3><span class="it-icon">💽</span> WDS</h3>
+          <p>Network OS deployment from a standard image. A new or wiped machine PXE-boots and comes
+             back a working, domain-joined workstation — no manual install, no drift between desktops.</p>
+        </article>
+
+        <article class="it-card">
+          <h3><span class="it-icon">🧱</span> Hyper-V</h3>
+          <p>Server roles run as virtual machines — sized, switched and checkpointed, so changes could
+             be tested and rolled back instead of gambling with live services.</p>
+        </article>
+
+        <article class="it-card">
+          <h3><span class="it-icon">🛡️</span> MikroTik Firewall</h3>
+          <p>The internet gateway. Per-user and per-group rules deciding who got out at all, and
+             content and service filtering deciding what they could reach once they did.</p>
+        </article>
+
+        <article class="it-card">
+          <h3><span class="it-icon">🦠</span> Bitdefender GravityZone</h3>
+          <p>Endpoint protection pushed to every machine from one console — policies by group,
+             detections and quarantine monitored centrally, remediation handled from the same place.</p>
+        </article>
+
+      </div>
+
+      <div class="it-footer">
+        <p class="it-note">
+          <strong>On evidence:</strong> this environment was production, and its screenshots aren't
+          mine to publish. So I'm rebuilding the stack as a documented Hyper-V lab — architecture,
+          build scripts, and the policy baseline — and publishing that instead. In progress.
+        </p>
+        <div class="it-actions">
+          <a href="cv/it-cv.html" class="btn btn-primary" target="_blank" rel="noopener">View IT CV</a>
+          <a href="#contact" class="btn btn-outline">Talk Infrastructure</a>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -556,6 +786,22 @@
           </div>
           <div class="pub-actions">
             <span class="pub-status">Private repository — not public</span>
+          </div>
+        </div>
+
+        <div class="pub-card wip">
+          <div class="pub-cover">
+            <img src="https://sanagamesstudio.com/temple_garden_game_poster.png" alt="Temple Garden key art" loading="lazy">
+            <span class="pub-number">17</span>
+            <span class="pub-flag">In Development</span>
+          </div>
+          <div class="pub-body">
+            <h3>Temple Garden</h3>
+            <p class="pub-desc">Mobile simulation game for Sana Games Studio — grow real Egyptian plants within a sacred temple, watering and caring for them to earn Coins and XP, unlock new areas, and expand the temple while surfacing the cultural significance of ancient Egyptian plants.</p>
+            <div class="pub-tags"><span>Unity</span><span>Mobile</span><span>Simulation</span><span>Egyptian Culture</span></div>
+          </div>
+          <div class="pub-actions">
+            <a href="https://sanagamesstudio.com/temple-garden.html" target="_blank" class="pub-btn site">🌐 Website</a>
           </div>
         </div>
 

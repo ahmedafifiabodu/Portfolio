@@ -1,0 +1,73 @@
+/* ---- Print-first CV sheet. Open in browser, Ctrl+P, "Save as PDF",
+         margins: None, Background graphics: ON. ---- */
+  :root {
+    --ink: #14181f;
+    --muted: #4d5666;
+    --line: #d7dce3;
+    --accent: #0f5c4d;
+    --chip: #eef3f2;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    color: var(--ink);
+    background: #f2f4f7;
+    font-size: 10.2pt;
+    line-height: 1.42;
+  }
+  .sheet {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 12mm auto;
+    padding: 13mm 14mm;
+    background: #fff;
+    box-shadow: 0 2px 18px rgba(0,0,0,.14);
+  }
+
+  header.top { border-bottom: 2px solid var(--accent); padding-bottom: 7px; }
+  h1 { font-size: 21pt; margin: 0; letter-spacing: .4px; }
+  .role { font-size: 11.4pt; color: var(--accent); font-weight: 600; margin: 2px 0 6px; }
+  .contact { font-size: 9.2pt; color: var(--muted); }
+  .contact a { color: var(--muted); text-decoration: none; }
+  .contact span::after { content: "  •  "; color: var(--line); }
+  .contact span:last-child::after { content: ""; }
+
+  h2 {
+    font-size: 10.6pt;
+    text-transform: uppercase;
+    letter-spacing: 1.1px;
+    color: var(--accent);
+    margin: 14px 0 6px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid var(--line);
+  }
+  p { margin: 0 0 6px; }
+  ul { margin: 0 0 6px; padding-left: 16px; }
+  li { margin: 0 0 3px; }
+  .job { margin-bottom: 10px; }
+  .job-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .job-title { font-weight: 700; font-size: 10.8pt; }
+  .job-meta { font-size: 9.2pt; color: var(--muted); white-space: nowrap; }
+  .job-sub { font-size: 9.4pt; color: var(--muted); margin-bottom: 4px; }
+
+  .grid { display: grid; grid-template-columns: 128px 1fr; gap: 3px 10px; font-size: 9.6pt; }
+  .grid dt { font-weight: 700; color: var(--muted); }
+  .grid dd { margin: 0; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 4px; }
+  .chip { background: var(--chip); border: 1px solid var(--line); border-radius: 3px; padding: 1px 6px; font-size: 9pt; }
+
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 0 18px; }
+  .note { font-size: 8.8pt; color: var(--muted); font-style: italic; }
+  a.link { color: var(--accent); }
+  .TODO { background: #ffe9a8; padding: 0 3px; border-radius: 2px; }
+
+  @page { size: A4; margin: 11mm; }
+  @media print {
+    body { background: #fff; font-size: 9.8pt; }
+    .sheet { width: auto; min-height: 0; margin: 0; padding: 0; box-shadow: none; }
+    h2 { break-after: avoid; }
+    .job, li { break-inside: avoid; }
+    .no-print { display: none !important; }
+  }

@@ -1967,3 +1967,156 @@ section.section-fade.is-active {
   .pub-actions { flex-direction: row; }
 }
 
+
+/* ============================================
+   IT & INFRASTRUCTURE SECTION
+   ============================================ */
+.it-section {
+  --it-accent: var(--neon2);
+  background:
+    linear-gradient(180deg, rgba(0, 212, 255, 0.04), transparent 260px),
+    var(--bg-alt);
+  border-top: 1px solid rgba(0, 212, 255, 0.14);
+  border-bottom: 1px solid rgba(0, 212, 255, 0.14);
+}
+.it-section .section-title span { color: var(--it-accent); }
+.it-section .section-sub { max-width: 760px; margin: 0 auto 2.5rem; text-align: center; }
+
+/* headline card */
+.it-headline {
+  max-width: 880px;
+  margin: 0 auto 2.5rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--card);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-left: 3px solid var(--it-accent);
+  border-radius: 10px;
+}
+.it-head-meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem .9rem; margin-bottom: .5rem; }
+.it-role {
+  font-family: var(--font-head);
+  font-size: 1.05rem;
+  letter-spacing: .5px;
+  color: var(--it-accent);
+}
+.it-org { font-weight: 700; }
+.it-period { font-family: var(--font-mono); font-size: .85rem; color: var(--text-muted); margin-left: auto; }
+.it-head-desc { color: var(--text-muted); margin: 0; }
+
+/* diagram */
+.it-diagram {
+  margin: 0 auto 2.75rem;
+  max-width: 980px;
+  padding: 1.1rem;
+  background: rgba(8, 12, 20, 0.7);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow-x: auto;
+}
+.it-diagram svg { display: block; width: 100%; min-width: 620px; height: auto; }
+.it-diagram figcaption {
+  margin-top: .75rem;
+  font-family: var(--font-mono);
+  font-size: .78rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+.it-diagram .d-node rect {
+  fill: var(--card);
+  stroke: rgba(0, 212, 255, 0.28);
+  stroke-width: 1.2;
+}
+.it-diagram .d-ext rect   { fill: #0d1622; stroke: #3f5068; }
+.it-diagram .d-fw rect    { stroke: #f59e0b; }
+.it-diagram .d-av rect    { stroke: #a855f7; }
+.it-diagram .d-files rect { stroke: #00ffa3; }
+.it-diagram text {
+  fill: var(--text);
+  font-family: var(--font-main);
+  font-size: 13px;
+  text-anchor: middle;
+}
+.it-diagram .d-title { font-family: var(--font-head); font-size: 12.5px; letter-spacing: .4px; }
+.it-diagram .d-sub { fill: var(--text-muted); font-size: 11px; }
+.it-diagram .d-chiptext { fill: var(--neon2); font-family: var(--font-mono); font-size: 10.5px; }
+.it-diagram .d-legend text { text-anchor: start; fill: var(--text-muted); font-size: 12px; }
+.it-diagram .d-legend .d-legend-h {
+  fill: var(--it-accent);
+  font-family: var(--font-head);
+  font-size: 11px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+
+/* stack grid */
+.it-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.1rem;
+  margin-bottom: 2.5rem;
+}
+.it-card {
+  padding: 1.15rem 1.25rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  transition: transform .25s ease, border-color .25s ease, background .25s ease;
+}
+.it-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0, 212, 255, 0.45);
+  background: var(--card-hover);
+}
+.it-card h3 {
+  font-family: var(--font-head);
+  font-size: .98rem;
+  letter-spacing: .4px;
+  margin-bottom: .5rem;
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+}
+.it-icon { font-size: 1.15rem; }
+.it-card p { color: var(--text-muted); font-size: .95rem; margin: 0; }
+
+/* footer */
+.it-footer {
+  max-width: 880px;
+  margin: 0 auto;
+  text-align: center;
+}
+.it-note {
+  padding: 1rem 1.25rem;
+  background: rgba(0, 212, 255, 0.05);
+  border: 1px dashed rgba(0, 212, 255, 0.3);
+  border-radius: 10px;
+  color: var(--text-muted);
+  font-size: .95rem;
+  text-align: left;
+}
+.it-note strong { color: var(--it-accent); }
+.it-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .9rem;
+  justify-content: center;
+  margin-top: 1.4rem;
+}
+
+@media (max-width: 640px) {
+  .it-period { margin-left: 0; }
+  .it-diagram { padding: .7rem; }
+}
+
+.skill-cat-note { margin-top: .9rem; font-size: .88rem; }
+.skill-cat-note a { color: var(--neon2); border-bottom: 1px solid transparent; transition: border-color .2s ease; }
+.skill-cat-note a:hover { border-bottom-color: var(--neon2); }
+
+.hero-cv-note {
+  margin-top: .75rem;
+  font-family: var(--font-mono);
+  font-size: .8rem;
+  color: var(--text-muted);
+}
+.btn-it { border-color: rgba(0, 212, 255, 0.5); color: var(--neon2); }
+.btn-it:hover { background: rgba(0, 212, 255, 0.12); border-color: var(--neon2); }

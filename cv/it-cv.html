@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ahmed Afifi — IT Infrastructure CV</title>
+<link rel="stylesheet" href="cv.css" />
+</head>
+<body>
+<div class="sheet">
+
+  <header class="top">
+    <h1>Ahmed Afifi</h1>
+    <div class="role">IT Specialist / Systems Administrator — Windows Server, Active Directory, Exchange</div>
+    <div class="contact">
+      <span>Nasr City, Cairo, Egypt</span>
+      <span><a href="mailto:aafifi1988@icloud.com">aafifi1988@icloud.com</a></span>
+      <span>+20 10-900-23274</span>
+      <span><a href="https://www.linkedin.com/in/ahmed-afifi-8153b7224/">linkedin.com/in/ahmed-afifi</a></span>
+      <span><a href="https://github.com/ahmedafifiabodu">github.com/ahmedafifiabodu</a></span>
+      <span><a href="https://elasticated.dev">elasticated.dev</a></span>
+    </div>
+  </header>
+
+  <h2>Profile</h2>
+  <p>
+    Nine years running a corporate Windows Server environment single-handed — Active Directory,
+    Group Policy, Exchange, DNS/DHCP, WSUS, WDS and NTFS security on Hyper-V, behind a MikroTik
+    firewall with Bitdefender GravityZone on every endpoint. I designed it, built it, and supported
+    the users on it. Software engineering background (C#, C++, PowerShell) applied to automating
+    administration rather than repeating it.
+  </p>
+
+  <h2>Professional Experience</h2>
+
+  <div class="job">
+    <div class="job-head">
+      <span class="job-title">IT Specialist — Elfath Group</span>
+      <span class="job-meta">Aug 2013 – Jan 2023</span>
+    </div>
+    <div class="job-sub">Cairo, Egypt — ongoing contract IT support, sole administrator. 2 servers and 20–30 workstations.</div>
+    <ul>
+      <li>Designed and deployed the <strong>Active Directory</strong> domain from scratch — forest,
+          OU tree mapped to departments, security groups, delegated rights — replacing scattered local
+          accounts with one managed identity per person.</li>
+      <li>Ran the core services under it: <strong>AD-integrated DNS</strong> (forwarders, scavenging)
+          and <strong>DHCP</strong> (scopes, reservations, options), ending static-IP conflicts and
+          per-machine network setup.</li>
+      <li>Authored the <strong>Group Policy</strong> baseline — password and lockout policy, security
+          lockdown, mapped drives and printers, software deployment — targeted per OU with security
+          and WMI filtering.</li>
+      <li>Deployed and administered <strong>Exchange Server</strong>: mailbox databases, mail flow
+          and connectors, distribution lists, shared mailboxes, transport rules, OWA.</li>
+      <li>Built a least-privilege <strong>NTFS share model</strong> — department-scoped shares, ACLs
+          on groups not individuals, auditing on sensitive directories — and ran <strong>WSUS</strong>
+          for staged, tracked patching.</li>
+      <li>Set up <strong>WDS</strong> imaging so a new or wiped machine PXE-booted to a standard,
+          domain-joined desktop instead of an hour of manual install, and ran the server roles as
+          <strong>Hyper-V</strong> VMs with checkpoints for safe rollback.</li>
+      <li>Held the perimeter and the endpoints: <strong>MikroTik firewall</strong> rules deciding who
+          reached the internet and what they could use once out, and <strong>Bitdefender GravityZone</strong>
+          pushing policy, detections and remediation from one console.</li>
+      <li>Day-to-day support, onboarding and offboarding, and documentation that kept the environment
+          reproducible rather than locked in one person's head.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-head">
+      <span class="job-title">Game Developer — 2024 Studios</span>
+      <span class="job-meta">Nov 2024 – Present</span>
+    </div>
+    <div class="job-sub">Cairo, Egypt</div>
+    <ul>
+      <li>Gameplay systems programming in C# and C++ (Unity, Unreal), shipped across iOS and Android.</li>
+      <li>Relevant to IT: build and release pipelines, version control administration, environment setup
+          for the team, and debugging across machines and platforms.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-head">
+      <span class="job-title">Technical Support — Concentrix</span>
+      <span class="job-meta">Sep 2022 – Mar 2023</span>
+    </div>
+    <div class="job-sub">Cairo, Egypt</div>
+    <ul>
+      <li>Front-line technical support at service-desk scale — diagnosing user issues, resolving them
+          within agreed response times, and following up until closure.</li>
+      <li>Reinforced the support-facing half of IT work: clear communication with non-technical users,
+          ticket discipline, and staying calm under volume.</li>
+    </ul>
+  </div>
+
+  <h2>Infrastructure Project — Windows Server Lab</h2>
+  <div class="job">
+    <div class="job-sub"><a class="link" href="https://elasticated.dev/#it">elasticated.dev — IT track</a></div>
+    <ul>
+      <li>Hyper-V lab reproducing a full corporate domain: domain controller with AD DS, DNS and DHCP,
+          member servers for Exchange, WSUS and WDS, a file server with a least-privilege share model,
+          and domain-joined Windows clients.</li>
+      <li>Published architecture diagrams, PowerShell build scripts, and the GPO baseline as a documented,
+          reproducible build rather than screenshots alone.</li>
+      <li class="note">Lab reproduction of a previously operated production environment; no employer data or
+          assets are used.</li>
+    </ul>
+  </div>
+
+  <h2>Technical Skills</h2>
+  <dl class="grid">
+    <dt>Directory</dt>
+    <dd>Active Directory DS, forest and OU design, groups, delegation, FSMO roles, replication health, sites &amp; services</dd>
+    <dt>Servers</dt>
+    <dd>Windows Server 2016/2019/2022, Group Policy, DNS, DHCP, File Services, DFS, WSUS, WDS, Hyper-V, Exchange Server</dd>
+    <dt>Security</dt>
+    <dd>NTFS and share permissions, least privilege, auditing, MikroTik / RouterOS firewall, content filtering, Bitdefender GravityZone, backup and recovery</dd>
+    <dt>Automation</dt>
+    <dd>PowerShell, Python, batch scripting, Git, unattended installs</dd>
+    <dt>Networking</dt>
+    <dd>TCP/IP, VLAN, VPN, NAT, gateway and routing, Windows 10/11 client support</dd>
+  </dl>
+
+  <h2>Education &amp; Certifications</h2>
+  <ul>
+    <li><strong>Diploma in Game Programming</strong> — Information Technology Institute (ITI), Jun 2024</li>
+    <li><strong>Bachelor of Computer Science</strong> — Modern Academy, Cairo, Sep 2018 – May 2022</li>
+    <li>Ubisoft Game Creators' Odyssey — Rational Game Design, ACT 1 &amp; ACT 2, 2024</li>
+    <li>NASA Space Apps Challenge participant, Oct 2024</li>
+  </ul>
+
+  <h2>Languages</h2>
+  <p>Arabic — native. English — professional working proficiency.</p>
+
+</div>
+</body>
+</html>
