@@ -528,8 +528,7 @@ document.querySelectorAll('a[href^="cv/"][href$=".html"]').forEach((link) => {
 /* ============================================
    GAME LIGHTBOX MODAL
    ============================================ */
-const GAMES_DATA = {
-  '01': {
+const GAMES_DATA = {  '01': {
     screenshots: [
       'https://image-eo.winudf.com/v2/image1/Y29tLlByaW1lUHJlc3MuUHJpbWVQcmVzc0VLaXRfc2NyZWVuXzBfMTc1NzgzMjM4NV8wNTc/screen-0.webp?fakeurl=1&type=.webp',
       'https://image-eo.winudf.com/v2/image1/Y29tLlByaW1lUHJlc3MuUHJpbWVQcmVzc0VLaXRfc2NyZWVuXzFfMTc1NzgzMjM4Nl8wNzc/screen-1.webp?fakeurl=1&type=.webp',
@@ -541,8 +540,15 @@ const GAMES_DATA = {
       'https://image-eo.winudf.com/v2/image1/Y29tLlByaW1lUHJlc3MuUHJpbWVQcmVzc0VLaXRfc2NyZWVuXzdfMTc1NzgzMjM5Ml8wNDk/screen-7.webp?fakeurl=1&type=.webp'
     ]
   },
-  /* NEON COIL - personal project. */
   '02': {
+    screenshots: [
+      'https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/a8/26/4f/a8264fb9-9928-f340-acf5-953ed5755670/Screenshot_20260802-183916.jpg/1286x594bb.webp',
+      'https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/07/a0/86/07a08694-b859-5bfe-5d9f-24bc7f4e18ef/Screenshot_20260802-184026.jpg/1286x594bb.webp',
+      'https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/cc/13/80/cc13801d-a1ac-5974-30fc-d7d349029d75/Screenshot_20260802-184333.jpg/1286x594bb.webp',
+      'https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/4b/48/b9/4b48b980-1c21-484b-b9f1-52ed6bde1463/Screenshot_20260802-184435.jpg/1286x594bb.webp'
+    ]
+  },
+  '03': {
     screenshots: [
       'assets/covers/neon-coil-cover.png',
       'https://raw.githubusercontent.com/ahmedafifiabodu/SnakeGame/master/docs/shot_play.png',
@@ -552,8 +558,7 @@ const GAMES_DATA = {
       'https://raw.githubusercontent.com/ahmedafifiabodu/SnakeGame/master/docs/shot_menu.png'
     ]
   },
-  /* Clan System - personal project. */
-  '03': {
+  '04': {
     screenshots: [
       'assets/covers/clan-system.png',
       'assets/covers/clan-chat-voice.png',
@@ -564,13 +569,12 @@ const GAMES_DATA = {
       'assets/covers/clan-friends-tab.png'
     ]
   },
-  /* Configurable Autosave - personal project. */
-  '04': {
+  '05': {
     screenshots: [
       'https://assetstorev1-prd-cdn.unity3d.com/key-image/e41cc31e-81fd-4746-b854-8de5867b79ba.jpg'
     ]
   },
-  '05': {
+  '06': {
     screenshots: [
       'https://img.itch.zone/aW1nLzI1Njk2Mjc0LnBuZw==/original/8os3hT.png',
       'https://img.itch.zone/aW1hZ2UvNDI4NDUxOC8yNTY2MzczMS5wbmc=/original/X6K9Zg.png',
@@ -579,7 +583,7 @@ const GAMES_DATA = {
       'https://img.itch.zone/aW1hZ2UvNDI4NDUxOC8yNTY2MzczMy5wbmc=/original/BPAw7n.png'
     ]
   },
-  '06': {
+  '07': {
     screenshots: [
       'https://img.itch.zone/aW1nLzI0Mjg4OTM1LnBuZw==/original/fH3JnI.png',
       'https://img.itch.zone/aW1hZ2UvNDA3NDc3MS8yNDI4ODk2Ny5wbmc=/original/3Nxzso.png',
@@ -588,7 +592,7 @@ const GAMES_DATA = {
       'https://img.itch.zone/aW1hZ2UvNDA3NDc3MS8yNDI4ODk5MC5wbmc=/original/%2FYorlO.png'
     ]
   },
-  '07': {
+  '08': {
     screenshots: [
       'https://img.itch.zone/aW1nLzIzNzU3OTkwLmpwZw==/original/nfW7g5.jpg',
       'https://img.itch.zone/aW1hZ2UvMzk3NzQ2Ny8yMzc1Nzk5NS5wbmc=/original/6lzvZj.png',
@@ -596,7 +600,7 @@ const GAMES_DATA = {
       'https://img.itch.zone/aW1hZ2UvMzk3NzQ2Ny8yMzc1Nzk5NC5wbmc=/original/f4jVaE.png'
     ]
   },
-  '08': {
+  '09': {
     screenshots: [
       'https://img.itch.zone/aW1nLzIzNjcxNzY0LnBuZw==/original/JUaJTr.png',
       'https://img.itch.zone/aW1hZ2UvMzk2OTQyOC8yMzY3MTgxMC5wbmc=/original/LmzrEr.png',
@@ -605,37 +609,28 @@ const GAMES_DATA = {
       'https://img.itch.zone/aW1hZ2UvMzk2OTQyOC8yMzY3MTgxOC5wbmc=/original/s%2FqIx6.png'
     ]
   },
-  '09': {
+  '10': {
     screenshots: [
       'https://img.itch.zone/aW1nLzE1MjUyNTcxLnBuZw==/original/13QBvi.png'
     ]
   },
-  '10': {
+  '11': {
     screenshots: [
       'https://img.itch.zone/aW1nLzE2OTgyNTI1LnBuZw==/original/glyJIm.png'
     ]
   },
-  '11': {
+  '12': {
     screenshots: [
       'https://img.itch.zone/aW1nLzIzNjQ5MzEyLnBuZw==/original/3XCMBk.png',
       'https://img.itch.zone/aW1nLzIzNjQ4NDk0LnBuZw==/original/%2BtuFWR.png'
     ]
   },
-  '12': {
+  '13': {
     screenshots: [
       'https://img.itch.zone/aW1nLzE1MjgxNjM1LnBuZw==/original/lO3Zf5.png'
     ]
   },
   /* In-development work. */
-  /* Backdoor Dilemma - 2024 Studios. Screenshots come from the App Store listing. */
-  '13': {
-    screenshots: [
-      'https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/a8/26/4f/a8264fb9-9928-f340-acf5-953ed5755670/Screenshot_20260802-183916.jpg/1286x594bb.webp',
-      'https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/07/a0/86/07a08694-b859-5bfe-5d9f-24bc7f4e18ef/Screenshot_20260802-184026.jpg/1286x594bb.webp',
-      'https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/cc/13/80/cc13801d-a1ac-5974-30fc-d7d349029d75/Screenshot_20260802-184333.jpg/1286x594bb.webp',
-      'https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/4b/48/b9/4b48b980-1c21-484b-b9f1-52ed6bde1463/Screenshot_20260802-184435.jpg/1286x594bb.webp'
-    ]
-  },
   '14': {
     screenshots: [
       'assets/covers/tales-of-khayaal.png'
@@ -646,7 +641,6 @@ const GAMES_DATA = {
       'assets/covers/project-clash.png'
     ]
   },
-  /* Rabeh - Rabih - freelance project. */
   '16': {
     screenshots: [
       'assets/covers/rabeh.png',
@@ -654,7 +648,6 @@ const GAMES_DATA = {
       'assets/covers/rabeh-games.png'
     ]
   },
-  /* Temple Garden - Sana Games Studio. */
   '17': {
     screenshots: [
       'https://sanagamesstudio.com/temple_garden_game_poster.png',

@@ -1184,6 +1184,16 @@ section.section-fade.is-active {
   color: var(--neon3);
 }
 
+/* An unreleased store link keeps the shape of a real button so it sits level
+   with the live ones, but reads as inactive rather than clickable. */
+.pub-btn.soon {
+  background: rgba(1, 135, 95, 0.12);
+  border: 1px solid rgba(1, 135, 95, 0.55);
+  color: #34d399;
+  cursor: default;
+}
+.pub-btn.soon:hover { opacity: 1; transform: none; }
+
 .pub-status {
   flex: 1;
   font-family: var(--font-mono);
