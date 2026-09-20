@@ -71,24 +71,3 @@
     .job, li { break-inside: avoid; }
     .no-print { display: none !important; }
   }
-
-.pdf-btn {
-  position: fixed;
-  top: 14px;
-  right: 14px;
-  z-index: 10;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
-  background: var(--accent);
-  color: #fff;
-  font-family: inherit;
-  font-size: 9.6pt;
-  font-weight: 700;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  box-shadow: 0 3px 10px rgba(0,0,0,.22);
-}
-.pdf-btn:hover { filter: brightness(1.08); }

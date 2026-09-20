@@ -2113,10 +2113,14 @@ section.section-fade.is-active {
 .skill-cat-note a:hover { border-bottom-color: var(--neon2); }
 
 .hero-cv-note {
-  margin-top: .75rem;
+  /* Pulls up under .hero-buttons, whose 2.5rem bottom margin would
+     otherwise strand this caption halfway to the social icons. */
+  margin: -1.9rem 0 2.2rem;
   font-family: var(--font-mono);
   font-size: .8rem;
   color: var(--text-muted);
+  opacity: 0;
+  animation: fadeUp 0.8s 1.1s forwards;
 }
 .btn-it { border-color: rgba(0, 212, 255, 0.5); color: var(--neon2); }
 .btn-it:hover { background: rgba(0, 212, 255, 0.12); border-color: var(--neon2); }

@@ -328,6 +328,142 @@ function handleFormSubmit(e) {
 }
 
 /* ============================================
+   CV AUTO-DOWNLOAD
+   Renders the live CV page (so it never drifts from the visible
+   HTML) into a PDF with html2canvas + jsPDF and saves it straight
+   to disk — no print dialog, no manual step. The link then opens
+   the page too, same as it always has.
+   ============================================ */
+function loadScriptOnce(localSrc, cdnSrc, isReady) {
+  if (isReady()) return Promise.resolve();
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = localSrc;
+    s.onload = resolve;
+    s.onerror = () => {
+      const s2 = document.createElement('script');
+      s2.src = cdnSrc;
+      s2.onload = resolve;
+      s2.onerror = () => reject(new Error(`Failed to load ${localSrc}`));
+      document.head.appendChild(s2);
+    };
+    document.head.appendChild(s);
+  });
+}
+
+function ensureCvPdfLibs() {
+  return Promise.all([
+    loadScriptOnce(
+      'assets/libs/jspdf.umd.min.js',
+      'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
+      () => window.jspdf && window.jspdf.jsPDF
+    ),
+    loadScriptOnce(
+      'assets/libs/html2canvas.min.js',
+      'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
+      () => window.html2canvas
+    ),
+  ]);
+}
+
+async function downloadCvPdf(pageUrl, filename) {
+  await ensureCvPdfLibs();
+
+  const frame = document.createElement('iframe');
+  frame.style.cssText = 'position:fixed;left:-9999px;top:0;width:900px;height:0;border:0;';
+  document.body.appendChild(frame);
+
+  try {
+    await new Promise((resolve, reject) => {
+      frame.onload = resolve;
+      frame.onerror = () => reject(new Error('Failed to load CV page'));
+      frame.src = pageUrl;
+    });
+    const cvDoc = frame.contentDocument;
+
+    // html2canvas renders its clone in a document based at the site root,
+    // so the CV's relative <link href="cv.css"> would re-resolve to /cv.css
+    // and 404 — producing an unstyled PDF. Inline the stylesheets first so
+    // the clone carries them no matter where it is based.
+    const sheetLinks = [...cvDoc.querySelectorAll('link[rel="stylesheet"]')];
+    await Promise.all(sheetLinks.map(async (link) => {
+      const css = await fetch(link.href).then((r) => {
+        if (!r.ok) throw new Error(`Stylesheet ${link.href} failed (${r.status})`);
+        return r.text();
+      });
+      const styleEl = cvDoc.createElement('style');
+      styleEl.textContent = css;
+      link.replaceWith(styleEl);
+    }));
+
+    if (cvDoc.fonts && cvDoc.fonts.ready) await cvDoc.fonts.ready;
+    await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+
+    const sheet = cvDoc.querySelector('.sheet');
+    if (!sheet) throw new Error('CV content not found');
+
+    const canvas = await window.html2canvas(sheet, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: '#ffffff',
+      windowWidth: sheet.scrollWidth,
+      windowHeight: sheet.scrollHeight,
+    });
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+    const pageW = doc.internal.pageSize.getWidth();
+    const pageH = doc.internal.pageSize.getHeight();
+    const pxPerMm = canvas.width / pageW;
+    const pageHeightPx = Math.floor(pageH * pxPerMm);
+
+    let renderedPx = 0;
+    let firstPage = true;
+    while (renderedPx < canvas.height) {
+      const sliceHeightPx = Math.min(pageHeightPx, canvas.height - renderedPx);
+      const sliceCanvas = document.createElement('canvas');
+      sliceCanvas.width = canvas.width;
+      sliceCanvas.height = sliceHeightPx;
+      const sctx = sliceCanvas.getContext('2d');
+      sctx.drawImage(canvas, 0, renderedPx, canvas.width, sliceHeightPx, 0, 0, canvas.width, sliceHeightPx);
+
+      if (!firstPage) doc.addPage();
+      firstPage = false;
+      doc.addImage(sliceCanvas.toDataURL('image/jpeg', 0.95), 'JPEG', 0, 0, pageW, sliceHeightPx / pxPerMm);
+      renderedPx += sliceHeightPx;
+    }
+
+    doc.save(filename);
+  } finally {
+    frame.remove();
+  }
+}
+
+document.querySelectorAll('a[href^="cv/"][href$=".html"]').forEach((link) => {
+  link.addEventListener('click', (e) => {
+    if (link.dataset.pdfBusy === '1') return;
+    // Take over navigation entirely: some browsers/extensions turn
+    // target="_blank" into a same-tab navigation, which would unload
+    // this document mid-render and kill the download. Open the
+    // destination tab synchronously (inside the click, so it isn't
+    // treated as a blocked popup), then point it at the CV page once
+    // the PDF has actually saved.
+    e.preventDefault();
+    link.dataset.pdfBusy = '1';
+    const href = link.getAttribute('href');
+    const filename = href.split('/').pop().replace('.html', '.pdf');
+    const popup = window.open('', '_blank');
+    downloadCvPdf(href, filename)
+      .catch((err) => console.error('CV PDF download failed:', err))
+      .finally(() => {
+        link.dataset.pdfBusy = '0';
+        if (popup) popup.location.href = href;
+        else window.open(href, '_blank');
+      });
+  });
+});
+
+/* ============================================
    GAME LIGHTBOX MODAL
    ============================================ */
 const GAMES_DATA = {
